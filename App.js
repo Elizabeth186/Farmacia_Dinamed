@@ -5,13 +5,13 @@ import Carrito from './Screens/Carrito';
 import Historial from './Screens/Historial';
 import DetallesProducto from './Screens/DetallesProducto';
 import Accesos from './Screens/Accesos';
-import UploadScreen from './Screens propietario/UploadScreen';
+
 
 
 
 export default function App() {
   return (
-<UploadScreen></UploadScreen>
+<Home></Home>
   );
 }
 
