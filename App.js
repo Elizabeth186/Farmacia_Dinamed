@@ -11,7 +11,7 @@ import Accesos from './Screens/Accesos';
 
 export default function App() {
   return (
-<Home></Home>
+<Accesos></Accesos>
   );
 }
 

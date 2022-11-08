@@ -11,6 +11,8 @@ import {createNativeStackNavigator} from '@react-navigation/native-stack'
 import {useNavigation} from '@react-navigation/native'
 import Home from './Home';
 import { validadoemail, validandocontraseña, validandoemailpropietario } from '../validaciones/validacion';
+import Agregar from './Agregar';
+import DetallesProducto from './DetallesProducto';
 
 const windowWidth = Dimensions.get('window').width;
 const windowHeight = Dimensions.get('window').height;
@@ -140,10 +142,12 @@ const Stack =createNativeStackNavigator();
 
 export default function Accesos() {
   return (
-  <NavigationContainer>
+    <NavigationContainer>
     <Stack.Navigator  initialRouteName='Iniciar'>
       <Stack.Screen name='Iniciar' component={Iniciar}/>
       <Stack.Screen name="Home" component={Home}/>
+      <Stack.Screen name="Agregar" component={Agregar}/>
+      <Stack.Screen name="Detalles" component={DetallesProducto}/>
     </Stack.Navigator>
   </NavigationContainer>
   );
