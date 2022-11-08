@@ -1,106 +1,83 @@
 import { StatusBar } from 'expo-status-bar';
-import React, { useState, useEffect } from "react";
-import { SafeAreaView, StyleSheet, Text, View , Image, Dimensions, TextInput, TouchableOpacity} from 'react-native';
+import { SafeAreaView, StyleSheet, Text, View , Image, ScrollView, Button, Dimensions, TextInput, TouchableOpacity} from 'react-native';
 import {LinearGradient} from 'expo-linear-gradient';
-import {useNavigation} from '@react-navigation/native';
-import {NavigationContainer} from '@react-navigation/native';
-import {createNativeStackNavigator} from '@react-navigation/native-stack'
-import firebase from "../db/firebase";
+import {useNavigation} from '@react-navigation/native'
+import { ListItem, Avatar } from "react-native-elements";
+import { useState, useEffect } from 'react';
+import firebase from "../db/firebasemeds"
 
 const windowWidth = Dimensions.get('window').width;
 const windowHeight = Dimensions.get('window').height;
 
- const  Home = (props) => {
- 
 
-  const [list, setList] = useState([]);
+const Home = (props) => {
+  const [meds, setMeds] = useState([]);
 
-  useEffect(() => {
-    firebase.db.collection("Productos").onSnapshot((querySnapshot) => {
-      const list = [];
-      querySnapshot.docs.forEach((doc) => {
-        const { nombre, descripcion } = doc.data();
-        list.push({
-          id: doc.id,
-          nombre,
-          descripcion,
-    
-        });
+
+useEffect(() => {
+  firebase.db.collection("productos").onSnapshot((querySnapshot) => {
+    const meds = [];
+    querySnapshot.docs.forEach((doc) => {
+      const { nombre, descripcion, precio } = doc.data();
+      meds.push({
+        id: doc.id,
+        nombre,
+        descripcion,
+        precio
       });
-      setList(list);
     });
-  }, []);
+    setMeds(meds);
+  });
+}, []);
+
+
+
 
   return (
-  <View style={styles.container}>
-    <SafeAreaView>
-     
-    <View style={styles.View2}>
-     <TextInput style={styles.inputbuscar} placeholder='Buscar'/>
-       <TouchableOpacity style={styles.btnbuscar}>
-       <Image
-        style={styles.imagenbuscar}
-        source={require("../Images/buscar.png")} />
-       </TouchableOpacity>
-      <Image
-        style={styles.imagen}
-        source={require("../Images/Logo.png")} />
-    
-    </View>
+    <ScrollView >
+      <Button
+        style={styles.btn}
+        onPress={() => props.navigation.navigate("Agregar")}
+        title="Agregar item"
+      />
+      
+    {meds.map((medis) => {
+      return (
 
-    {/* I=Contenedor de productos */}
+        <ListItem
+          key={medis.id}
+          bottomDivider
+          onPress={() => {
+            props.navigation.navigate("Detalles", {
+              listId: medis.id,
+            });
+          }}
+          >
+          <ListItem.Chevron />
+          <Avatar
+          style={styles.pantall}
+            source={{
+              uri:'https://thumbs.dreamstime.com/z/vector-fast-food-composition-white-background-197380349.jpg'
+            }}
 
-   
-    { 
-      list.map((lista, i)=>
-       <View style={styles.contenedores}>
-       <Image
-       style={styles.imagenproducto}
-       source={require("../Images/Logo.png")} />
-       <View style={styles.view1}>
-       <Text style={styles.titulo}>lista.nombre</Text>
-       <Text style={styles.txt}>Marca</Text>
-       <Text style={styles.txt}>Presentacion</Text>
-       </View >
-
-       <View style={styles.viewprecio}>
-       <LinearGradient colors={['#368DD9','#082359']} start ={{ x : 1, y : 0 }} style={styles.LinearGradient} >
-       <Text style={styles.precio}>Precio</Text>
-       </LinearGradient>
-       </View>
-        </View>
-     )
-    }
-        <View style={styles.contenedores}>
-       <Image
-       style={styles.imagenproducto}
-       source={require("../Images/Logo.png")} />
-       <View style={styles.view1}>
-       <Text style={styles.titulo}>Nombre</Text>
-       <Text style={styles.txt}>Marca</Text>
-       <Text style={styles.txt}>Presentacion</Text>
-       </View >
-       
-       <View style={styles.viewprecio}>
-       <LinearGradient colors={['#368DD9','#082359']} start ={{ x : 1, y : 0 }} style={styles.LinearGradient} >
-       <Text style={styles.precio}>Precio</Text>
-       </LinearGradient>
-       </View> 
-        </View>
-
+           />
+          <Text>Hola</Text>
+          <ListItem.Content >
+            <ListItem.Title >{medis.nombre}</ListItem.Title>
+            <ListItem.Subtitle>{medis.descripcion}</ListItem.Subtitle>
+            <ListItem.Subtitle>{medis.precio}</ListItem.Subtitle>
+          </ListItem.Content>
+        </ListItem>
         
-        
-
-
-    
-    
-    </SafeAreaView>
-  </View>
+      );
+    })}
+  </ScrollView>
   );
+  
+
 }
 
 export default Home;
-
 const styles = StyleSheet.create({
   container: {
     flex: 1,
