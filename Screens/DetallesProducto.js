@@ -1,45 +1,117 @@
-import React, { Component } from 'react';
-import {StyleSheet,Text,View,TouchableOpacity,Image,Alert,ScrollView,FlatList,Button,} from 'react-native';
+import React, { useState, useEffect, Component } from 'react';
+import {StyleSheet,Text,View,TouchableOpacity, ActivityIndicator, Image,Alert,ScrollView, TextInput, FlatList,Button,} from 'react-native';
+import firebase from "../db/firebasemeds";
+
+const DetallesProducto  = (props) =>{
+
+  const initialState = {
+    id: "",
+    nombre: "",
+    descripcion: "",
+    precio: "",
+
+  };
+
+  const [meds, setMeds] = useState(initialState);
+  const [loading, setLoading] = useState(true);
+
+  const handleTextChange = (value, prop) => {
+    setMeds({ ...meds, [prop]: value });
+  };
+
+  const getItemById = async (id) => {
+    
+    
+    const dbRef = firebase.db.collection("productos").doc(id);
+    const doc = await dbRef.get();
+    const meds = doc.data();
+    setMeds({ ...meds, id: doc.id });
+    setLoading(false);
+  };
+
+    useEffect(() => {
+    getItemById(props.route.params.listId);
+  }, []);
+
+  const deleteItem = async () => {
+    setLoading(true)
+    const dbRef = firebase.db
+      .collection("productos")
+      .doc(props.route.params.listId);
+    await dbRef.delete();
+    setLoading(false)
+    props.navigation.navigate("Home");
+  };
+
+  const updateList = async () => {
+    const listrRef = firebase.db.collection("productos").doc(meds.id);
+    await listrRef.set({
+      nombre: meds.nombre,
+      descripcion: meds.descripcion,
+      precio: meds.precio
+    });
+    setMeds(initialState);
+    props.navigation.navigate("Home");
+  };
 
 
-export default class ProductDetail extends Component {
-
-  constructor(props) {
-    super(props);
+  if (loading) {
+    return (
+      <View style={styles.loader}>
+        <ActivityIndicator size="large" color="#9E9E9E" />
+      </View>
+    );
   }
-
-  clickEventListener() {
-    Alert.alert("Completado", "Producto agregado")
-  }
-
-  render() {
+  
+  
     return (
       <View style={styles.container}>
         <ScrollView>
           <View style={{alignItems:'center', marginHorizontal:30}}>
             <Image style={styles.imagen}source={require("../Images/aceta.jpg")} />
-            <Text style={styles.name}>Nombre : Acetaminofen</Text>
-            <Text style={styles.lab}>Laboratorio : MK</Text>
-            <Text style={styles.price}>$ 12.22</Text>
-            <Text style={styles.description}>
-              Lorem ipsum dolor sit amet, consectetuer adipiscing elit. 
-              Aenean commodo ligula eget dolor. Aenean massa. Cum sociis 
-              natoque penatibus et magnis dis parturient montes, 
-              nascetur ridiculus mus. Donec quam felis, ultricies nec
-            </Text>
+
+            <TextInput
+        placeholder="Nombre"
+        autoCompleteType="nombre"
+        style={styles.inputGroup}
+        value={meds.nombre}
+        onChangeText={(value) => handleTextChange(value, "nombre")}
+      />
+
+            <TextInput
+        placeholder="Descripcion"
+        autoCompleteType="Descripcion"
+        style={styles.inputGroup}
+        value={meds.descripcion}
+        onChangeText={(value) => handleTextChange(value, "descripcion")}
+      />
+            <TextInput
+        placeholder="$0.00"
+        autoCompleteType="precio"
+        style={styles.inputGroup}
+        value={meds.precio}
+        onChangeText={(value) => handleTextChange(value, "precio")}
+      />
           </View>
           <View style={styles.separator}></View>
-          <View style={styles.addToCarContainer}>
-            <TouchableOpacity style={styles.shareButton} onPress={()=> this.clickEventListener()}>
-              <Text style={styles.shareButtonText}>Add To Cart</Text>  
-            </TouchableOpacity>
-          </View> 
+          <View style={styles.btn}>
+      <Button
+        title="Eliminar"
+        onPress={() => deleteItem()}
+        color="red"
+      />
+    </View>
+    <View style={styles.btn}>
+      <Button title="Actualizar" onPress={() => updateList()} color="#19AC52" />
+    </View>
+          
         </ScrollView>
       </View>
     );
-  }
+  
 }
 
+export default DetallesProducto;
 const styles = StyleSheet.create({
   container:{
     flex:1,
