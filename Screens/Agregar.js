@@ -5,15 +5,61 @@ import {
   StyleSheet,
   TextInput,
   ScrollView,
+  TouchableOpacity,
+  Text,
+  Image
 } from "react-native";
+import * as ImagePicker from 'expo-image-picker';
+import {firebase} from "../db/imagendb";
 
-import firebase from "../db/firebasemeds";
+
 
 const Agregar = (props) => {
+
+
+  const [image, setImage] = useState(null);
+  const [uploading, setuploading] = useState(false);
+
+  const pickimage = async () =>{
+    let result = await ImagePicker.launchImageLibraryAsync({
+      mediaTypes: ImagePicker.MediaTypeOptions.All,
+      allowsEditing:true,
+      aspect: [4,3],
+      quality:1,
+    });
+    const source = {uri: result.uri};
+    console.log(source);
+    setImage(source);
+  };
+
+
+  const uploadImage = async () =>{
+    setuploading(true);
+    const Response = await fetch(image.uri)
+    const blob = await Response.blob();
+    const filename = image.uri.substring(image.uri.lastIndexOf('/')+1);
+    var ref = firebase.storage().ref().child(filename).put(blob);
+
+
+    try{
+      await ref;
+
+    } catch(e){
+      console.log(e);
+    }
+    setuploading(false);
+    Alert.alert(
+      'imagen subida'
+    );
+    setImage(null);
+  };
+
+
   const initalState = {
     nombre: "",
     descripcion: "",
     precio: "",
+    img:""
   };
 
   const [state, setState] = useState(initalState);
@@ -28,10 +74,11 @@ const Agregar = (props) => {
     } else {
 
       try {
-        await firebase.db.collection("productos").add({
+        await db.db.collection("productos").add({
           nombre: state.nombre,
           descripcion: state.descripcion,
           precio: state.precio,
+          img: state.img,
         });
 
         props.navigation.navigate("Home");
@@ -40,6 +87,10 @@ const Agregar = (props) => {
       }
     }
   };
+
+  
+
+  
 
   return (
     <ScrollView style={styles.container}>
@@ -70,7 +121,17 @@ const Agregar = (props) => {
         />
       </View>
 
+      <TouchableOpacity onPress={pickimage}>
+        <Text>Seleccionar Imagen</Text>
+      </TouchableOpacity>
+      <View>
+        {image && <Image source={{uri: image.uri}} style={{with: 200, height: 200}}/>}
+      </View>
+      <TouchableOpacity onPress={uploadImage}>
+        <Text>Visualizar Imagen</Text>
+      </TouchableOpacity>
 
+      
       <View style={styles.button}>
         <Button title="Guardar" onPress={() => saveNewItem()} />
       </View>
