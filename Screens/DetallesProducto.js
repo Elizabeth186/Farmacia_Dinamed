@@ -78,15 +78,16 @@ const DetallesProducto  = (props) =>{
         <ScrollView>
           <View style={{alignItems:'center', marginHorizontal:30}}>
             <Image style={styles.imagen}source={{uri:meds.img}} />
+            <Text style={styles.txtname}>Nombre del producto</Text>
             <View style={styles.inputs}>
         
         <TextInput
           placeholder="Acetaminofen"
           onChangeText={(value) => handleTextChange(value, "nombre")}
-          value={meds.name}
+          value={meds.nombre}
         />
       </View>
-      <Text style={styles.txt}>Marca/Laboratio</Text>
+      <Text style={styles.txtname}>Marca/Laboratio</Text>
       <View style={styles.inputs}>
         <TextInput
           placeholder="MK"
@@ -94,7 +95,7 @@ const DetallesProducto  = (props) =>{
           value={meds.marca}
         />
       </View>
-      <Text style={styles.txt}>Presentacion del producto</Text>
+      <Text style={styles.txtname}>Presentacion del producto</Text>
       <View style={styles.inputspresentacion}>
         <TextInput
           placeholder="Tabletas 500mg x 100 Tb"
@@ -102,7 +103,7 @@ const DetallesProducto  = (props) =>{
           value={meds.presentacion}
         />
       </View>
-      <Text style={styles.txt}>Descripcion del producto</Text>
+      <Text style={styles.txtname}>Descripcion del producto</Text>
       <View style={styles.inputsdescrip}>
         <TextInput
           placeholder="Alivia el dolor de cabeza, dolores provocados por catarro comun, gripe, vacunaciones, enfermedades virales, dolores de dientes, dolores de oidos y dolores de garganta."
@@ -207,6 +208,12 @@ const styles = StyleSheet.create({
     width:30,
     borderRadius:30,
     marginHorizontal:3
+  },txtname: {
+    fontSize:18,
+    color:"#696969",
+    fontWeight:'bold',
+    textAlign:'center',
+    marginBottom: "3%"
   },
   btnSize: {
     height:40,
