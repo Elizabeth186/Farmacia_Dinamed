@@ -21,6 +21,7 @@ import Perfil from './Perfil';
 
 import HomeCliente from '../Cliente/HomeCliente';
 import DetallesProductoCliente from '../Cliente/DetallesProductoCliente';
+import TabNavc from './NavCliente';
 
 const windowWidth = Dimensions.get('window').width;
 const windowHeight = Dimensions.get('window').height;
@@ -52,7 +53,7 @@ function Iniciar(){
     console.log('Sesion Iniciada!'+email)
     const user = userCredential.user;
     console.log(user);
-    navigation.navigate('HomeCliente')
+    navigation.navigate('Inicio')
     })
     .catch(error =>{
       console.log(error);
@@ -160,7 +161,7 @@ export default function Accesos() {
       <Stack.Screen name="Detalles" component={DetallesProducto}/>
       <Stack.Screen name="Carrito" component={Carrito}/>
       <Stack.Screen name="Perfil" component={Perfil}/>
-      <Stack.Screen name="HomeCliente" component={TabNav}/>
+      <Stack.Screen name="Inicio" component={TabNavc}/>
       <Stack.Screen name='Detalle' component={DetallesProductoCliente}/>
     </Stack.Navigator>
   </NavigationContainer>

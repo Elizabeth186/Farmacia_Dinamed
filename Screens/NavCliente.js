@@ -1,13 +1,11 @@
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
-import Carrito from '../Screens/Carrito';
-import Home from '../Screens/Home';
+import Carrito from './Carrito';
+import Home from './Home';
 import { StyleSheet} from 'react-native';
 import Perfil from './Perfil';
 import AntDesign from 'react-native-vector-icons/AntDesign'
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons'
 import HomeCliente from '../Cliente/HomeCliente';
-import Hisrial from './Historial';
-import Historial from './Historial';
 
 function TabBarIcon({name, color}){
   return(
@@ -22,15 +20,15 @@ function TabBarIcon1({name, color}){
   );
 }
 
-const  TabNav = (props) => {
+const  TabNavc = (props) => {
   const Tab = createBottomTabNavigator(); 
   return (
     <Tab.Navigator  screenOptions={{headerShown: false, tabBarStyle: {backgroundColor: "#082359" },
     tabBarInactiveTintColor: '#fff', tabBarActiveTintColor: '#91e4fb'}}>
-      <Tab.Screen name="Home" component={Home} options={{ tabBarIcon: ({color}) =>(
+      <Tab.Screen name="Inicio" component={HomeCliente} options={{ tabBarIcon: ({color}) =>(
                     <TabBarIcon name='home' color={color}/>
                 ),  headerShown: false}}/>
-      <Tab.Screen name="Historial" component={Historial} options={{ tabBarIcon: ({color}) =>(
+      <Tab.Screen name="Carrito" component={Carrito} options={{ tabBarIcon: ({color}) =>(
                     <TabBarIcon name='shoppingcart' color={color}/>
                 ),  headerShown: false}}/>
       <Tab.Screen name="Perfil" component={Perfil} options={{ tabBarIcon: ({color}) =>(
@@ -40,7 +38,7 @@ const  TabNav = (props) => {
   );  
 }
 
-export default TabNav
+export default TabNavc
 
 
 

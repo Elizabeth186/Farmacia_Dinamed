@@ -70,7 +70,7 @@ useEffect(() => {
           key={medis.id}
           bottomDivider
           onPress={() => {
-            props.navigation.navigate("Detalles", {
+            props.navigation.navigate("Detalle", {
               listId: medis.id,
             });
           }}
@@ -92,30 +92,12 @@ useEffect(() => {
        </View>
        </LinearGradient>
         </View>
-          {/* <ListItem.Content  alignItems='center'>
-            <ListItem.Title style={styles.titulo}>{medis.nombre}</ListItem.Title>
-            <ListItem.Subtitle >{medis.descripcion}</ListItem.Subtitle>
-            
-          </ListItem.Content>
-          <LinearGradient colors={['#368DD9','#082359']} start ={{ x : 1, y : 0 }} style={styles.LinearGradient}>
-          <ListItem.Content  width = {70} alignItems='center'  >
-            <ListItem.Subtitle style={styles.pricestyle} >{medis.precio}</ListItem.Subtitle>
-            </ListItem.Content>
-            </LinearGradient>
-             */}
-        
+  
         </TouchableOpacity>
       );
     })}
     
      </ScrollView>
-
-     <TouchableOpacity style={styles.btnflotan} onPress={()=>{
-             props.navigation.navigate('Agregar')}}><Image
-             style={styles.tinyLogo}
-             source={require('../assets/add.png')}
-           /></TouchableOpacity>
- 
      </SafeAreaView>
       </View>
       

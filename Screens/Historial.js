@@ -11,7 +11,7 @@ import {
   Button
 } from 'react-native';
 
-export default class Posts extends Component {
+export default class Historial extends Component {
 
   constructor(props) {
     super(props);

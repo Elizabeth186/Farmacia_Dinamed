@@ -70,7 +70,7 @@ useEffect(() => {
           key={medis.id}
           bottomDivider
           onPress={() => {
-            props.navigation.navigate("Detalle", {
+            props.navigation.navigate("Detalles", {
               listId: medis.id,
             });
           }}
