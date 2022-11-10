@@ -49,13 +49,15 @@ const DetallesProducto  = (props) =>{
   };
 
   const updateList = async () => {
+    
     const listrRef = firebase.db.collection("productos").doc(meds.id);
     await listrRef.set({
       nombre: meds.nombre,
       marca: meds.marca,
       presentacion: meds.presentacion,
       descripcion: meds.descripcion,
-      precio: meds.precio
+      precio: meds.precio,
+      img: meds.img
     });
     setMeds(initialState);
     props.navigation.navigate("Home");
