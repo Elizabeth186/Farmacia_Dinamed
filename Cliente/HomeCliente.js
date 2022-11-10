@@ -11,7 +11,7 @@ const windowHeight = Dimensions.get('window').height;
 
 
 
-const Home = (props) => {
+const HomeCliente = (props) => {
   const [meds, setMeds] = useState([]);
 
 
@@ -70,7 +70,7 @@ useEffect(() => {
           key={medis.id}
           bottomDivider
           onPress={() => {
-            props.navigation.navigate("Detalle", {
+            props.navigation.navigate("Detalles", {
               listId: medis.id,
             });
           }}
@@ -126,7 +126,7 @@ useEffect(() => {
 
 }
 
-export default Home;
+export default HomeCliente;
 const styles = StyleSheet.create({
   container: {
     flex: 1,
@@ -153,19 +153,16 @@ const styles = StyleSheet.create({
   }
   ,
   imagenproducto:{
-    width: windowWidth/4,
-    borderTopLeftRadius: 10,
-    borderBottomLeftRadius: 10
+    width: windowWidth/4, 
   }
   ,
   imagenbuscar:{
     width: windowWidth/10,
-    height: windowHeight/19,
+    height: windowHeight/20,
     alignSelf:'center',
     top: '8%',
     marginLeft:'3%',
-    borderRadius:10,
-    
+    borderRadius:10
     
   },
   inputbuscar:{
