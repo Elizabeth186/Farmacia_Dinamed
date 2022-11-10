@@ -6,7 +6,7 @@ const windowWidth = Dimensions.get('window').width;
 const windowHeight = Dimensions.get('window').height;
 
 
-export default function Carrito() {
+export default function Carrito({navigation}) {
   return (
     
     <View style={styles.container}>

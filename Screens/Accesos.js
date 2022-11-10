@@ -13,6 +13,12 @@ import Home from './Home';
 import { validadoemail, validandocontraseña, validandoemailpropietario } from '../validaciones/validacion';
 import Agregar from './Agregar';
 import DetallesProducto from './DetallesProducto';
+import Carrito from './Carrito';
+import Historial from './Historial';
+import TabNav from './Nav';
+import Perfil from './Perfil';
+
+
 
 const windowWidth = Dimensions.get('window').width;
 const windowHeight = Dimensions.get('window').height;
@@ -143,11 +149,16 @@ const Stack =createNativeStackNavigator();
 export default function Accesos() {
   return (
     <NavigationContainer>
-    <Stack.Navigator  initialRouteName='Iniciar'>
+    <Stack.Navigator  initialRouteName='Iniciar' screenOptions={{
+    headerShown: false
+  }}>
       <Stack.Screen name='Iniciar' component={Iniciar}/>
-      <Stack.Screen name="Home" component={Home}/>
+      <Stack.Screen name='Home' component={TabNav}/>
       <Stack.Screen name="Agregar" component={Agregar}/>
       <Stack.Screen name="Detalles" component={DetallesProducto}/>
+      <Stack.Screen name="Carrito" component={Carrito}/>
+      <Stack.Screen name="Perfil" component={Perfil}/>
+      
     </Stack.Navigator>
   </NavigationContainer>
   );

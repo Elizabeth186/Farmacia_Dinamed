@@ -4,7 +4,7 @@ import {LinearGradient} from 'expo-linear-gradient';
 import {useNavigation} from '@react-navigation/native'
 import { ListItem, Avatar } from "react-native-elements";
 import { useState, useEffect } from 'react';
-import firebase from "../db/firebasemeds"
+import firebase from "../db/firebasemeds";
 
 const windowWidth = Dimensions.get('window').width;
 const windowHeight = Dimensions.get('window').height;
@@ -34,7 +34,12 @@ useEffect(() => {
 
 
   return (
-    <ScrollView >
+    
+    
+    
+    
+    <ScrollView style={styles.scst}>
+     
       <Button
         style={styles.btn}
         onPress={() => props.navigation.navigate("Agregar")}
@@ -72,6 +77,9 @@ useEffect(() => {
       );
     })}
   </ScrollView>
+  
+
+  
   );
   
 
@@ -85,6 +93,9 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
     top:'-24%'
+  },
+  scst:{
+    marginTop: "8%",
   },
   View2:{
     width: windowWidth/1,
