@@ -84,7 +84,7 @@ const Agregar = (props) => {
         await db.db.collection("productos").add({
           nombre: state.nombre,
           marca: state.marca,
-          presentacion: state.precio,
+          presentacion: state.presentacion,
           descripcion: state.descripcion,
           precio: state.precio,
           img: state.img
