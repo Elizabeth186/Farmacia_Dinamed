@@ -13,6 +13,8 @@ import Home from './Home';
 import { validadoemail, validandocontraseña, validandoemailpropietario } from '../validaciones/validacion';
 import Agregar from './Agregar';
 import DetallesProducto from './DetallesProducto';
+import HomeCliente from '../Cliente/HomeCliente';
+import DetallesProductoCliente from '../Cliente/DetallesProductoCliente';
 
 const windowWidth = Dimensions.get('window').width;
 const windowHeight = Dimensions.get('window').height;
@@ -44,7 +46,7 @@ function Iniciar(){
     console.log('Sesion Iniciada!'+email)
     const user = userCredential.user;
     console.log(user);
-    navigation.navigate('Home')
+    navigation.navigate('HomeCliente')
     })
     .catch(error =>{
       console.log(error);
@@ -147,7 +149,9 @@ export default function Accesos() {
       <Stack.Screen name='Iniciar' component={Iniciar}/>
       <Stack.Screen name="Home" component={Home}/>
       <Stack.Screen name="Agregar" component={Agregar}/>
-      <Stack.Screen name="Detalles" component={DetallesProducto}/>
+      <Stack.Screen name="Detalle" component={DetallesProducto}/>
+      <Stack.Screen name="HomeCliente" component={HomeCliente}/>
+      <Stack.Screen name='Detalles' component={DetallesProductoCliente}/>
     </Stack.Navigator>
   </NavigationContainer>
   );

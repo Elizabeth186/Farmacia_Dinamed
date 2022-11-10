@@ -18,7 +18,7 @@ export const validandocontraseña = (text) => {
 
 export const validandoemailpropietario = (text) =>{
 
-   let emailp = /^jorge@gmail.com$/
+   let emailp = /^El@gmail.com$/
    
     if(emailp.test(text) === false){
         return false;

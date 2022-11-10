@@ -26,7 +26,7 @@ const Agregar = (props) => {
     presentacion:"",
     descripcion: "",
     precio: "",
-
+    img: ""
   };
 
   const [image, setImage] = useState(null);
@@ -87,6 +87,7 @@ const Agregar = (props) => {
           presentacion: state.precio,
           descripcion: state.descripcion,
           precio: state.precio,
+          img: state.img
          
         });
 
