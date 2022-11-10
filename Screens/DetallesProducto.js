@@ -139,8 +139,8 @@ const styles = StyleSheet.create({
     flex:1,
   },
   imagen:{
-    width:200,
-    height:200,
+    width:windowWidth/1,
+    height:300,
     marginTop: 35,
     marginBottom: 12
   },
@@ -262,7 +262,8 @@ const styles = StyleSheet.create({
   btn:{
     flexDirection: 'row',
     alignSelf: 'center',
-    marginTop: '15%'
+    marginTop: '15%',
+    height:windowHeight/7
   },
   imagend:{
     width: windowWidth/6.5,

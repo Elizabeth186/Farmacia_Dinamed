@@ -26,4 +26,3 @@ export const validandoemailpropietario = (text) =>{
             return true;
         }
     }
-

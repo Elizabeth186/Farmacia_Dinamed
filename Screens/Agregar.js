@@ -76,9 +76,23 @@ const Agregar = (props) => {
   };
 
   const saveNewItem = async () => {
+
+    // let numeros = /^[0-9]+([.]{1})([0-9]+)$/;
+
     if (state.nombre === "") {
       alert("Por favor ingrese nombre");
-    } else {
+    } else if(state.marca === ""){
+      alert("Por favor ingrese la marca");
+    } else if(state.presentacion === ""){
+      alert("Por favor ingrese presentacion del producto");
+    } else if(state.descripcion === ""){
+      alert("Por favor ingrese la descripcion");
+    } else if(state.precio === ""){
+      alert("Por favor ingrese el precio");
+    // }else if(state.precio !== numeros){
+    //   alert("El campo precio es incorrecto");
+    // }
+    }else{
 
       try {
         await db.db.collection("productos").add({

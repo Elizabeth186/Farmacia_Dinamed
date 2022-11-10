@@ -173,7 +173,7 @@ const styles = StyleSheet.create({
   titulo:{
     textAlign:'center',
     fontSize:19,
-    padding: '9%'
+    top:'15%'
     
   },
   precio:{
@@ -186,7 +186,8 @@ const styles = StyleSheet.create({
 
   },
   txt:{
-    textAlign:'center'
+    textAlign:'center',
+    top:'15%'
   },
   view1:{
     width: windowWidth/2.2,
