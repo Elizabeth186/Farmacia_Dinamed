@@ -120,15 +120,11 @@ const DetallesProducto  = (props) =>{
       </View>
            </View>
           <View style={styles.separator}></View>
+
           <View style={styles.btn}>
-      <Button
-        title="Eliminar"
-        onPress={() => deleteItem()}
-        color="red"
-      />
-    </View>
-    <View style={styles.btn}>
-      <Button title="Actualizar" onPress={() => updateList()} color="#19AC52" />
+
+            <View style={styles.btndelete}><TouchableOpacity onPress={() => deleteItem()}><Image style={styles.imagend}  source={require("../assets/borrar.png")} /></TouchableOpacity></View>
+            <View style={styles.btneditar}><TouchableOpacity onPress={() => updateList()}><Image style={styles.imagend}  source={require("../assets/editar.png")} /></TouchableOpacity></View>
     </View>
           
         </ScrollView>
@@ -262,5 +258,17 @@ const styles = StyleSheet.create({
   },
   addToCarContainer:{
     marginHorizontal:30
+  },
+  btn:{
+    flexDirection: 'row',
+    alignSelf: 'center',
+    marginTop: '15%'
+  },
+  imagend:{
+    width: windowWidth/6.5,
+    height: windowHeight/13,
+  },
+  btndelete:{
+    marginRight: '12%'
   }
 });    

@@ -140,8 +140,7 @@ const styles = StyleSheet.create({
   View2:{
     width: windowWidth/1,
     height: windowHeight/10,
-    flexDirection: 'row',
-    
+    flexDirection: 'row',  
   },
   imagen:{
     width: windowWidth/7,
