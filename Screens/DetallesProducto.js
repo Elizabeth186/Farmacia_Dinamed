@@ -1,14 +1,19 @@
 import React, { useState, useEffect, Component } from 'react';
-import {StyleSheet,Text,View,TouchableOpacity, ActivityIndicator, Image,Alert,ScrollView, TextInput, FlatList,Button,} from 'react-native';
+import {StyleSheet,Text,View,TouchableOpacity,Dimensions, ActivityIndicator, Image,Alert,ScrollView, TextInput, FlatList,Button,} from 'react-native';
 import firebase from "../db/firebasemeds";
 
+const windowWidth = Dimensions.get('window').width;
+const windowHeight = Dimensions.get('window').height;
 const DetallesProducto  = (props) =>{
 
   const initialState = {
     id: "",
     nombre: "",
+    marca: "",
+    presentacion:"",
     descripcion: "",
     precio: "",
+    img: ""
 
   };
 
@@ -47,6 +52,8 @@ const DetallesProducto  = (props) =>{
     const listrRef = firebase.db.collection("productos").doc(meds.id);
     await listrRef.set({
       nombre: meds.nombre,
+      marca: meds.marca,
+      presentacion: meds.presentacion,
       descripcion: meds.descripcion,
       precio: meds.precio
     });
@@ -68,31 +75,50 @@ const DetallesProducto  = (props) =>{
       <View style={styles.container}>
         <ScrollView>
           <View style={{alignItems:'center', marginHorizontal:30}}>
-            <Image style={styles.imagen}source={require("../Images/aceta.jpg")} />
-
-            <TextInput
-        placeholder="Nombre"
-        autoCompleteType="nombre"
-        style={styles.inputGroup}
-        value={meds.nombre}
-        onChangeText={(value) => handleTextChange(value, "nombre")}
-      />
-
-            <TextInput
-        placeholder="Descripcion"
-        autoCompleteType="Descripcion"
-        style={styles.inputGroup}
-        value={meds.descripcion}
-        onChangeText={(value) => handleTextChange(value, "descripcion")}
-      />
-            <TextInput
-        placeholder="$0.00"
-        autoCompleteType="precio"
-        style={styles.inputGroup}
-        value={meds.precio}
-        onChangeText={(value) => handleTextChange(value, "precio")}
-      />
-          </View>
+            <Image style={styles.imagen}source={{uri:meds.img}} />
+            <View style={styles.inputs}>
+        
+        <TextInput
+          placeholder="Acetaminofen"
+          onChangeText={(value) => handleTextChange(value, "nombre")}
+          value={meds.name}
+        />
+      </View>
+      <Text style={styles.txt}>Marca/Laboratio</Text>
+      <View style={styles.inputs}>
+        <TextInput
+          placeholder="MK"
+          onChangeText={(value) => handleTextChange(value, "marca")}
+          value={meds.marca}
+        />
+      </View>
+      <Text style={styles.txt}>Presentacion del producto</Text>
+      <View style={styles.inputspresentacion}>
+        <TextInput
+          placeholder="Tabletas 500mg x 100 Tb"
+          onChangeText={(value) => handleTextChange(value, "presentacion")}
+          value={meds.presentacion}
+        />
+      </View>
+      <Text style={styles.txt}>Descripcion del producto</Text>
+      <View style={styles.inputsdescrip}>
+        <TextInput
+          placeholder="Alivia el dolor de cabeza, dolores provocados por catarro comun, gripe, vacunaciones, enfermedades virales, dolores de dientes, dolores de oidos y dolores de garganta."
+          multiline={true}
+          numberOfLines={4}
+          onChangeText={(value) => handleTextChange(value, "descripcion")}
+          value={meds.descripcion}
+        />
+      </View>
+      <View style={styles.inputsprecio}>
+        <TextInput
+          placeholder="$ 7.44"
+          onChangeText={(value) => handleTextChange(value, "precio")}
+          value={meds.precio}
+          keyboardType="numeric"
+        />
+      </View>
+           </View>
           <View style={styles.separator}></View>
           <View style={styles.btn}>
       <Button
@@ -115,11 +141,12 @@ export default DetallesProducto;
 const styles = StyleSheet.create({
   container:{
     flex:1,
-    marginTop:80,
   },
   imagen:{
     width:200,
     height:200,
+    marginTop: 35,
+    marginBottom: 12
   },
   name:{
     fontSize:28,
@@ -133,16 +160,49 @@ const styles = StyleSheet.create({
     fontWeight:'bold',
     textAlign:'center', 
   },
-  price:{
-    marginTop:10,
-    fontSize:18,
-    color:"green",
-    fontWeight:'bold'
+  inputs: {
+    color:'red',
+   borderWidth:1,
+   borderColor:'#368DD9',
+   margin: 5,
+   borderRadius:10,
+   alignItems:'center',
+   width: windowWidth/1.6,
+   height: windowHeight/20,
+   justifyContent: "center",
+   alignSelf: 'center'
   },
-  description:{
-    textAlign:'left',
-    marginTop:10,
-    color:"#696969",
+  inputsdescrip: {
+
+   borderWidth:1,
+   borderColor:'#368DD9',
+   margin: 5,
+   borderRadius:10,
+   height: windowHeight/5,
+   textAlign: 'center',
+   alignSelf: 'center'
+  },
+  inputsprecio: {
+   borderWidth:1,
+   borderColor:'#368DD9',
+   margin: 5,
+   borderRadius:10,
+   height: windowHeight/18,
+   alignItems:'center',
+   width: windowWidth/4,
+   justifyContent: "center",
+   alignSelf: 'center'
+  },
+  inputspresentacion: {
+    borderWidth:1,
+    borderColor:'#368DD9',
+    margin: 5,
+    borderRadius:10,
+    height: windowHeight/20,
+    alignItems:'center',
+    justifyContent: "center",
+   
+   
   },
   btnColor: {
     height:30,
