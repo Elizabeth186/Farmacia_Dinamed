@@ -31,7 +31,7 @@ const  TabNav = (props) => {
                     <TabBarIcon name='home' color={color}/>
                 ),  headerShown: false}}/>
       <Tab.Screen name="Historial" component={Historial} options={{ tabBarIcon: ({color}) =>(
-                    <TabBarIcon name='shoppingcart' color={color}/>
+                    <TabBarIcon1 name='history-toggle-off' color={color}/>
                 ),  headerShown: false}}/>
       <Tab.Screen name="Perfil" component={Perfil} options={{ tabBarIcon: ({color}) =>(
                     <TabBarIcon1 name='person' color={color}/>
