@@ -160,6 +160,14 @@ const Agregar = (props) => {
           keyboardType="numeric"
         />
       </View>
+      <Text style={styles.txt}>Ingrese la Url de su imagen</Text>
+      <View style={styles.inputspresentacion}>
+        <TextInput
+          placeholder="Tabletas 500mg x 100 Tb"
+          onChangeText={(value) => handleChangeText(value, "img")}
+          value={state.img}
+        />
+      </View>
 
       <TouchableOpacity  style={styles.btn} onPress={pickimage}>
         <Text style={styles.txtbtn} >Seleccione una imagen</Text>
