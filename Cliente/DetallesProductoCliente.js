@@ -19,7 +19,7 @@ const DetallesProductoCliente  = (props) =>{
 
   const [meds, setMeds] = useState(initialState);
   const [loading, setLoading] = useState(true);
-
+  const [total, settotal] = useState(1);
 
   const getItemById = async (id) => {
     
@@ -33,12 +33,26 @@ const DetallesProductoCliente  = (props) =>{
 
     useEffect(() => {
     getItemById(props.route.params.listId);
-    }, []);
+    calculartotal()}, [cantidad]);
 
+  const [cantidad, setcantidad] = useState(1)
+  const sumar =  () => {
+   let nuevacantidad = parseInt(cantidad +1)
+   setcantidad(nuevacantidad)
+  }
 
-    
+  const restar =  () => {
+    if(cantidad > 1){
+    let nuevacantidad = parseInt(cantidad -1)
+    setcantidad(nuevacantidad)
+    }
+   }
 
-  
+   const calculartotal = () => {
+    const total = cantidad * precio
+    console.log(total)
+
+   }
   
   
   if (loading) {
@@ -76,9 +90,9 @@ const DetallesProductoCliente  = (props) =>{
           <View style={styles.contpedido}>
             <View style={styles.contcant}>
            
-           <TouchableOpacity style={styles.btnadd} ><Image style={styles.add}  source={require("../assets/menos.png")} /></TouchableOpacity>
-           <TextInput  placeholder="0" keyboardType="numeric" ></TextInput>
-           <TouchableOpacity style={styles.btnadd}  ><Image style={styles.add}  source={require("../assets/mas.png")} /></TouchableOpacity>
+           <TouchableOpacity style={styles.btnadd} onPress={restar}><Image style={styles.add}  source={require("../assets/menos.png")} /></TouchableOpacity>
+           <TextInput value = {cantidad.toString()} placeholder="0" keyboardType="numeric" ></TextInput>
+           <TouchableOpacity style={styles.btnadd} onPress={sumar} ><Image style={styles.add}  source={require("../assets/mas.png")} /></TouchableOpacity>
             </View>
 
             <View>

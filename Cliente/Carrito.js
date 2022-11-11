@@ -1,31 +1,100 @@
 import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, SafeAreaView, Text, TextInput, View, Image, Dimensions, TouchableOpacity } from 'react-native';
+import React, { useState, useEffect } from "react";
+import { SafeAreaView, StyleSheet, Text, View , Image, ScrollView, Button, Dimensions, TextInput, TouchableOpacity} from 'react-native';
 import {LinearGradient} from 'expo-linear-gradient';
 
 const windowWidth = Dimensions.get('window').width;
 const windowHeight = Dimensions.get('window').height;
 
 
-export default function Carrito({navigation}) {
+export default function Carrito({props}) {
+
+  const initialState = {
+    id: "",
+    nombre: "",
+    marca: "",
+    presentacion:"",
+    precio: "",
+    total: "",
+    img: ""
+
+  };
+  const [meds, setMeds] = useState(initialState);
+
+  const getItemById = async (id) => {
+    
+    
+    const dbRef = firebase.db.collection("productos").doc(id);
+    const doc = await dbRef.get();
+    const meds = doc.data();
+    setMeds({ ...meds, id: doc.id });
+    setLoading(false);
+  };
+
+  useEffect(() => {
+      
+    getItemById(props.route.params.listId);
+    
+    
+  }, []);
+
+
+
   return (
     
     <View style={styles.container}>
 
         
- <SafeAreaView>
-        <Text  style={styles.textstyle}>Detalles Pedido : </Text>      
-        <Text  style={styles.textstyle}>Cantidad : </Text>
-        <Text  style={styles.textstyle}>Fecha Pedido : </Text>
-        <Text  style={styles.textstyle}>Forma de entrega : </Text>
-        <Text  style={styles.textstyle}>Total : </Text>
+<ScrollView>
       
+      {
+      meds.map((medis) => {
+        return (
         
-        <LinearGradient colors={['#368DD9','#082359']} start ={{ x : 1, y : 0 }} style={styles.btnstyle}>
-       <TouchableOpacity><Text style={styles.textbtn}>Finalizar Compra</Text></TouchableOpacity>
+          <TouchableOpacity
+         
+            key={medis.id}
+            bottomDivider
+            onPress={() => {
+              props.navigation.navigate("Detalles", {
+                listId: medis.id,
+              });
+            }}
+            >
+           
+         <View style={styles.contenedores}>
+         <Image
+         style={styles.imagenproducto}
+         source={{uri: medis.img}} />
+         <View style={styles.view1}>
+         <Text style={styles.titulo}>{medis.nombre}</Text>
+         <Text style={styles.txt}>{medis.marca}</Text>
+         </View >
+         <LinearGradient colors={['#368DD9','#082359']} start ={{ x : 1, y : 0 }} style={styles.LinearGradient} >
+         <View style={styles.viewprecio}>
+        
+         <Text style={styles.precio}>{medis.precio}</Text>
+         
+         </View>
+         </LinearGradient>
+          </View>
+            {/* <ListItem.Content  alignItems='center'>
+              <ListItem.Title style={styles.titulo}>{medis.nombre}</ListItem.Title>
+              <ListItem.Subtitle >{medis.descripcion}</ListItem.Subtitle>
+              
+            </ListItem.Content>
+            <LinearGradient colors={['#368DD9','#082359']} start ={{ x : 1, y : 0 }} style={styles.LinearGradient}>
+            <ListItem.Content  width = {70} alignItems='center'  >
+              <ListItem.Subtitle style={styles.pricestyle} >{medis.precio}</ListItem.Subtitle>
+              </ListItem.Content>
+              </LinearGradient>
+               */}
+          
+          </TouchableOpacity>
+        );
+      })}
       
-       </LinearGradient>
-     
-        </SafeAreaView>
+       </ScrollView>
     </View>
   );
 }
