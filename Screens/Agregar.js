@@ -62,7 +62,7 @@ const Agregar = (props) => {
       console.log(e);
     }
     setuploading(false);
-    Alert.alert(
+    alert(
       'imagen subida'
     );
     setImage(null);
@@ -77,7 +77,7 @@ const Agregar = (props) => {
 
   const saveNewItem = async () => {
 
-    // let numeros = /^[0-9]+([.]{1})([0-9]+)$/;
+    
 
     if (state.nombre === "") {
       alert("Por favor ingrese nombre");
@@ -89,9 +89,7 @@ const Agregar = (props) => {
       alert("Por favor ingrese la descripcion");
     } else if(state.precio === ""){
       alert("Por favor ingrese el precio");
-    // }else if(state.precio !== numeros){
-    //   alert("El campo precio es incorrecto");
-    // }
+    
     }else{
 
       try {
