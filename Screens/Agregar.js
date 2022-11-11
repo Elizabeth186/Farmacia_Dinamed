@@ -166,7 +166,7 @@ const Agregar = (props) => {
           placeholder="Tabletas 500mg x 100 Tb"
           onChangeText={(value) => handleChangeText(value, "img")}
           value={state.img}
-        />
+        ></TextInput>
       </View>
 
       <TouchableOpacity  style={styles.btn} onPress={pickimage}>

@@ -20,9 +20,6 @@ const DetallesProductoCliente  = (props) =>{
   const [meds, setMeds] = useState(initialState);
   const [loading, setLoading] = useState(true);
 
-  const handleTextChange = (value, prop) => {
-    setMeds({ ...meds, [prop]: value });
-  };
 
   const getItemById = async (id) => {
     
@@ -36,8 +33,12 @@ const DetallesProductoCliente  = (props) =>{
 
     useEffect(() => {
     getItemById(props.route.params.listId);
-  }, []);
+    }, []);
 
+
+    
+
+  
   
   
   if (loading) {
@@ -74,8 +75,10 @@ const DetallesProductoCliente  = (props) =>{
 
           <View style={styles.contpedido}>
             <View style={styles.contcant}>
-           <TouchableOpacity style={styles.btnadd}><Image style={styles.add}  source={require("../assets/menos.png")} /></TouchableOpacity>
-           <TouchableOpacity style={styles.btnadd}><Image style={styles.add}  source={require("../assets/mas.png")} /></TouchableOpacity>
+           
+           <TouchableOpacity style={styles.btnadd} ><Image style={styles.add}  source={require("../assets/menos.png")} /></TouchableOpacity>
+           <TextInput  placeholder="0" keyboardType="numeric" ></TextInput>
+           <TouchableOpacity style={styles.btnadd}  ><Image style={styles.add}  source={require("../assets/mas.png")} /></TouchableOpacity>
             </View>
 
             <View>
