@@ -26,3 +26,14 @@ export const validandoemailpropietario = (text) =>{
             return true;
         }
     }
+
+    export const validandoprice = (text) => {
+        
+          let numero = /^[0-9]{1,4}([.]{1})([0-9]{2})$/;
+          if (numero.test(text) == false){
+            return false;
+          }else{
+            return true;
+          }
+          
+      }

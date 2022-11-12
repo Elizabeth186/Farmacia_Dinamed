@@ -27,9 +27,10 @@ export default function Perfil({navigation}) {
   return (
     
     <View>
+      <SafeAreaView>
       <Image style={styles.imagen} source={require("../Images/Logo.png")}/>
         <TouchableOpacity onPress={()=> Linking.openURL(url)}
-      title="VAMO A MANDAR HELLO EN WHATSAPP">
+      title="Poseo dudas con rspecto a mi pedido">
           <Image style={styles.imagen1} source={require("../Images/wha.png")}/>
           
         </TouchableOpacity>
@@ -38,6 +39,7 @@ export default function Perfil({navigation}) {
           <Image style={styles.imagen2} source={require("../Images/logout.png")}/>
         </TouchableOpacity>
         <Text style={styles.textstyle}>Cerrar sesion</Text>
+        </SafeAreaView>
     </View>
   );
 }
@@ -55,27 +57,27 @@ const styles = StyleSheet.create({
   btnstyle: {
    borderRadius: 10,
    width: windowWidth/1.5,
-  height: windowHeight/15,
+   height: windowHeight/18,
   elevation: 5,
   alignSelf:'center',
   marginTop: '15%',
   marginBottom: '10%'
   },
   imagen:{
-    width: windowWidth/2,
-    height: windowHeight/4.5,
+    width: windowWidth/3,
+    height: windowHeight/7.8,
     alignSelf:'center',
     top: 80
   },
   imagen1:{
-    width: windowWidth/4.5,
-    height: windowHeight/8,
+    width: windowWidth/6,
+    height: windowHeight/12,
     alignSelf:'center',
     marginTop: "35%"
   },
   imagen2:{
-    width: windowWidth/4.5,
-    height: windowHeight/10,
+    width: windowWidth/6,
+    height: windowHeight/12,
     alignSelf:'center',
     marginTop: "10%"
   },

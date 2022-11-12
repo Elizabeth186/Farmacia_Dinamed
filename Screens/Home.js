@@ -87,23 +87,11 @@ useEffect(() => {
        <LinearGradient colors={['#368DD9','#082359']} start ={{ x : 1, y : 0 }} style={styles.LinearGradient} >
        <View style={styles.viewprecio}>
       
-       <Text style={styles.precio}>{medis.precio}</Text>
+       <Text style={styles.precio}>${medis.precio}</Text>
        
        </View>
        </LinearGradient>
         </View>
-          {/* <ListItem.Content  alignItems='center'>
-            <ListItem.Title style={styles.titulo}>{medis.nombre}</ListItem.Title>
-            <ListItem.Subtitle >{medis.descripcion}</ListItem.Subtitle>
-            
-          </ListItem.Content>
-          <LinearGradient colors={['#368DD9','#082359']} start ={{ x : 1, y : 0 }} style={styles.LinearGradient}>
-          <ListItem.Content  width = {70} alignItems='center'  >
-            <ListItem.Subtitle style={styles.pricestyle} >{medis.precio}</ListItem.Subtitle>
-            </ListItem.Content>
-            </LinearGradient>
-             */}
-        
         </TouchableOpacity>
       );
     })}
@@ -132,9 +120,7 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: '#fff',
     alignItems: 'center',
-    justifyContent: 'center',
     backgroundColor: '#DCE2F2',
-    top:'1%'
     
   },
   View2:{
@@ -229,8 +215,8 @@ btnflotan:{
   height: windowHeight/12,
   backgroundColor:'#082359',
   borderRadius: 40,
-  bottom: 40,
-  right: 15,
+  bottom: '3%',
+  right: '3%',
   elevation: 30,
   borderColor: '#DCE2F2',
   borderWidth: 3

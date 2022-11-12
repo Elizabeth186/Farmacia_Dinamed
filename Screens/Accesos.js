@@ -142,17 +142,25 @@ const Stack =createNativeStackNavigator();
 export default function Accesos() {
   return (
     <NavigationContainer>
-    <Stack.Navigator  initialRouteName='Iniciar' screenOptions={{
-    headerShown: false
-  }}>
-      <Stack.Screen name='Iniciar' component={Iniciar}/>
-      <Stack.Screen name='Home' component={TabNav}/>
-      <Stack.Screen name="Agregar" component={Agregar}/>
-      <Stack.Screen name="Detalles" component={DetallesProducto}/>
-      <Stack.Screen name="Carrito" component={Carrito}/>
-      <Stack.Screen name="Perfil" component={Perfil}/>
+    <Stack.Navigator  initialRouteName='Iniciar' >
+      <Stack.Screen  options={{headerStyle: {backgroundColor: '#0D0D0D'}, headerShown: false}} name='Iniciar' component={Iniciar}/>
+      <Stack.Screen options={{headerShown: false}} name='Home' component={TabNav}/>
+      <Stack.Screen options={{headerTitleAlign: 'center',headerStyle: {backgroundColor: '#082359'},
+                    headerTintColor: '#fff',headerTitleStyle: {fontWeight: 'bold'},title: 'Agregar un nuevo producto'}}
+                    name="Agregar" component={Agregar}/>
+      <Stack.Screen options={{headerTitleAlign: 'center',headerStyle: {backgroundColor: '#082359'},
+                    headerTintColor: '#fff',headerTitleStyle: {fontWeight: 'bold'},title: 'Detalles del producto'}}
+                     name="Detalles" component={DetallesProducto}/>
+      <Stack.Screen options={{headerTitleAlign: 'center',headerStyle: {backgroundColor: '#082359'},
+                    headerTintColor: '#fff',headerTitleStyle: {fontWeight: 'bold'}}}
+                    name="Carrito" component={Carrito}/>
+      <Stack.Screen options={{headerTitleAlign: 'center',headerStyle: {backgroundColor: '#082359'},
+                    headerTintColor: '#fff',headerTitleStyle: {fontWeight: 'bold'}}}
+                    name="Perfil" component={Perfil}/>
       <Stack.Screen name="Inicio" component={TabNavc}/>
-      <Stack.Screen name='Detalle' component={DetallesProductoCliente}/>
+      <Stack.Screen options={{headerTitleAlign: 'center',headerStyle: {backgroundColor: '#082359'},
+                    headerTintColor: '#fff',headerTitleStyle: {fontWeight: 'bold'},title: 'Detalles del producto'}}
+                    name='Detalle' component={DetallesProductoCliente}/>
     </Stack.Navigator>
   </NavigationContainer>
   );

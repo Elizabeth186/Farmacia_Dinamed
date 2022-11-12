@@ -19,7 +19,8 @@ const DetallesProductoCliente  = (props) =>{
 
   const [meds, setMeds] = useState(initialState);
   const [loading, setLoading] = useState(true);
-  const [total, settotal] = useState(1);
+  const [ total, settotal] = useState(0);
+  const [ cantidad, setcantidad] = useState(1);
 
   const getItemById = async (id) => {
     
@@ -35,7 +36,7 @@ const DetallesProductoCliente  = (props) =>{
     getItemById(props.route.params.listId);
     calculartotal()}, [cantidad]);
 
-  const [cantidad, setcantidad] = useState(1)
+  
   const sumar =  () => {
    let nuevacantidad = parseInt(cantidad +1)
    setcantidad(nuevacantidad)
@@ -49,8 +50,8 @@ const DetallesProductoCliente  = (props) =>{
    }
 
    const calculartotal = () => {
-    const total = cantidad * precio
-    console.log(total)
+    const newtotal = cantidad * meds.precio
+    settotal(newtotal)
 
    }
   
@@ -86,7 +87,7 @@ const DetallesProductoCliente  = (props) =>{
         <View>
           <Text style={styles.txtprecio}>${meds.precio}</Text>
         </View>
-
+<Text>{total}</Text>
           <View style={styles.contpedido}>
             <View style={styles.contcant}>
            
@@ -96,7 +97,7 @@ const DetallesProductoCliente  = (props) =>{
             </View>
 
             <View>
-              <TouchableOpacity>
+              <TouchableOpacity onPress={() => addToCart()}>
               <Image style={styles.imagencar}  source={require("../assets/cart.png")} />
               </TouchableOpacity>
             </View>
