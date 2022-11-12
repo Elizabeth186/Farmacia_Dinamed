@@ -170,13 +170,13 @@ export default function Accesos() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#fff',
+    backgroundColor:'#DCE2F2',
     alignItems: 'center',
     justifyContent: 'center',
   },
   btnstyle: {
    borderRadius: 10,
-   width: windowWidth/1.5,
+   width: windowWidth/1.1,
   height: windowHeight/15,
   elevation: 5,
   alignSelf:'center',
@@ -198,7 +198,7 @@ const styles = StyleSheet.create({
     margin: 1,
     backgroundColor: "white",
     borderRadius: 8,
-    width: windowWidth/1.52,
+    width: windowWidth/1.11,
     height: windowHeight/16,
     top:0.8,
     alignSelf:'center'
@@ -206,7 +206,7 @@ const styles = StyleSheet.create({
   btnstyle2: {
    borderRadius: 10,
    margin: 1,
-   width: windowWidth/1.5,
+   width: windowWidth/1.1,
   height: windowHeight/15,
   elevation: 5,
   backgroundColor: 'white',
@@ -215,17 +215,17 @@ const styles = StyleSheet.create({
   marginBottom: '5%'
   },
   imagen:{
-    width: windowWidth/4.5,
+    width: windowWidth/4,
     height: windowHeight/10,
     alignSelf:'center',
-    top: -15
+    top: "-10%"
   },
   inputs:{
     alignSelf:'center',
     marginTop: '2%',
-  borderTopColor: 'black',
-  borderTopWidth: 0.5,
-  width: windowWidth/1.5,
+  borderColor: 'black',
+  borderWidth: 0.5,
+  width: windowWidth/1.1,
   height: windowHeight/15,
   elevation: 5,
   backgroundColor: 'white',
@@ -235,6 +235,7 @@ const styles = StyleSheet.create({
   textAlign: 'center'
   },
   textstyle:{
+    color:"#696969",
     fontSize: 18,
     marginTop: '5%',
     textAlign:'center',

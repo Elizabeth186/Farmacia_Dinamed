@@ -104,7 +104,7 @@ const DetallesProductoCliente  = (props) =>{
           </View>
 
         </View>
-        <Text  style={styles.inputs}>Indicaciones y Contraindicaciones</Text>
+        <Text  style={styles.texto}>Indicaciones y Contraindicaciones</Text>
         <View>
           <Text style={styles.txtdes}>{meds.descripcion}</Text>
         </View>
@@ -125,10 +125,11 @@ const styles = StyleSheet.create({
    
   },
   imagen:{
-    width:200,
-    height:200,
-    marginTop: 35,
-    marginBottom: 12
+    width:windowWidth/2,
+    height:windowHeight/5.4,
+    marginTop: '5%',
+    marginBottom: '5%',
+    alignSelf:'center',
   },
   name:{
     fontSize:28,
@@ -142,7 +143,7 @@ const styles = StyleSheet.create({
     fontWeight:'bold',
     textAlign:'center', 
   },
-  inputs: {
+  texto: {
    borderWidth:1,
    borderColor:'#368DD9',
    width: windowWidth/1,
@@ -169,7 +170,7 @@ fontWeight:'bold'
   txtdes:{
     fontSize: 16,
     textAlign: 'justify',
-    margin: 10
+    margin: '10%'
   },txt:{
     fontSize: 20,
   },
@@ -178,7 +179,7 @@ color:'white'
 },
 txtprecio:{
   fontSize: 25,
-  marginTop: 15,
+  marginTop: '6%',
   color:'#368DD9'
 },
 contpedido:{

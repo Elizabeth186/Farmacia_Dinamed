@@ -202,23 +202,4 @@ const styles = StyleSheet.create({
     borderBottomRightRadius: 10,
     borderTopRightRadius: 10
   }
-,
-btnflotan:{
-  position: 'absolute',
-  width: windowHeight/12,
-  height: windowHeight/12,
-  backgroundColor:'#082359',
-  borderRadius: 40,
-  bottom: 40,
-  right: 15,
-  elevation: 30,
-  borderColor: '#DCE2F2',
-  borderWidth: 3
-},
-tinyLogo:{
-  width: windowWidth/12,
-  height: windowHeight/23,
-  alignSelf:'center',
-  top:'20%'
-}
 })
