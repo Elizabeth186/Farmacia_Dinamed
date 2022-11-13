@@ -12,6 +12,8 @@ export default function Perfil({navigation}) {
 
   const [text, onChangeText] = React.useState("Ponga su mensaje aca");
 
+  const app = initializeApp(firebaseConfig);
+  const auth= getAuth(app);
   let url = "whatsapp://send?text=" + text + "&phone=50372298350"
   const SignOut = () => {
     auth
