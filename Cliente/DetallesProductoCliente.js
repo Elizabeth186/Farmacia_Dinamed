@@ -4,6 +4,8 @@ import firebase from "../db/firebasemeds"
 
 const windowWidth = Dimensions.get('window').width;
 const windowHeight = Dimensions.get('window').height;
+
+
 const DetallesProductoCliente  = (props) =>{
 
   const initialState = {
@@ -21,40 +23,35 @@ const DetallesProductoCliente  = (props) =>{
   const [loading, setLoading] = useState(true);
   const [ total, settotal] = useState(0);
   const [ cantidad, setcantidad] = useState(1);
-
-  const getItemById = async (id) => {
-    
-    
+//Traemos la coleccion
+  const getItemById = async (id) => {    
     const dbRef = firebase.db.collection("productos").doc(id);
     const doc = await dbRef.get();
     const meds = doc.data();
     setMeds({ ...meds, id: doc.id });
     setLoading(false);
   };
-
     useEffect(() => {
     getItemById(props.route.params.listId);
     calculartotal()}, [cantidad]);
 
-  
+   //sumando producto
   const sumar =  () => {
    let nuevacantidad = parseInt(cantidad +1)
    setcantidad(nuevacantidad)
   }
-
+//restando producto
   const restar =  () => {
     if(cantidad > 1){
     let nuevacantidad = parseInt(cantidad -1)
     setcantidad(nuevacantidad)
     }
    }
-
+//calcular total producto
    const calculartotal = () => {
     const newtotal = cantidad * meds.precio
     settotal(newtotal)
-
    }
-  
   
   if (loading) {
     return (
@@ -64,57 +61,45 @@ const DetallesProductoCliente  = (props) =>{
     );
   }
   
-  
     return (
       <View style={styles.container}>
         <ScrollView>
           <View style={{alignItems:'center', width: windowWidth/1, backgroundColor:'white'}}>
             <Image style={styles.imagen}source={{uri:meds.img}} />
-            </View>
-           
-        
-  
-        <View style={styles.items}>
+            </View> 
+       <View style={styles.items}>
           <Text style={styles.txttitulo}>{meds.nombre}</Text>
         <View>
           <Text style={styles.txt}>{meds.marca}</Text>
         </View>
-
         <View>
           <Text>{meds.presentacion}</Text>
         </View>
-
         <View>
           <Text style={styles.txtprecio}>${meds.precio}</Text>
         </View>
-<Text>{total}</Text>
+          <Text>{total}</Text>
           <View style={styles.contpedido}>
             <View style={styles.contcant}>
-           
            <TouchableOpacity style={styles.btnadd} onPress={restar}><Image style={styles.add}  source={require("../assets/menos.png")} /></TouchableOpacity>
            <TextInput value = {cantidad.toString()} placeholder="0" keyboardType="numeric" ></TextInput>
            <TouchableOpacity style={styles.btnadd} onPress={sumar} ><Image style={styles.add}  source={require("../assets/mas.png")} /></TouchableOpacity>
             </View>
-
             <View>
               <TouchableOpacity onPress={() => addToCart()}>
               <Image style={styles.imagencar}  source={require("../assets/cart.png")} />
               </TouchableOpacity>
             </View>
           </View>
-
         </View>
         <Text  style={styles.texto}>Indicaciones y Contraindicaciones</Text>
         <View>
           <Text style={styles.txtdes}>{meds.descripcion}</Text>
         </View>
           <View style={styles.separator}></View>
-        
-         
         </ScrollView>
       </View>
     );
-  
 }
 
 export default DetallesProductoCliente;

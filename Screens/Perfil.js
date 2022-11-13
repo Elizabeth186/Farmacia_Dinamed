@@ -1,7 +1,5 @@
-import { StatusBar } from 'expo-status-bar';
 import * as React from 'react';
 import { StyleSheet, SafeAreaView, Text, TextInput, View, Image, Dimensions, TouchableOpacity, Linking,  onChangeText  } from 'react-native';
-import {LinearGradient} from 'expo-linear-gradient';
 import {getAuth} from 'firebase/auth';
 import { firebaseConfig } from '../db/firebaseaccesos';
 import {initializeApp} from 'firebase/app';
@@ -13,8 +11,7 @@ const windowHeight = Dimensions.get('window').height;
 export default function Perfil({navigation}) {
 
   const [text, onChangeText] = React.useState("Ponga su mensaje aca");
-  const app = initializeApp(firebaseConfig);
-  const auth= getAuth(app);
+
   let url = "whatsapp://send?text=" + text + "&phone=50372298350"
   const SignOut = () => {
     auth
@@ -31,8 +28,7 @@ export default function Perfil({navigation}) {
       <Image style={styles.imagen} source={require("../Images/Logo.png")}/>
         <TouchableOpacity onPress={()=> Linking.openURL(url)}
       title="Poseo dudas con rspecto a mi pedido">
-          <Image style={styles.imagen1} source={require("../Images/wha.png")}/>
-          
+          <Image style={styles.imagen1} source={require("../Images/wha.png")}/>          
         </TouchableOpacity>
         <Text style={styles.textstyle}>Contactanos</Text>
         <TouchableOpacity onPress={SignOut}>
@@ -43,9 +39,6 @@ export default function Perfil({navigation}) {
     </View>
   );
 }
-
-
-
 
 const styles = StyleSheet.create({
   container: {

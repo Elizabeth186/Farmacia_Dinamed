@@ -1,4 +1,3 @@
-import { StatusBar } from 'expo-status-bar';
 import React, { useState, useEffect } from "react";
 import { StyleSheet, SafeAreaView, Text, TextInput, View, Image, Dimensions, TouchableOpacity, Alert } from 'react-native';
 import {LinearGradient} from 'expo-linear-gradient';
@@ -9,17 +8,12 @@ import { firebaseConfig } from '../db/firebaseaccesos';
 import {NavigationContainer} from '@react-navigation/native';
 import {createNativeStackNavigator} from '@react-navigation/native-stack'
 import {useNavigation} from '@react-navigation/native'
-import Home from './Home';
 import { validadoemail, validandocontraseña, validandoemailpropietario } from '../validaciones/validacion';
 import Agregar from './Agregar';
 import DetallesProducto from './DetallesProducto';
 import Carrito from './Carrito';
-import Historial from './Historial';
 import TabNav from './Nav';
 import Perfil from './Perfil';
-
-
-import HomeCliente from '../Cliente/HomeCliente';
 import DetallesProductoCliente from '../Cliente/DetallesProductoCliente';
 import TabNavc from './NavCliente';
 
@@ -33,22 +27,24 @@ const auth= getAuth(app);
 
 function Iniciar(){
 
-  
-  const [email, setemail] = useState('');
- const [password, setpassword] =  useState('');
- const [error, setError] = useState(null);
+//hooks    
+const [email, setemail] = useState('');
+const [password, setpassword] =  useState('');
+const [error, setError] = useState(null);
 
  const navigation = useNavigation();
 
+//Inciar sesion
+const handleSignIn = ()=>{
 
-  const handleSignIn = ()=>{
-
-    
+    //validaciones
     if(isEmpty(email) || isEmpty(password) ){
       setError("Existen campos vacios")
     } else if(!validadoemail(email)) {
       setError("Email incorrecto o no registrado")
+      //validacion de email de propietario
     } else if(validandoemailpropietario(email)){
+      //se ejecuta al encontrar la coincidencia con el email del propietario
       signInWithEmailAndPassword(auth, email, password)
       .then((userCredential) => {
       console.log('Sesion Iniciada!'+email)
@@ -59,12 +55,10 @@ function Iniciar(){
       .catch(error =>{
         console.log(error);
         setError("Usuario no registrado o contraña incorrecta")
-      })
-     
-      
+      }) 
     }
-    
      else {
+      //Inicio de sesion para clientes
     signInWithEmailAndPassword(auth, email, password)
     .then((userCredential) => {
     console.log('Sesion Iniciada!'+email)
@@ -79,7 +73,9 @@ function Iniciar(){
   }
   }
 
+  //crear cuenta
   const handleCreateAccount= ()=>{
+  //validaciones
     if(isEmpty(email) || isEmpty(password) ){
       setError("Existen campos vacios")
     } else if(!validadoemail(email)) {
@@ -87,6 +83,7 @@ function Iniciar(){
     }else if(!validandocontraseña(password)){
       setError("contraseña debe contener al entre 8 y 16 caracteres entre ellas mayusculas, minusculas y numeros (no se aceptan simbolos)")
     } else {
+  //creaion de cuenta
     createUserWithEmailAndPassword(auth, email, password)
     .then((userCredential) => {
     console.log('Cuenta creada!')
@@ -108,7 +105,6 @@ function Iniciar(){
         source={require("../Images/Logo.png")} />
         <Text  style={styles.textstyle}>Correo</Text>
         <TextInput  onChangeText={(text) => setemail(text)} style={styles.inputs} placeholder='Ejemplo@gmail.com'></TextInput>
-  
         <Text  style={styles.textstyle}>Contraseña</Text>
         <TextInput   onChangeText={(text) => setpassword(text)} style={styles.inputs} placeholder='*********'></TextInput>
        
@@ -116,22 +112,17 @@ function Iniciar(){
        </Text>
         <LinearGradient colors={['#368DD9','#082359']} start ={{ x : 1, y : 0 }} style={styles.btnstyle}>
        <TouchableOpacity onPress={handleSignIn}><Text style={styles.textbtn}>Iniciar</Text></TouchableOpacity>
-
        </LinearGradient>
      
-      <Text style={styles.txtnotengo}>¿No posees una cuenta?</Text>
+       <Text style={styles.txtnotengo}>¿No posees una cuenta?</Text>
 
-      
-      
        <TouchableOpacity onPress={handleCreateAccount}>
        <LinearGradient colors={['#368DD9','#082359']}  start={[0, 0.5]}
                   end={[1, 0.5]} style={styles.btnstyle2}>
                      <View style={styles.circleGradient}>
       <Text style={styles.textbtn2}>Registrarme</Text>
-    </View>
-                    </LinearGradient></TouchableOpacity>
-
-
+      </View>
+      </LinearGradient></TouchableOpacity>
         </SafeAreaView>
     </View>
   )

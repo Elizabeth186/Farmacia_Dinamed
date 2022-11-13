@@ -4,6 +4,8 @@ import firebase from "../db/firebasemeds";
 
 const windowWidth = Dimensions.get('window').width;
 const windowHeight = Dimensions.get('window').height;
+
+
 const DetallesProducto  = (props) =>{
 
   const initialState = {
@@ -23,21 +25,19 @@ const DetallesProducto  = (props) =>{
   const handleTextChange = (value, prop) => {
     setMeds({ ...meds, [prop]: value });
   };
-
-  const getItemById = async (id) => {
-    
-    
+  //Llamando coleccion Productos
+  const getItemById = async (id) => {    
     const dbRef = firebase.db.collection("productos").doc(id);
     const doc = await dbRef.get();
     const meds = doc.data();
     setMeds({ ...meds, id: doc.id });
     setLoading(false);
   };
-
     useEffect(() => {
     getItemById(props.route.params.listId);
   }, []);
 
+  //eliminando producto
   const deleteItem = async () => {
     setLoading(true)
     const dbRef = firebase.db
@@ -48,7 +48,9 @@ const DetallesProducto  = (props) =>{
     props.navigation.navigate("Home");
   };
 
+//Actualizando lista
   const updateList = async () => {
+    //validando 
     if (meds.nombre === "") {
       alert("Por favor ingrese nombre");
     } else if(meds.marca === ""){
@@ -89,8 +91,6 @@ const DetallesProducto  = (props) =>{
       </View>
     );
   }
-  
-  
     return (
       <View style={styles.container}>
         <SafeAreaView>
@@ -100,29 +100,25 @@ const DetallesProducto  = (props) =>{
             <Image style={styles.imagen}source={{uri:meds.img}} />
             </View>
             <Text style={styles.txt}>Nombre del producto</Text>
-            <View style={styles.inputs}>
-            
+            <View style={styles.inputs}>         
         <TextInput
           placeholder="Acetaminofen"
           onChangeText={(value) => handleTextChange(value, "nombre")}
-          value={meds.nombre}
-        />
+          value={meds.nombre}/>
       </View>
       <Text style={styles.txt}>Marca/Laboratio</Text>
       <View style={styles.inputs}>
         <TextInput
           placeholder="MK"
           onChangeText={(value) => handleTextChange(value, "marca")}
-          value={meds.marca}
-        />
+          value={meds.marca}/>
       </View>
       <Text style={styles.txt}>Presentacion del producto</Text>
       <View style={styles.inputs}>
         <TextInput
           placeholder="Tabletas 500mg x 100 Tb"
           onChangeText={(value) => handleTextChange(value, "presentacion")}
-          value={meds.presentacion}
-        />
+          value={meds.presentacion}/>
       </View>
       <Text style={styles.txt}>Descripcion del producto</Text>
       <View style={styles.inputsdescrip}>
@@ -131,32 +127,27 @@ const DetallesProducto  = (props) =>{
           multiline={true}
           numberOfLines={4}
           onChangeText={(value) => handleTextChange(value, "descripcion")}
-          value={meds.descripcion}
-        />
+          value={meds.descripcion}/>
       </View>
       <Text style={styles.txt}>Enlace de la imagen</Text>
       <View style={styles.inputs}>
         <TextInput
           placeholder="URL"
           onChangeText={(value) => handleTextChange(value, "img")}
-          value={meds.img}
-        />
+          value={meds.img}/>
       </View>
       <View style={styles.inputsprecio}>
         <TextInput
           placeholder="$ 7.44"
           onChangeText={(value) => handleTextChange(value, "precio")}
           value={meds.precio}
-          keyboardType="numeric"
-        />
+          keyboardType="numeric"/>
       </View>
            </View>
           <View style={styles.btn}>
-
             <View style={styles.btndelete}><TouchableOpacity onPress={() => deleteItem()}><Image style={styles.imagend}  source={require("../assets/borrar.png")} /></TouchableOpacity></View>
             <View style={styles.btneditar}><TouchableOpacity onPress={() => updateList()}><Image style={styles.imagend}  source={require("../assets/editar.png")} /></TouchableOpacity></View>
-    </View>
-          
+      </View>
         </ScrollView>
         </SafeAreaView>
       </View>

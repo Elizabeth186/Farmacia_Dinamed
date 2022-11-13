@@ -1,6 +1,5 @@
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import Carrito from './Carrito';
-import Home from './Home';
 import { StyleSheet} from 'react-native';
 import Perfil from './Perfil';
 import AntDesign from 'react-native-vector-icons/AntDesign'

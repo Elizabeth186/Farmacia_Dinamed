@@ -1,20 +1,15 @@
-import { StatusBar } from 'expo-status-bar';
 import { SafeAreaView, StyleSheet, Text, View , Image, ScrollView, Button, Dimensions, TextInput, TouchableOpacity} from 'react-native';
 import {LinearGradient} from 'expo-linear-gradient';
-import {useNavigation} from '@react-navigation/native'
-import { ListItem, Avatar } from "react-native-elements";
 import { useState, useEffect } from 'react';
 import firebase from "../db/firebasemeds"
 
 const windowWidth = Dimensions.get('window').width;
 const windowHeight = Dimensions.get('window').height;
 
-
-
 const Home = (props) => {
+
   const [meds, setMeds] = useState([]);
-
-
+//Colleccion productos
 useEffect(() => {
   firebase.db.collection("productos").onSnapshot((querySnapshot) => {
     const meds = [];
@@ -34,12 +29,7 @@ useEffect(() => {
   });
 }, []);
 
-
-
-
   return (
-
-
     <View style={styles.container}>
       <SafeAreaView>
     <View style={styles.View2}>
@@ -52,21 +42,12 @@ useEffect(() => {
       <Image
         style={styles.imagen}
         source={require("../Images/Logo.png")} />
-    
     </View>
-   
-
-  
-    
-     
     <ScrollView>
-      
     {
     meds.map((medis) => {
       return (
-      
         <TouchableOpacity
-       
           key={medis.id}
           bottomDivider
           onPress={() => {
@@ -86,32 +67,22 @@ useEffect(() => {
        </View >
        <LinearGradient colors={['#368DD9','#082359']} start ={{ x : 1, y : 0 }} style={styles.LinearGradient} >
        <View style={styles.viewprecio}>
-      
        <Text style={styles.precio}>${medis.precio}</Text>
-       
        </View>
        </LinearGradient>
         </View>
         </TouchableOpacity>
       );
     })}
-    
      </ScrollView>
-
      <TouchableOpacity style={styles.btnflotan} onPress={()=>{
              props.navigation.navigate('Agregar')}}><Image
              style={styles.tinyLogo}
              source={require('../assets/add.png')}
            /></TouchableOpacity>
- 
      </SafeAreaView>
       </View>
-      
- 
-
   );
-  
-
 }
 
 export default Home;

@@ -1,6 +1,5 @@
 import React, { useState } from "react";
 import {
-  Button,
   View,
   StyleSheet,
   TextInput,
@@ -20,7 +19,7 @@ const windowWidth = Dimensions.get('window').width;
 const windowHeight = Dimensions.get('window').height;
 
 const Agregar = (props) => {
-
+  //agregando los items
   const initalState = {
     nombre: "",
     marca: "",
@@ -30,10 +29,12 @@ const Agregar = (props) => {
     img: ""
   };
 
+  //hooks para el manejo de imagen 
   const [image, setImage] = useState(null);
   const [uploading, setuploading] = useState(false);
+  const [state, setState] = useState(initalState);
 
-  
+  //abrir galeria y seleccionar imagen, obtiendo uri
   const pickimage = async () =>{
     let result = await ImagePicker.launchImageLibraryAsync({
       mediaTypes: ImagePicker.MediaTypeOptions.All,
@@ -45,19 +46,14 @@ const Agregar = (props) => {
     console.log(source);
     setImage(source);
   };
-  
 
-  const [state, setState] = useState(initalState);
-
+  //funcion para subir imagen a storage
   const uploadImage = async () =>{
-    
     setuploading(true);
     const response = await fetch(image.uri)
     const blob = await response.blob();
     const filename = image.uri.substring(image.uri.lastIndexOf('/')+1);
     var ref = firebase.storage().ref().child(filename).put(blob);
-
-
     try{
       await ref;
      setuploading(ref)
@@ -71,17 +67,13 @@ const Agregar = (props) => {
     setImage(source);
   };
 
-
-  
-
   const handleChangeText = (value, nombre) => {
     setState({ ...state, [nombre]: value });
   };
 
+  //Guardar un nuevo item
   const saveNewItem = async () => {
-
-    
-
+  //validaciones
     if (state.nombre === "") {
       alert("Por favor ingrese nombre");
     } else if(state.marca === ""){
@@ -92,14 +84,13 @@ const Agregar = (props) => {
       alert("Por favor ingrese la descripcion");
     } else if(state.precio === ""){
       alert("Por favor ingrese el precio");
-    
     }else if(!validandoprice(state.precio)){
       alert("Precio debe contener al menos 1 entero(Maximo 4) y dos decimales")
     }else if(state.img == ""){
       alert("El producto no contiene el url de la imagen")
     }else{
-
       try {
+        //Llamando a la coleccion Productos
         await db.db.collection("productos").add({
           nombre: state.nombre,
           marca: state.marca,
@@ -107,31 +98,21 @@ const Agregar = (props) => {
           descripcion: state.descripcion,
           precio: state.precio,
           img: state.img
-         
         });
-
         props.navigation.navigate("Home");
       } catch (error) {
         console.log(error)
       }
     }
   };
-
-  
-
-  
-
   return (
     <ScrollView style={styles.container}>
-  
-  <Text style={styles.txt}>Nombre del producto</Text>
-      <View style={styles.inputs}>
-        
+    <Text style={styles.txt}>Nombre del producto</Text>
+    <View style={styles.inputs}>
         <TextInput
           placeholder="Acetaminofen"
           onChangeText={(value) => handleChangeText(value, "nombre")}
-          value={state.name}
-        />
+          value={state.name}/>
       </View>
       <Text style={styles.txt}>Marca/Laboratio</Text>
       <View style={styles.inputs}>
@@ -166,10 +147,7 @@ const Agregar = (props) => {
           value={state.precio}
           keyboardType="numeric"
         />
-        
       </View>
-
-      
       <Text style={styles.txt}>Ingrese la Url de su imagen</Text>
       <View style={styles.inputs}>
         <TextInput
@@ -178,33 +156,24 @@ const Agregar = (props) => {
           value={state.img}
         ></TextInput>
       </View>
-
       <TouchableOpacity  style={styles.btn} onPress={pickimage}>
         <Text style={styles.txtbtn} >Seleccione una imagen</Text>
       </TouchableOpacity>
       <Text style={styles.txtbtn2} >Subir imagen a la nube</Text>
       <TouchableOpacity style={styles.btn2} onPress={uploadImage}>
-     
         <Image
              style={styles.tinyLogo}
              source={require('../assets/nube.png')}/>
       </TouchableOpacity>
       <View style={styles.btnview} >
-        
-    
         {image && <Image source={{uri: image.uri}} style={{with: 200, height: 200}}/>}
-        
       </View>
-    
-
       <View style={styles.button}>
       <TouchableOpacity style={styles.btnguardar} onPress={() => saveNewItem()}>
      
-    <Text style={styles.txtbtnagregar}>Guardar</Text>
-   </TouchableOpacity>
+      <Text style={styles.txtbtnagregar}>Guardar</Text>
+      </TouchableOpacity>
       </View>
-
-
     </ScrollView>
   );
 };

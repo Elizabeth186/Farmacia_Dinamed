@@ -5,8 +5,6 @@ import { StyleSheet} from 'react-native';
 import Perfil from './Perfil';
 import AntDesign from 'react-native-vector-icons/AntDesign'
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons'
-import HomeCliente from '../Cliente/HomeCliente';
-import Hisrial from './Historial';
 import Historial from './Historial';
 
 function TabBarIcon({name, color}){
@@ -42,9 +40,5 @@ const  TabNav = (props) => {
 
 export default TabNav
 
-
-
-const styles = StyleSheet.create({
- 
- 
+const styles = StyleSheet.create({ 
 });
