@@ -1,6 +1,7 @@
 import React, { useState, useEffect, Component } from 'react';
 import {StyleSheet,Text,View,TouchableOpacity,Dimensions, ActivityIndicator, Image,Alert,ScrollView, TextInput, FlatList,Button,} from 'react-native';
 import firebase from "../db/firebasemeds"
+import db from "../db/firebasemeds"
 
 const windowWidth = Dimensions.get('window').width;
 const windowHeight = Dimensions.get('window').height;
@@ -13,6 +14,7 @@ const DetallesProductoCliente  = (props) =>{
     presentacion:"",
     descripcion: "",
     precio: "",
+    cantidad: "",
     img: ""
 
   };
@@ -58,19 +60,32 @@ const DetallesProductoCliente  = (props) =>{
 
   const addToCart = async () => {
     
-    const listrRef = firebase.db.collection("productos").doc(meds.id);
-    await listrRef.set({
+  
+
+  if (cantidad === "") {
+    alert("Por favor ingrese cantidad de productos deseada");
+  }else{
+
+    try {
+      await db.db.collection("Carrito").add({
+
       nombre: meds.nombre,
       marca: meds.marca,
       presentacion: meds.presentacion,
       precio: meds.precio,
+      cantidad: cantidad,
       total: total,
       img: meds.img
-    });
-    setMeds(initialState);
-    props.navigation.navigate("Carrito");
-  };
+       
+      });
 
+      props.navigation.navigate("Carrito");
+    } catch (error) {
+      console.log(error)
+    }
+  }
+};
+  
   
   
   if (loading) {
@@ -90,7 +105,8 @@ const DetallesProductoCliente  = (props) =>{
             <Image style={styles.imagen}source={{uri:meds.img}} />
             </View>
            
-        
+
+          
   
             <View style={styles.items}>
               <Text style={styles.txttitulo}>{meds.nombre}</Text>
@@ -234,6 +250,20 @@ qanty: {
     height: windowHeight/18,
     alignItems:'center',
     width: windowWidth/4,
+
+   },
+   farmacia: {
+    fontSize:"25",
+    borderWidth:1,
+    borderColor:'#368DD9',
+    margin: 5,
+    marginTop: 25,
+    paddingLeft: 10,
+    borderRadius:10,
+    height: windowHeight/18,
+    alignSelf:'center',
+    alignItems:'center',
+    width: windowWidth/1.1,
 
    },
 

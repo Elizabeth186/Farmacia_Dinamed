@@ -1,5 +1,5 @@
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
-import Carrito from '../Screens/Carrito';
+import Pedidos from './Pedidos';
 import Home from '../Screens/Home';
 import { StyleSheet} from 'react-native';
 import Perfil from './Perfil';
@@ -30,7 +30,7 @@ const  TabNav = (props) => {
       <Tab.Screen name="Home" component={Home} options={{ tabBarIcon: ({color}) =>(
                     <TabBarIcon name='home' color={color}/>
                 ),  headerShown: false}}/>
-      <Tab.Screen name="Historial" component={Historial} options={{ tabBarIcon: ({color}) =>(
+      <Tab.Screen name="Pedidos" component={Pedidos} options={{ tabBarIcon: ({color}) =>(
                     <TabBarIcon1 name='history-toggle-off' color={color}/>
                 ),  headerShown: false}}/>
       <Tab.Screen name="Perfil" component={Perfil} options={{ tabBarIcon: ({color}) =>(

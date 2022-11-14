@@ -2,12 +2,15 @@ import { StatusBar } from 'expo-status-bar';
 import React, { useState, useEffect } from "react";
 import { SafeAreaView, StyleSheet, Text, View , Image, ScrollView, Button, Dimensions, TextInput, TouchableOpacity} from 'react-native';
 import {LinearGradient} from 'expo-linear-gradient';
+import firebase from "../db/firebasemeds"
+import db from "../db/firebasemeds"
+
 
 const windowWidth = Dimensions.get('window').width;
 const windowHeight = Dimensions.get('window').height;
 
 
-export default function Carrito({props}) {
+export default function Carrito(props) {
 
   const initialState = {
     id: "",
@@ -15,35 +18,47 @@ export default function Carrito({props}) {
     marca: "",
     presentacion:"",
     precio: "",
+    cantidad: "",
     total: "",
     img: ""
 
   };
-  const [meds, setMeds] = useState(initialState);
-
-  const getItemById = async (id) => {
-    
-    
-    const dbRef = firebase.db.collection("productos").doc(id);
-    const doc = await dbRef.get();
-    const meds = doc.data();
-    setMeds({ ...meds, id: doc.id });
-    setLoading(false);
-  };
+  const [meds, setMeds] = useState([]);
+  
+  
+  
 
   useEffect(() => {
+    firebase.db.collection("Carrito").onSnapshot((querySnapshot) => {
+      const meds = [];
+      querySnapshot.docs.forEach((doc) => {
+        const { nombre, marca, presentacion, precio, cantidad, total, img } = doc.data();
+        meds.push({
+          id: doc.id,
+          nombre,
+          marca,
+          presentacion,
+          precio,
+          cantidad, 
+          total,
+          img
+        });
+      });
+      setMeds(meds);
       
-    getItemById(props.route.params.listId);
-    
-    
+    });
   }, []);
+  
 
+  
 
 
   return (
     
     <View style={styles.container}>
-
+    <View style={styles.topbar}>
+      <Text style={styles.txttopbar}>Carrito</Text>
+    </View>
         
 <ScrollView>
       
@@ -51,50 +66,51 @@ export default function Carrito({props}) {
       meds.map((medis) => {
         return (
         
-          <TouchableOpacity
-         
-            key={medis.id}
-            bottomDivider
-            onPress={() => {
-              props.navigation.navigate("Detalles", {
-                listId: medis.id,
-              });
-            }}
-            >
+          
            
-         <View style={styles.contenedores}>
+         <View style={styles.contenedores}key={medis.id}
+            bottomDivider>
          <Image
          style={styles.imagenproducto}
          source={{uri: medis.img}} />
          <View style={styles.view1}>
          <Text style={styles.titulo}>{medis.nombre}</Text>
          <Text style={styles.txt}>{medis.marca}</Text>
-         </View >
-         <LinearGradient colors={['#368DD9','#082359']} start ={{ x : 1, y : 0 }} style={styles.LinearGradient} >
+         <Text style={styles.txt}>{medis.presentacion}</Text>
+         <Text style={styles.txt}>{medis.precio}</Text>
+         <Text style={styles.txt}>{medis.cantidad}</Text>
+         <Text style={styles.txt}>{medis.total}</Text>
          <View style={styles.viewprecio}>
         
          <Text style={styles.precio}>{medis.precio}</Text>
-         
          </View>
-         </LinearGradient>
+         
+         </View >
+         <LinearGradient colors={['#368DD9','#082359']} start ={{ x : 1, y : 0 }} style={styles.LinearGradient} >
+         
+         <View style={styles.verprecio}><TouchableOpacity
+       
+          key={medis.id}
+          bottomDivider
+          onPress={() => {
+          props.navigation.navigate("DetalleCarrito", {
+           listId: medis.id,
+         });
+          }}
+          ><Text style={styles.precio}>Ver</Text></TouchableOpacity>
           </View>
-            {/* <ListItem.Content  alignItems='center'>
-              <ListItem.Title style={styles.titulo}>{medis.nombre}</ListItem.Title>
-              <ListItem.Subtitle >{medis.descripcion}</ListItem.Subtitle>
-              
-            </ListItem.Content>
-            <LinearGradient colors={['#368DD9','#082359']} start ={{ x : 1, y : 0 }} style={styles.LinearGradient}>
-            <ListItem.Content  width = {70} alignItems='center'  >
-              <ListItem.Subtitle style={styles.pricestyle} >{medis.precio}</ListItem.Subtitle>
-              </ListItem.Content>
-              </LinearGradient>
-               */}
+         
+         </LinearGradient>
+         
+          </View>
+           
           
-          </TouchableOpacity>
+          
         );
       })}
       
        </ScrollView>
+       
     </View>
   );
 }
@@ -106,45 +122,121 @@ const styles = StyleSheet.create({
     backgroundColor: '#fff',
     alignItems: 'center',
     justifyContent: 'center',
+    backgroundColor: '#DCE2F2',
+    paddingTop: "5%"
+    
   },
-  btnstyle: {
-   borderRadius: 10,
-   width: windowWidth/1.5,
-  height: windowHeight/15,
-  elevation: 5,
-  alignSelf:'center',
-  marginTop: '15%',
-  marginBottom: '10%'
+  View2:{
+    width: windowWidth/1,
+    height: windowHeight/10,
+    flexDirection: 'row',  
+  },
+  topbar:{
+    width: windowWidth/1,
+    height: windowHeight/12,
+    backgroundColor: '#082359',
+    
+  },
+  txttopbar:{
+    fontSize: 30,
+    alignSelf:'center',
+    padding: "2.5%",
+    fontWeight:'bold',
+    color: '#FFFFFF'
   },
   imagen:{
-    width: windowWidth/4.5,
-    height: windowHeight/10,
+    width: windowWidth/7,
+    height: windowHeight/17,
     alignSelf:'center',
-    top: -60
-  },
-  inputs:{
-    alignSelf:'center',
-    marginTop: '2%',
-    textAlign:'center',
-  borderTopColor: 'black',
-  borderTopWidth: 0.5,
-  width: windowWidth/1.5,
-  height: windowHeight/15,
-  elevation: 5,
-  backgroundColor: 'white',
-  borderBottomRightRadius: 10,
-  borderTopLeftRadius:10
-  },
-  textstyle:{
-    textAlign: 'left',
-    fontSize: 18,
-    marginTop: '5%',
-  },
-  textbtn:{
-    textAlign: 'center',
-    fontSize: 18,
-    color:'white',
-    padding: 11
+    marginLeft:'5%',
+    top:'-3%',
+    
   }
-  
-});
+  ,
+  imagenproducto:{
+    width: windowWidth/2.3,
+    height: windowHeight/5,
+    borderTopLeftRadius: 10,
+    borderBottomLeftRadius: 10
+  }
+  ,
+  imagenbuscar:{
+    width: windowWidth/10,
+    height: windowHeight/30,
+    alignSelf:'center',
+    top: '8%',
+    marginLeft:'3%',
+    borderRadius:10,
+    
+    
+  },
+  contenedores:{
+    alignSelf:'center',
+    flexDirection:'row',
+    marginTop: '2%',
+    elevation:5,
+    backgroundColor:'white',
+    width: windowWidth/1.09,
+    height: windowHeight/2.5,
+    borderRadius: 10
+  },
+  titulo:{
+    textAlign:'center',
+    fontSize:19,
+  top:'15%'
+    
+  },
+  precio:{
+    textAlign:'center',
+    fontSize:19,
+    marginTop:'35%',
+    color: 'white',
+    fontWeight:'bold',
+    height: windowHeight/8
+
+  },
+  txt:{
+    textAlign:'center',
+    top:'15%',
+    position:"relative",
+  },
+  view1:{
+    width: windowWidth/2.8,
+    borderRadius: 10,
+  },
+  viewprecio:{
+    borderRadius: 10,
+    padding: 1,
+    width: windowWidth/4.0,
+  },
+  LinearGradient:{
+    borderBottomRightRadius: 10,
+    borderTopRightRadius: 10
+  },
+  verprecio:{
+    width: windowWidth/10,
+    height: windowHeight/10,
+    borderBottomRightRadius: 10,
+    borderTopRightRadius: 10,
+    
+  }
+,
+btnflotan:{
+  position: 'absolute',
+  width: windowHeight/12,
+  height: windowHeight/12,
+  backgroundColor:'#082359',
+  borderRadius: 40,
+  bottom: 40,
+  right: 15,
+  elevation: 30,
+  borderColor: '#DCE2F2',
+  borderWidth: 3
+},
+tinyLogo:{
+  width: windowWidth/12,
+  height: windowHeight/23,
+  alignSelf:'center',
+  top:'20%'
+}
+})

@@ -1,5 +1,5 @@
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
-import Carrito from './Carrito';
+import Carrito from '../Cliente/Carrito';
 import Home from './Home';
 import { StyleSheet} from 'react-native';
 import Perfil from './Perfil';

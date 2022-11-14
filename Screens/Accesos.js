@@ -13,7 +13,7 @@ import Home from './Home';
 import { validadoemail, validandocontraseña, validandoemailpropietario } from '../validaciones/validacion';
 import Agregar from './Agregar';
 import DetallesProducto from './DetallesProducto';
-import Carrito from './Carrito';
+import Carrito from '../Cliente/Carrito';
 import Historial from './Historial';
 import TabNav from './Nav';
 import Perfil from './Perfil';
@@ -22,6 +22,7 @@ import Perfil from './Perfil';
 import HomeCliente from '../Cliente/HomeCliente';
 import DetallesProductoCliente from '../Cliente/DetallesProductoCliente';
 import TabNavc from './NavCliente';
+import CarritoDetalle from '../Cliente/CarritoDetalle';
 
 const windowWidth = Dimensions.get('window').width;
 const windowHeight = Dimensions.get('window').height;
@@ -153,6 +154,7 @@ export default function Accesos() {
       <Stack.Screen name="Perfil" component={Perfil}/>
       <Stack.Screen name="Inicio" component={TabNavc}/>
       <Stack.Screen name='Detalle' component={DetallesProductoCliente}/>
+      <Stack.Screen name='DetalleCarrito' component={CarritoDetalle}/>
     </Stack.Navigator>
   </NavigationContainer>
   );
