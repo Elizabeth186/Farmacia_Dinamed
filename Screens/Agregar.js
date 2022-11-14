@@ -1,6 +1,5 @@
 import React, { useState } from "react";
 import {
-  Button,
   View,
   StyleSheet,
   TextInput,
@@ -13,13 +12,14 @@ import {
 import * as ImagePicker from 'expo-image-picker';
 import {firebase} from "../db/imagendb";
 import db from '../db/firebasemeds';
+import { validandoprice, valiprecio } from "../validaciones/validacion";
 
 
 const windowWidth = Dimensions.get('window').width;
 const windowHeight = Dimensions.get('window').height;
 
 const Agregar = (props) => {
-
+  //agregando los items
   const initalState = {
     nombre: "",
     marca: "",
@@ -29,9 +29,12 @@ const Agregar = (props) => {
     img: ""
   };
 
+  //hooks para el manejo de imagen 
   const [image, setImage] = useState(null);
   const [uploading, setuploading] = useState(false);
+  const [state, setState] = useState(initalState);
 
+  //abrir galeria y seleccionar imagen, obtiendo uri
   const pickimage = async () =>{
     let result = await ImagePicker.launchImageLibraryAsync({
       mediaTypes: ImagePicker.MediaTypeOptions.All,
@@ -39,25 +42,21 @@ const Agregar = (props) => {
       aspect: [4,3],
       quality:1,
     });
-    const source = {uri: result.uri};
+    const source = {uri: result.uri};  
     console.log(source);
     setImage(source);
   };
 
-  const [state, setState] = useState(initalState);
-
+  //funcion para subir imagen a storage
   const uploadImage = async () =>{
-    
     setuploading(true);
     const response = await fetch(image.uri)
     const blob = await response.blob();
     const filename = image.uri.substring(image.uri.lastIndexOf('/')+1);
     var ref = firebase.storage().ref().child(filename).put(blob);
-
-
     try{
       await ref;
-
+     setuploading(ref)
     } catch(e){
       console.log(e);
     }
@@ -65,20 +64,16 @@ const Agregar = (props) => {
     alert(
       'imagen subida'
     );
-    setImage(null);
+    setImage(source);
   };
-
-
-  
 
   const handleChangeText = (value, nombre) => {
     setState({ ...state, [nombre]: value });
   };
 
+  //Guardar un nuevo item
   const saveNewItem = async () => {
-
-    
-
+  //validaciones
     if (state.nombre === "") {
       alert("Por favor ingrese nombre");
     } else if(state.marca === ""){
@@ -89,10 +84,13 @@ const Agregar = (props) => {
       alert("Por favor ingrese la descripcion");
     } else if(state.precio === ""){
       alert("Por favor ingrese el precio");
-    
+    }else if(!validandoprice(state.precio)){
+      alert("Precio debe contener al menos 1 entero(Maximo 4) y dos decimales")
+    }else if(state.img == ""){
+      alert("El producto no contiene el url de la imagen")
     }else{
-
       try {
+        //Llamando a la coleccion Productos
         await db.db.collection("productos").add({
           nombre: state.nombre,
           marca: state.marca,
@@ -100,31 +98,21 @@ const Agregar = (props) => {
           descripcion: state.descripcion,
           precio: state.precio,
           img: state.img
-         
         });
-
         props.navigation.navigate("Home");
       } catch (error) {
         console.log(error)
       }
     }
   };
-
-  
-
-  
-
   return (
     <ScrollView style={styles.container}>
-  
-  <Text style={styles.txt}>Nombre del producto</Text>
-      <View style={styles.inputs}>
-        
+    <Text style={styles.txt}>Nombre del producto</Text>
+    <View style={styles.inputs}>
         <TextInput
           placeholder="Acetaminofen"
           onChangeText={(value) => handleChangeText(value, "nombre")}
-          value={state.name}
-        />
+          value={state.name}/>
       </View>
       <Text style={styles.txt}>Marca/Laboratio</Text>
       <View style={styles.inputs}>
@@ -135,7 +123,7 @@ const Agregar = (props) => {
         />
       </View>
       <Text style={styles.txt}>Presentacion del producto</Text>
-      <View style={styles.inputspresentacion}>
+      <View style={styles.inputs}>
         <TextInput
           placeholder="Tabletas 500mg x 100 Tb"
           onChangeText={(value) => handleChangeText(value, "presentacion")}
@@ -161,40 +149,31 @@ const Agregar = (props) => {
         />
       </View>
       <Text style={styles.txt}>Ingrese la Url de su imagen</Text>
-      <View style={styles.inputspresentacion}>
+      <View style={styles.inputs}>
         <TextInput
-          placeholder="Tabletas 500mg x 100 Tb"
+          placeholder="URL"
           onChangeText={(value) => handleChangeText(value, "img")}
           value={state.img}
-        />
+        ></TextInput>
       </View>
-
       <TouchableOpacity  style={styles.btn} onPress={pickimage}>
         <Text style={styles.txtbtn} >Seleccione una imagen</Text>
       </TouchableOpacity>
       <Text style={styles.txtbtn2} >Subir imagen a la nube</Text>
       <TouchableOpacity style={styles.btn2} onPress={uploadImage}>
-     
         <Image
              style={styles.tinyLogo}
              source={require('../assets/nube.png')}/>
       </TouchableOpacity>
       <View style={styles.btnview} >
-        
-    
         {image && <Image source={{uri: image.uri}} style={{with: 200, height: 200}}/>}
-        
       </View>
-
-
       <View style={styles.button}>
       <TouchableOpacity style={styles.btnguardar} onPress={() => saveNewItem()}>
      
-    <Text style={styles.txtbtnagregar}>Guardar</Text>
-   </TouchableOpacity>
+      <Text style={styles.txtbtnagregar}>Guardar</Text>
+      </TouchableOpacity>
       </View>
-
-
     </ScrollView>
   );
 };
@@ -202,9 +181,7 @@ const Agregar = (props) => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    padding: 35,
-    backgroundColor: '#DCE2F2',
-    
+    backgroundColor: '#DCE2F2',    
   },
   loader: {
     left: 0,
@@ -219,61 +196,56 @@ const styles = StyleSheet.create({
   },
   inputs: {
     color:'red',
-   borderWidth:1,
-   borderColor:'#368DD9',
-   margin: 5,
+   borderWidth:2,
+   borderColor:'#082359',
+   margin: '2%',
+   backgroundColor:"white",
    borderRadius:10,
    alignItems:'center',
-   width: windowWidth/1.6,
+   width: windowWidth/1.1,
    height: windowHeight/20,
    justifyContent: "center",
    alignSelf: 'center'
   },
+  inputsprecio: {
+    borderWidth:2,
+    borderColor:'#082359',
+    margin: '5%',
+    backgroundColor:'white',
+    borderRadius:10,
+    height: windowHeight/18,
+    alignItems:'center',
+    width: windowWidth/4,
+    justifyContent: "center",
+    alignSelf: 'center'
+  },
   inputsdescrip: {
-
-   borderWidth:1,
-   borderColor:'#368DD9',
-   margin: 5,
+   borderWidth:2,
+   borderColor:'#082359',
    borderRadius:10,
+   margin:'2%',
+   width:windowWidth/1.1,
    height: windowHeight/5,
    textAlign: 'center',
-   alignSelf: 'center'
-  },
-  inputsprecio: {
-   borderWidth:1,
-   borderColor:'#368DD9',
-   margin: 5,
-   borderRadius:10,
-   height: windowHeight/18,
-   alignItems:'center',
-   width: windowWidth/4,
-   justifyContent: "center",
-   alignSelf: 'center'
-  },
-  inputspresentacion: {
-    borderWidth:1,
-    borderColor:'#368DD9',
-    margin: 5,
-    borderRadius:10,
-    height: windowHeight/20,
-    alignItems:'center',
-    justifyContent: "center",
-   
-   
+   alignSelf: 'center',
+   backgroundColor:'white'
   },
   txt:{
     marginTop: 12,
     marginBottom: 2,
     textAlign:'center',
-    color:'#082359',
-    fontWeight: 'bold'
+    fontWeight: 'bold',
+    fontSize: 18,
+    color:'#616F8C'
   },
   btnview:{
     marginTop: '5%',
     height: windowHeight/3.8,
+    width:windowWidth/1.5,
    borderColor: '#616F8C',
+   alignSelf:'center',
    borderWidth: 1,
-   marginBottom: "7%"
+   marginBottom: "7%",
   },
   
   btn:{
@@ -301,8 +273,8 @@ const styles = StyleSheet.create({
 
   },
   btn2:{
-    marginTop: 5,
-    marginBottom: 5,
+    marginTop: '2%',
+    marginBottom: '2%',
     height: windowHeight/13,
     width: windowWidth/6,
     borderColor: 'blue',
@@ -327,11 +299,12 @@ const styles = StyleSheet.create({
   btnguardar:{
     marginTop: 20,
     height: windowHeight/15,
+    width: windowWidth/1.1,
     backgroundColor:'white',
     borderColor: '#082359',
     borderWidth: 2,
     borderRadius: 10,
-    alignItems:'center',
+    alignSelf:'center',
     justifyContent: "center",
     elevation: 10
   },

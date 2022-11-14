@@ -5,6 +5,8 @@ import db from "../db/firebasemeds"
 
 const windowWidth = Dimensions.get('window').width;
 const windowHeight = Dimensions.get('window').height;
+
+
 const DetallesProductoCliente  = (props) =>{
 
   const initialState = {
@@ -21,42 +23,19 @@ const DetallesProductoCliente  = (props) =>{
 
   const [meds, setMeds] = useState(initialState);
   const [loading, setLoading] = useState(true);
-
-  const handleTextChange = (value, prop) => {
-    setMeds({ ...meds, [prop]: value });
-  };
-
-  const getItemById = async (id) => {
-    
-    
+  const [ total, settotal] = useState(0);
+  const [ cantidad, setcantidad] = useState(1);
+//Traemos la coleccion
+  const getItemById = async (id) => {    
     const dbRef = firebase.db.collection("productos").doc(id);
     const doc = await dbRef.get();
     const meds = doc.data();
     setMeds({ ...meds, id: doc.id });
     setLoading(false);
   };
-
-  const [ total, setTotal] = useState(0);
-  const [ cantidad, setCantidad] = useState(1);
- 
-  const handleChange =(e) => {
-    if(e<1){
-      setCantidad(e)
-  }else{
-    setCantidad(e);
-  }
-  };
-  const calcularTotal = () =>{
-    let newtotal = cantidad * meds.precio;
-    setTotal(newtotal); 
-  };
-
     useEffect(() => {
-      
     getItemById(props.route.params.listId);
-    
-    calcularTotal();
-  }, [cantidad]);
+    calculartotal()}, [cantidad]);
 
   const addToCart = async () => {
     
@@ -96,12 +75,10 @@ const DetallesProductoCliente  = (props) =>{
     );
   }
   
-  
-  
     return (
       <View style={styles.container}>
         <ScrollView>
-            <View style={{alignItems:'center', width: windowWidth/1, backgroundColor:'white'}}>
+          <View style={{alignItems:'center', width: windowWidth/1, backgroundColor:'white'}}>
             <Image style={styles.imagen}source={{uri:meds.img}} />
             </View>
            
@@ -123,31 +100,36 @@ const DetallesProductoCliente  = (props) =>{
             </View>
 
         <View>
-          <Text style={styles.txt}>Precio por unidad:</Text>
-          <Text style={styles.txtprecio}>${meds.precio}</Text>
-          <Text style={styles.txt}>Inserte cantidad de productos deseada:</Text>
-          <TextInput style={styles.qanty} value={cantidad.toString()} placeholder="0" keyboardType='numeric' onChangeText={handleChange}/>
-          <Text style={styles.txtprecio}>${total}</Text>
+          <Text style={styles.txt}>{meds.marca}</Text>
         </View>
-
-         
-
+        <View>
+          <Text>{meds.presentacion}</Text>
+        </View>
+        <View>
+          <Text style={styles.txtprecio}>${meds.precio}</Text>
+        </View>
+          <Text>{total}</Text>
+          <View style={styles.contpedido}>
+            <View style={styles.contcant}>
+           <TouchableOpacity style={styles.btnadd} onPress={restar}><Image style={styles.add}  source={require("../assets/menos.png")} /></TouchableOpacity>
+           <TextInput value = {cantidad.toString()} placeholder="0" keyboardType="numeric" ></TextInput>
+           <TouchableOpacity style={styles.btnadd} onPress={sumar} ><Image style={styles.add}  source={require("../assets/mas.png")} /></TouchableOpacity>
+            </View>
             <View>
               <TouchableOpacity onPress={() => addToCart()}>
               <Image style={styles.imagencar}  source={require("../assets/cart.png")} />
               </TouchableOpacity>
             </View>
-          
-
+          </View>
         </View>
-        
-          
-        
-         
+        <Text  style={styles.texto}>Indicaciones y Contraindicaciones</Text>
+        <View>
+          <Text style={styles.txtdes}>{meds.descripcion}</Text>
+        </View>
+          <View style={styles.separator}></View>
         </ScrollView>
       </View>
     );
-  
 }
 
 export default DetallesProductoCliente;
@@ -158,10 +140,11 @@ const styles = StyleSheet.create({
    
   },
   imagen:{
-    width:200,
-    height:200,
-    marginTop: 35,
-    marginBottom: 12
+    width:windowWidth/2,
+    height:windowHeight/5.4,
+    marginTop: '5%',
+    marginBottom: '5%',
+    alignSelf:'center',
   },
   name:{
     fontSize:28,
@@ -175,19 +158,18 @@ const styles = StyleSheet.create({
     fontWeight:'bold',
     textAlign:'center', 
   },
-  inputs: {
+  texto: {
    borderWidth:1,
    borderColor:'#368DD9',
    width: windowWidth/1,
-   padding: 10,
+   padding: 7,
    justifyContent: "center",
    alignSelf: 'center',
    backgroundColor:'#082359',
    color:'white',
    textAlign:'center',
-   height: windowHeight/15,
-   marginTop: 20,
-   fontSize: 20
+   height: windowHeight/20,
+   marginTop: 20
   },
   items:{
     fontSize: 20,
@@ -201,20 +183,18 @@ fontSize: 30,
 fontWeight:'bold'
   },
   txtdes:{
-    fontSize: 18,
+    fontSize: 16,
     textAlign: 'justify',
-    margin: 15
+    margin: '10%'
   },txt:{
     fontSize: 20,
-    textAlign: 'justify',
   },
 txtindicaciones:{
 color:'white'
 },
 txtprecio:{
   fontSize: 25,
-  marginTop: 15,
-  marginBottom: 15,
+  marginTop: '6%',
   color:'#368DD9'
 },
 contpedido:{
@@ -228,11 +208,9 @@ contcant:{
 },
 add:{
   width: windowWidth/12,
-  marginRight: '12%',
+  marginRight: '25%',
   height: windowHeight/24,
-  marginTop: '30%',
-  marginLeft: '12%',
-  
+  marginTop: '50%'
 },
 imagencar:{
   width: windowWidth/10,

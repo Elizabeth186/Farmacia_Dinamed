@@ -1,20 +1,15 @@
-import { StatusBar } from 'expo-status-bar';
 import { SafeAreaView, StyleSheet, Text, View , Image, ScrollView, Button, Dimensions, TextInput, TouchableOpacity} from 'react-native';
 import {LinearGradient} from 'expo-linear-gradient';
-import {useNavigation} from '@react-navigation/native'
-import { ListItem, Avatar } from "react-native-elements";
 import { useState, useEffect } from 'react';
 import firebase from "../db/firebasemeds"
 
 const windowWidth = Dimensions.get('window').width;
 const windowHeight = Dimensions.get('window').height;
 
-
-
 const HomeCliente = (props) => {
-  const [meds, setMeds] = useState([]);
 
-
+const [meds, setMeds] = useState([]);
+//traemos la coleccion 
 useEffect(() => {
   firebase.db.collection("productos").onSnapshot((querySnapshot) => {
     const meds = [];
@@ -35,10 +30,7 @@ useEffect(() => {
 }, []);
 
 
-
-
   return (
-
 
     <View style={styles.container}>
       <SafeAreaView>
@@ -52,21 +44,12 @@ useEffect(() => {
       <Image
         style={styles.imagen}
         source={require("../Images/Logo.png")} />
-    
-    </View>
-   
-
-  
-    
-     
+    </View>     
     <ScrollView>
-      
     {
     meds.map((medis) => {
       return (
-      
         <TouchableOpacity
-       
           key={medis.id}
           bottomDivider
           onPress={() => {
@@ -86,26 +69,18 @@ useEffect(() => {
        </View >
        <LinearGradient colors={['#368DD9','#082359']} start ={{ x : 1, y : 0 }} style={styles.LinearGradient} >
        <View style={styles.viewprecio}>
-      
        <Text style={styles.precio}>{medis.precio}</Text>
-       
        </View>
        </LinearGradient>
         </View>
-  
         </TouchableOpacity>
       );
     })}
-    
      </ScrollView>
      </SafeAreaView>
       </View>
-      
- 
-
   );
   
-
 }
 
 export default HomeCliente;
@@ -202,23 +177,4 @@ const styles = StyleSheet.create({
     borderBottomRightRadius: 10,
     borderTopRightRadius: 10
   }
-,
-btnflotan:{
-  position: 'absolute',
-  width: windowHeight/12,
-  height: windowHeight/12,
-  backgroundColor:'#082359',
-  borderRadius: 40,
-  bottom: 40,
-  right: 15,
-  elevation: 30,
-  borderColor: '#DCE2F2',
-  borderWidth: 3
-},
-tinyLogo:{
-  width: windowWidth/12,
-  height: windowHeight/23,
-  alignSelf:'center',
-  top:'20%'
-}
 })
