@@ -2,6 +2,7 @@ import { StatusBar } from 'expo-status-bar';
 import React, { useState, useEffect } from "react";
 import { SafeAreaView, StyleSheet, Text, View , Image, ScrollView, Button, Dimensions, TextInput, TouchableOpacity} from 'react-native';
 import {LinearGradient} from 'expo-linear-gradient';
+import {deleteDoc} from 'firebase/firestore'
 import firebase from "../db/firebasemeds"
 import db from "../db/firebasemeds"
 
@@ -10,29 +11,20 @@ const windowWidth = Dimensions.get('window').width;
 const windowHeight = Dimensions.get('window').height;
 
 
+
+
 export default function Carrito(props) {
 
-  const initialState = {
-    id: "",
-    nombre: "",
-    marca: "",
-    presentacion:"",
-    precio: "",
-    cantidad: "",
-    total: "",
-    img: ""
+ 
 
-  };
   const [meds, setMeds] = useState([]);
   
-  
-  
-
+    
   useEffect(() => {
     firebase.db.collection("Carrito").onSnapshot((querySnapshot) => {
       const meds = [];
       querySnapshot.docs.forEach((doc) => {
-        const { nombre, marca, presentacion, precio, cantidad, total, img } = doc.data();
+        const { nombre, marca, presentacion, precio, cantidad, total, img, date } = doc.data();
         meds.push({
           id: doc.id,
           nombre,
@@ -41,25 +33,29 @@ export default function Carrito(props) {
           precio,
           cantidad, 
           total,
-          img
+          img,
+          date,
         });
+        
       });
-      setMeds(meds);
       
+
+      setMeds(meds);
+
     });
   }, []);
   
-
   
-
+ 
 
   return (
     
     <View style={styles.container}>
+      <SafeAreaView>
     <View style={styles.topbar}>
       <Text style={styles.txttopbar}>Carrito</Text>
     </View>
-        
+      
 <ScrollView>
       
       {
@@ -80,9 +76,11 @@ export default function Carrito(props) {
          <Text style={styles.txt}>{medis.precio}</Text>
          <Text style={styles.txt}>{medis.cantidad}</Text>
          <Text style={styles.txt}>{medis.total}</Text>
+         <Text style={styles.txt}>{medis.date}</Text>
          <View style={styles.viewprecio}>
-        
+          
          <Text style={styles.precio}>{medis.precio}</Text>
+       
          </View>
          
          </View >
@@ -109,11 +107,12 @@ export default function Carrito(props) {
         );
       })}
       
+      <TouchableOpacity onPress={() => sendproduct()}><Text>enviar pedido</Text></TouchableOpacity>
        </ScrollView>
-       
+       </SafeAreaView>
     </View>
   );
-}
+    }
 
 
 const styles = StyleSheet.create({
@@ -123,8 +122,14 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
     backgroundColor: '#DCE2F2',
-    paddingTop: "5%"
-    
+    paddingTop: Platform.OS === 'android' ? 25 : 0
+  },
+  imagend:{
+    width: windowWidth/8,
+    height: windowHeight/16,
+  },
+  btndelete:{
+    marginRight: '12%'
   },
   View2:{
     width: windowWidth/1,
@@ -133,14 +138,14 @@ const styles = StyleSheet.create({
   },
   topbar:{
     width: windowWidth/1,
-    height: windowHeight/12,
+    height: windowHeight/15,
     backgroundColor: '#082359',
+    justifyContent: 'center'
     
   },
   txttopbar:{
-    fontSize: 30,
+    fontSize: 24,
     alignSelf:'center',
-    padding: "2.5%",
     fontWeight:'bold',
     color: '#FFFFFF'
   },

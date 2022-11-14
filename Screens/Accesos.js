@@ -49,6 +49,7 @@ const handleSignIn = ()=>{
       //se ejecuta al encontrar la coincidencia con el email del propietario
       signInWithEmailAndPassword(auth, email, password)
       .then((userCredential) => {
+
       console.log('Sesion Iniciada!'+email)
       const user = userCredential.user;
       console.log(user);
@@ -146,11 +147,8 @@ export default function Accesos() {
                      name="Detalles" component={DetallesProducto}/>
       <Stack.Screen options={{headerTitleAlign: 'center',headerStyle: {backgroundColor: '#082359'},
                     headerTintColor: '#fff',headerTitleStyle: {fontWeight: 'bold'}}}
-                    name="Carrito" component={Carrito}/>
-      <Stack.Screen options={{headerTitleAlign: 'center',headerStyle: {backgroundColor: '#082359'},
-                    headerTintColor: '#fff',headerTitleStyle: {fontWeight: 'bold'}}}
                     name="Perfil" component={Perfil}/>
-      <Stack.Screen name="Inicio" component={TabNavc}/>
+      <Stack.Screen options={{headerShown: false}} name="Inicio" component={TabNavc}/>
       <Stack.Screen options={{headerTitleAlign: 'center',headerStyle: {backgroundColor: '#082359'},
                     headerTintColor: '#fff',headerTitleStyle: {fontWeight: 'bold'},title: 'Detalles del producto'}}
                     name='Detalle' component={DetallesProductoCliente}/>
@@ -169,6 +167,7 @@ const styles = StyleSheet.create({
     backgroundColor:'#DCE2F2',
     alignItems: 'center',
     justifyContent: 'center',
+    paddingTop: Platform.OS === 'android' ? 25 : 0
   },
   btnstyle: {
    borderRadius: 10,

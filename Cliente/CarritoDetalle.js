@@ -15,16 +15,13 @@ const CarritoDetalle  = (props) =>{
     precio: "",
     cantidad: "",
     total: "",
-    img: ""
+    img: "",
+    date:""
 
   };
 
   const [meds, setMeds] = useState(initialState);
   const [loading, setLoading] = useState(true);
-
-  const handleTextChange = (value, prop) => {
-    setMeds({ ...meds, [prop]: value });
-  };
 
   const getItemById = async (id) => {
     
@@ -66,20 +63,23 @@ const CarritoDetalle  = (props) =>{
         await dbRef.delete();
         setLoading(false)
         props.navigation.navigate("Carrito");
+        
     };
-
+  
 
   
   const updateItem = async () => {
-    
-  
 
     if (cantidad === "") {
       alert("Por favor ingrese cantidad de productos deseada");
+    }
+      else if(cantidad <=0){
+      alert("La cantidad de productos no puede ser menor a 1");
+
     }else{
   
       try {
-        const listrRef = firebase.db.collection("productos").doc(meds.id);
+        const listrRef = firebase.db.collection("Carrito").doc(meds.id);
     await listrRef.set({
         nombre: meds.nombre,
         marca: meds.marca,
@@ -111,29 +111,26 @@ const CarritoDetalle  = (props) =>{
       <View style={styles.container}>
         <ScrollView>
           <View style={{alignItems:'center', marginHorizontal:30}}>
-                <Image style={styles.imagen}source={{uri:meds.img}} />
-                <Text style={styles.txtname}>Nombre de la farmacia</Text>
-                <View style={styles.inputs}>
-                <Text>{meds.Farmacia}</Text>
-                </View>
-                <Text style={styles.txtname}>Nombre de producto</Text>
-                <View style={styles.inputs}>
-                <Text>{meds.nombre}</Text>
-                    </View>
-                <Text style={styles.txtname}>Marca</Text>
-                <View style={styles.inputs}>
-                <Text>{meds.marca}</Text>
-                    </View>
-                <Text style={styles.txtname}>Presentacion del producto</Text>
-                <View style={styles.inputs}>
-                <Text>{meds.presentacion}</Text>
-                    </View>
-                    <Text style={styles.txtname}>Precio del producto</Text>
-                <View style={styles.inputs}>
-                <Text>{meds.precio}</Text>
-                    </View>
-                    <Text style={styles.txtname}>Cantidad</Text>
-                
+          
+          <Image style={styles.imagen}source={{uri:meds.img}} />
+            </View>
+           
+
+          
+  
+            <View style={styles.items}>
+              <Text style={styles.txttitulo}>{meds.nombre}</Text>
+            <View>
+              <Text style={styles.txt}>{meds.marca}</Text>
+            </View>
+
+            <View>
+              <Text>{meds.presentacion}</Text>
+            </View>
+        <View>
+          <Text style={styles.txtprecio}>${meds.precio}</Text>
+        </View>
+                    
                 <Text style={styles.txt1}>*Inserte cantidad de productos deseada:</Text>
                 <TextInput style={styles.inputsprecio} value={cantidad.toString()} placeholder="0" keyboardType='numeric' onChangeText={handleChange}/>
                 <Text style={styles.txtname}>Su total es:</Text>
@@ -159,45 +156,35 @@ const styles = StyleSheet.create({
   container:{
     flex:1,
   },
+  items:{
+    fontSize: 20,
+    alignSelf:'center',
+    alignItems:'center',
+    textAlign:'center',
+   
+  },
+  txttitulo:{
+fontSize: 30,
+fontWeight:'bold'
+  },
+  txtdes:{
+    fontSize: 16,
+    textAlign: 'justify',
+  },txt:{
+    fontSize: 20,
+  },
+txtindicaciones:{
+color:'white'
+},
+txtprecio:{
+  fontSize: 25,
+  marginTop: '3%',
+  color:'#368DD9'
+},
   imagen:{
-    width:windowWidth/1,
-    height:300,
-    marginTop: 35,
-    marginBottom: 12
-  },
-  name:{
-    fontSize:28,
-    color:"#696969",
-    fontWeight:'bold',
-    textAlign:'right', 
-  },
-  lab:{
-    fontSize:28,
-    color:"#696969",
-    fontWeight:'bold',
-    textAlign:'center', 
-  },
-  inputs: {
-    color:'blue',
-   borderWidth:1,
-   borderColor:'#368DD9',
-   margin: 5,
-   borderRadius:10,
-   alignItems:'center',
-   width: windowWidth/1.6,
-   height: windowHeight/20,
-   justifyContent: "center",
-   alignSelf: 'center'
-  },
-  inputsdescrip: {
-
-   borderWidth:1,
-   borderColor:'#368DD9',
-   margin: 5,
-   borderRadius:10,
-   height: windowHeight/5,
-   textAlign: 'center',
-   alignSelf: 'center'
+    width:windowWidth/2,
+    height:windowHeight/4.2,
+    marginTop: '2%'
   },
   inputsprecio: {
    borderWidth:1,
@@ -209,26 +196,10 @@ const styles = StyleSheet.create({
    width: windowWidth/4,
    justifyContent: "center",
    alignSelf: 'center',
-   paddingLeft:'13%'
+   textAlign: 'center'
    
   },
-  inputspresentacion: {
-    borderWidth:1,
-    borderColor:'#368DD9',
-    margin: 5,
-    borderRadius:10,
-    height: windowHeight/20,
-    alignItems:'center',
-    justifyContent: "center",
-   
-   
-  },
-  btnColor: {
-    height:30,
-    width:30,
-    borderRadius:30,
-    marginHorizontal:3
-  },txtname: {
+txtname: {
     fontSize:18,
     color:"#696969",
     fontWeight:'bold',
@@ -236,7 +207,7 @@ const styles = StyleSheet.create({
     marginBottom: "3%"
   },
   txt1: {
-    fontSize:20,
+    fontSize:17,
     color:"#3CB371",
     fontWeight:'bold',
     textAlign:'center',
@@ -256,6 +227,9 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
   },
+  contenedorrow:{
+    flexDirection:'row', 
+  },
   starContainer:{
     justifyContent:'center', 
     marginHorizontal:30, 
@@ -274,28 +248,7 @@ const styles = StyleSheet.create({
     flexDirection:'row', 
     marginTop:20
   },
-  separator:{
-    height:2,
-    backgroundColor:"#eeeeee",
-    marginTop:20,
-    marginHorizontal:30
-  },
-  shareButton: {
-    marginTop:10,
-    height:45,
-    flexDirection: 'row',
-    justifyContent: 'center',
-    alignItems: 'center',
-    borderRadius:30,
-    backgroundColor: "#082359",
-  },
-  shareButtonText:{
-    color: "#FFFFFF",
-    fontSize:20,
-  },
-  addToCarContainer:{
-    marginHorizontal:30
-  },
+  
   btn:{
     flexDirection: 'row',
     alignSelf: 'center',
@@ -303,17 +256,36 @@ const styles = StyleSheet.create({
     height:windowHeight/7
   },
   imagend:{
-    width: windowWidth/6.5,
-    height: windowHeight/13,
+    width: windowWidth/12,
+    height: windowHeight/22,
+  },
+  btneditar:{
+    borderColor:'#368DD9',
+    borderWidth: 2,
+    width: windowWidth/8,
+    height: windowHeight/15,
+    alignItems: 'center',
+    justifyContent: 'center',
+    borderRadius: 15,
+    elevation: 5,
+    backgroundColor: 'white'
   },
   btndelete:{
-    marginRight: '12%'
+    borderColor:'#368DD9',
+    borderWidth: 2,
+    marginRight: '10%',
+    width: windowWidth/8,
+    height: windowHeight/15,
+    alignItems: 'center',
+    justifyContent: 'center',
+    borderRadius: 15,
+    elevation: 5,
+    backgroundColor: 'white'
   },
   txtTotal:{
     fontSize:22,
     color:"#082359",
     fontWeight:'bold',
     textAlign:'center',
-    marginBottom: "3%"
   }
 });    
