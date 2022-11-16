@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { StyleSheet, SafeAreaView, Text, TextInput, View, Image, Dimensions, TouchableOpacity, Alert } from 'react-native';
 import {LinearGradient} from 'expo-linear-gradient';
-import {getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword} from 'firebase/auth';
+import {getAuth, createUserWithEmailAndPassword,  signInWithEmailAndPassword} from 'firebase/auth';
 import {initializeApp} from 'firebase/app';
 import {isEmpty} from 'lodash';
 import { firebaseConfig } from '../db/firebaseaccesos';
@@ -18,6 +18,7 @@ import Perfil from './Perfil';
 import DetallesProductoCliente from '../Cliente/DetallesProductoCliente';
 import TabNavc from './NavCliente';
 import CarritoDetalle from '../Cliente/CarritoDetalle';
+import Usuario from "./Usuario";
 
 const windowWidth = Dimensions.get('window').width;
 const windowHeight = Dimensions.get('window').height;
@@ -66,7 +67,7 @@ const handleSignIn = ()=>{
     console.log('Sesion Iniciada!'+email)
     const user = userCredential.user;
     console.log(user);
-    navigation.navigate('Inicio')
+    navigation.navigate('usuario')
     })
     .catch(error =>{
       console.log(error);
@@ -78,7 +79,7 @@ const handleSignIn = ()=>{
   //crear cuenta
   const handleCreateAccount= ()=>{
   //validaciones
-    if(isEmpty(email) || isEmpty(password) ){
+    if(isEmpty(email) || isEmpty(password) || isEmpty(password) ){
       setError("Existen campos vacios")
     } else if(!validadoemail(email)) {
       setError("El formato del email es incorrecto")
@@ -157,6 +158,10 @@ export default function Accesos() {
                     <Stack.Screen options={{headerTitleAlign: 'center',headerStyle: {backgroundColor: '#082359'},
                     headerTintColor: '#fff',headerTitleStyle: {fontWeight: 'bold'},title: 'Detalles del producto'}}
                     name='DetalleCarrito' component={CarritoDetalle}/>
+                    <Stack.Screen options={{headerTitleAlign: 'center',headerStyle: {backgroundColor: '#082359'},
+                    headerTintColor: '#fff',headerTitleStyle: {fontWeight: 'bold'},title: 'Detalles del producto'}}
+                    name='usuario' component={Usuario}/>
+      
     </Stack.Navigator>
   </NavigationContainer>
   );

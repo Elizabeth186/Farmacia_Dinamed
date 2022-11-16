@@ -29,19 +29,16 @@ export default function Pedidos (props) {
   
 
   useEffect(() => {
-    firebase.db.collection("Carrito").onSnapshot((querySnapshot) => {
+    firebase.db.collection("pedidos").onSnapshot((querySnapshot) => {
       const meds = [];
       querySnapshot.docs.forEach((doc) => {
-        const { nombre, marca, presentacion, precio, cantidad, total, img } = doc.data();
+        const { farmacia, fechapedido, productos, total } = doc.data();
         meds.push({
           id: doc.id,
-          nombre,
-          marca,
-          presentacion,
-          precio,
-          cantidad, 
-          total,
-          img
+          farmacia,
+          fechapedido,
+          productos,
+          total
         });
       });
       setMeds(meds);
@@ -74,7 +71,7 @@ export default function Pedidos (props) {
          style={styles.imagenproducto}
          source={{uri: medis.img}} />
          <View style={styles.view1}>
-         <Text style={styles.titulo}>{medis.nombre}</Text>
+         <Text style={styles.titulo}>{medis.farmacia}</Text>
          <Text style={styles.txt}>{medis.marca}</Text>
          <Text style={styles.txt}>{medis.presentacion}</Text>
          <Text style={styles.txt}>{medis.precio}</Text>

@@ -3,6 +3,7 @@ import {LinearGradient} from 'expo-linear-gradient';
 import { useState, useEffect } from 'react';
 import firebase from "../db/firebasemeds"
 
+
 const windowWidth = Dimensions.get('window').width;
 const windowHeight = Dimensions.get('window').height;
 
@@ -30,11 +31,15 @@ useEffect(() => {
 }, []);
 
 
+
+
   return (
 
     <View style={styles.container}>
+      
       <SafeAreaView>
     <View style={styles.View2}>
+      
      <TextInput style={styles.inputbuscar} placeholder='Buscar'/>
        <TouchableOpacity style={styles.btnbuscar}>
        <Image
@@ -45,6 +50,7 @@ useEffect(() => {
         style={styles.imagen}
         source={require("../Images/Logo.png")} />
     </View>     
+    
     <ScrollView>
     {
     meds.map((medis) => {

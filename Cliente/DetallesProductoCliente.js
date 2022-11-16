@@ -24,7 +24,20 @@ const DetallesProductoCliente  = (props) =>{
   const [meds, setMeds] = useState(initialState);
   const [loading, setLoading] = useState(true);
   const [ total, settotal] = useState(0);
-  const [ cantidad, setcantidad] = useState(1);
+  const [ cantidad, setCantidad] = useState(1);
+
+  const handleTextChange = (value, prop) => {
+    setMeds({ ...meds, [prop]: value });
+  };
+
+  const handleChange =(e) => {
+    if(e<1){
+      setCantidad(e)
+  }else{
+    setCantidad(e);
+  }
+  };
+
 //Traemos la coleccion
   const getItemById = async (id) => {    
     const dbRef = firebase.db.collection("productos").doc(id);
@@ -33,6 +46,12 @@ const DetallesProductoCliente  = (props) =>{
     setMeds({ ...meds, id: doc.id });
     setLoading(false);
   };
+
+  const calculartotal = () => {
+    const newtotal = cantidad * meds.precio
+    settotal(newtotal)
+   }
+
     useEffect(() => {
     getItemById(props.route.params.listId);
     calculartotal()}, [cantidad]);
@@ -54,7 +73,8 @@ const DetallesProductoCliente  = (props) =>{
       precio: meds.precio,
       cantidad: cantidad,
       total: total,
-      img: meds.img
+      img: meds.img,
+      date: new Date().toLocaleString(),
        
       });
 
@@ -81,9 +101,9 @@ const DetallesProductoCliente  = (props) =>{
           <View style={{alignItems:'center', width: windowWidth/1, backgroundColor:'white'}}>
             <Image style={styles.imagen}source={{uri:meds.img}} />
             </View>
-           
 
-          
+
+            
   
             <View style={styles.items}>
               <Text style={styles.txttitulo}>{meds.nombre}</Text>
@@ -111,9 +131,9 @@ const DetallesProductoCliente  = (props) =>{
           <Text>{total}</Text>
           <View style={styles.contpedido}>
             <View style={styles.contcant}>
-           <TouchableOpacity style={styles.btnadd} onPress={restar}><Image style={styles.add}  source={require("../assets/menos.png")} /></TouchableOpacity>
-           <TextInput value = {cantidad.toString()} placeholder="0" keyboardType="numeric" ></TextInput>
-           <TouchableOpacity style={styles.btnadd} onPress={sumar} ><Image style={styles.add}  source={require("../assets/mas.png")} /></TouchableOpacity>
+           
+            <TextInput style={styles.inputsprecio} value={cantidad.toString()} placeholder="0" keyboardType='numeric' onChangeText={handleChange}/>
+           
             </View>
             <View>
               <TouchableOpacity onPress={() => addToCart()}>
@@ -202,7 +222,8 @@ contpedido:{
   flexDirection: 'row',
 },
 contcant:{
-  flexDirection: 'row',
+  padding: 10,
+  height: windowHeight/24,
 
   
 },
@@ -215,7 +236,7 @@ add:{
 imagencar:{
   width: windowWidth/10,
   height: windowHeight/10,
-  marginTop: '20%'
+  marginTop: '30%'
 },
 qanty: {
     fontSize:"25",
