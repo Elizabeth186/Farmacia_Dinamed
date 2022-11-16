@@ -23,7 +23,7 @@ useEffect(() => {
         presentacion,
         descripcion,
         precio,
-        img
+        img,
       });
     });
     setMeds(meds);
@@ -97,7 +97,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
     backgroundColor: '#DCE2F2',
-    top:'1%'
+    paddingTop: Platform.OS === 'android' ? 25 : 0
     
   },
   View2:{

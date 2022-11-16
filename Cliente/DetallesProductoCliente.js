@@ -1,7 +1,8 @@
 import React, { useState, useEffect, Component } from 'react';
 import {StyleSheet,Text,View,TouchableOpacity,Dimensions, ActivityIndicator, Image,Alert,ScrollView, TextInput, FlatList,Button,} from 'react-native';
 import firebase from "../db/firebasemeds"
-import db from "../db/firebasemeds"
+import db from "../db/firebasemeds";
+
 
 const windowWidth = Dimensions.get('window').width;
 const windowHeight = Dimensions.get('window').height;
@@ -17,8 +18,8 @@ const DetallesProductoCliente  = (props) =>{
     descripcion: "",
     precio: "",
     cantidad: "",
-    img: ""
-
+    img: "",
+     
   };
 
   const [meds, setMeds] = useState(initialState);
@@ -47,19 +48,14 @@ const DetallesProductoCliente  = (props) =>{
     setLoading(false);
   };
 
-  const calculartotal = () => {
-    const newtotal = cantidad * meds.precio
-    settotal(newtotal)
-   }
+  
 
     useEffect(() => {
     getItemById(props.route.params.listId);
     calculartotal()}, [cantidad]);
 
-  const addToCart = async () => {
+  const addToCart = async (id) => {
     
-  
-
   if (cantidad === "") {
     alert("Por favor ingrese cantidad de productos deseada");
   }else{
@@ -78,13 +74,33 @@ const DetallesProductoCliente  = (props) =>{
        
       });
 
-      props.navigation.navigate("Carrito");
+     alert("Producto agregado al carrito")
     } catch (error) {
       console.log(error)
     }
   }
 };
   
+//calcular total producto
+   const calculartotal = () => {
+    const newtotal = cantidad * meds.precio
+    settotal(newtotal)
+   }
+  
+
+
+ //sumando producto
+ const sumar =  () => {
+  let nuevacantidad = parseInt(cantidad +1)
+  setcantidad(nuevacantidad)
+ }
+//restando producto
+ const restar =  () => {
+   if(cantidad > 1){
+   let nuevacantidad = parseInt(cantidad -1)
+   setcantidad(nuevacantidad)
+   }
+  }
   
   
   if (loading) {
@@ -114,17 +130,6 @@ const DetallesProductoCliente  = (props) =>{
             <View>
               <Text>{meds.presentacion}</Text>
             </View>
-           <Text  style={styles.inputs}>Indicaciones y Contraindicaciones</Text>
-            <View>
-              <Text style={styles.txtdes}>{meds.descripcion}</Text>
-            </View>
-
-        <View>
-          <Text style={styles.txt}>{meds.marca}</Text>
-        </View>
-        <View>
-          <Text>{meds.presentacion}</Text>
-        </View>
         <View>
           <Text style={styles.txtprecio}>${meds.precio}</Text>
         </View>
@@ -141,6 +146,9 @@ const DetallesProductoCliente  = (props) =>{
               </TouchableOpacity>
             </View>
           </View>
+        </View>
+        <View><Text>Digite la cantidad</Text>
+        <TextInput value = {cantidad.toString()} placeholder="0" keyboardType="numeric" ></TextInput>
         </View>
         <Text  style={styles.texto}>Indicaciones y Contraindicaciones</Text>
         <View>
@@ -205,7 +213,6 @@ fontWeight:'bold'
   txtdes:{
     fontSize: 16,
     textAlign: 'justify',
-    margin: '10%'
   },txt:{
     fontSize: 20,
   },
@@ -214,7 +221,7 @@ color:'white'
 },
 txtprecio:{
   fontSize: 25,
-  marginTop: '6%',
+  marginTop: '3%',
   color:'#368DD9'
 },
 contpedido:{
@@ -235,8 +242,8 @@ add:{
 },
 imagencar:{
   width: windowWidth/10,
-  height: windowHeight/10,
-  marginTop: '30%'
+  height: windowHeight/20,
+  marginTop: '110%'
 },
 qanty: {
     fontSize:"25",
