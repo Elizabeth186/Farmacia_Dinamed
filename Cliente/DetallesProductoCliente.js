@@ -2,7 +2,7 @@ import React, { useState, useEffect, Component } from 'react';
 import {StyleSheet,Text,View,TouchableOpacity,Dimensions, ActivityIndicator, Image,Alert,ScrollView, TextInput, FlatList,Button,} from 'react-native';
 import firebase from "../db/firebasemeds"
 import db from "../db/firebasemeds";
-
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const windowWidth = Dimensions.get('window').width;
 const windowHeight = Dimensions.get('window').height;
@@ -52,7 +52,9 @@ const DetallesProductoCliente  = (props) =>{
 
     useEffect(() => {
     getItemById(props.route.params.listId);
-    calculartotal()}, [cantidad]);
+    calculartotal()
+     
+  }, [cantidad]);
 
   const addToCart = async (id) => {
     
@@ -83,6 +85,26 @@ const DetallesProductoCliente  = (props) =>{
     }
   }
 };
+
+/*const storeData = async (meds) => {
+  try {
+    const jsonValue = JSON.stringify(meds)
+    await AsyncStorage.setItem('id', jsonValue)
+  } catch (e) {
+    // saving error
+  }
+}
+
+const getData = async () => {
+  try {
+    const jsonValue = await AsyncStorage.getItem('id')
+    return jsonValue != null ? JSON.parse(jsonValue) : null;
+  } catch(e) {
+    // error reading value
+  }
+}
+*/
+
   
 //calcular total producto
    const calculartotal = () => {
