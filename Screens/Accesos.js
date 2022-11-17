@@ -54,7 +54,7 @@ const handleSignIn = ()=>{
       console.log('Sesion Iniciada!'+email)
       const user = userCredential.user;
       console.log(user);
-      navigation.navigate('Home')
+      navigation.replace('Home');
       })
       .catch(error =>{
         console.log(error);
@@ -68,7 +68,7 @@ const handleSignIn = ()=>{
     console.log('Sesion Iniciada!'+email)
     const user = userCredential.user;
     console.log(user);
-    navigation.navigate('usuario')
+    navigation.replace('Inicio')
     })
     .catch(error =>{
       console.log(error);

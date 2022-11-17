@@ -127,16 +127,16 @@ const styles = StyleSheet.create({
   },
   topbar:{
     width: windowWidth/1,
-    height: windowHeight/12,
+    height: windowHeight/14,
     backgroundColor: '#082359',
-    
+    justifyContent:'center'
   },
   txttopbar:{
-    fontSize: 30,
+    fontSize: 25,
     alignSelf:'center',
-    padding: "2.5%",
     fontWeight:'bold',
-    color: '#FFFFFF'
+    color: '#FFFFFF',
+    
   },
   imagen:{
     width: windowWidth/7,

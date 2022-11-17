@@ -51,6 +51,15 @@ export default function Carrito(props) {
     });
   }, []);
   
+  const deleteItem = async () => {
+    setLoading(true)
+    const dbRef = firebase.db
+      .collection("Carrito")
+      .doc(props.route.params.med);
+    await dbRef.delete();
+    setLoading(false)
+   
+  };
 
   function finalizar(){
     let producto =[];
@@ -69,8 +78,11 @@ export default function Carrito(props) {
       '\n'+ '\n'+"- Empresa: "+user.displayName + ' '+
       '\n'+ '\n'+"- Fecha: "+med.date + ' '
        + productosConFormatoAmigable+'\n'+"*****************************"+
-      '\n'+"- Total a pagar: $ "+count.toFixed(2) )
-
+      '\n'+"- Total a pagar: $ "+count.toFixed(2),
+      deleteItem()
+      
+      )
+    
     })
     console.log(JSON.stringify(producto));
     
@@ -82,6 +94,7 @@ export default function Carrito(props) {
   const user = auth.currentUser;
   
 
+ 
 
   return (
     
@@ -143,6 +156,7 @@ export default function Carrito(props) {
           
         );
       })}
+      
         <TouchableOpacity onPress={() => addToPedidos()}><Text>enviar pedido</Text></TouchableOpacity>
         <View style={styles.topbar1}>
       <Text style={styles.txttopbar}>Total:$         {count}</Text>
