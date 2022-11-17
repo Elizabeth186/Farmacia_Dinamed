@@ -11,6 +11,7 @@ const windowHeight = Dimensions.get('window').height;
 
 
 export default function Pedidos (props) {
+  
 
   const initialState = {
     id: "",
