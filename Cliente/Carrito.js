@@ -18,8 +18,15 @@ const windowHeight = Dimensions.get('window').height;
 
 
 export default function Carrito(props) {
-
- 
+  const initialState = {
+    id: "",
+    nombre: "",
+    marca: "",
+    presentacion:"",
+    precio: "",
+    cantidad: "",
+    total: "",
+    img: ""
 
   };
   const [meds, setMeds,] = useState([]);
@@ -38,7 +45,7 @@ export default function Carrito(props) {
       const meds = [];
       var totalCarrito = 0
       querySnapshot.docs.forEach((doc) => {
-        const { nombre, marca, presentacion, precio, cantidad, total, img, date } = doc.data();
+        const { nombre, marca, presentacion, precio, cantidad, total, img } = doc.data();
         meds.push({
           id: doc.id,
           nombre,
@@ -121,7 +128,6 @@ export default function Carrito(props) {
 
   const auth = getAuth();
   const user = auth.currentUser;
-  
 
 
   return (
@@ -195,7 +201,7 @@ export default function Carrito(props) {
        
     </View>
   );
-    
+    }
 
 
 const styles = StyleSheet.create({
