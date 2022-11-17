@@ -25,7 +25,7 @@ const DetallesProductoCliente  = (props) =>{
   const [meds, setMeds] = useState(initialState);
   const [loading, setLoading] = useState(true);
   const [ total, settotal] = useState(0);
-  const [ cantidad, setCantidad] = useState(1);
+  const [ cantidad, setCantidad] = useState(0);
 
   const handleTextChange = (value, prop) => {
     setMeds({ ...meds, [prop]: value });
@@ -58,6 +58,9 @@ const DetallesProductoCliente  = (props) =>{
     
   if (cantidad === "") {
     alert("Por favor ingrese cantidad de productos deseada");
+
+  }else if(cantidad <= 0 ){
+    alert("Ingrese una cantidad valida")
   }else{
 
     try {
@@ -70,7 +73,7 @@ const DetallesProductoCliente  = (props) =>{
       cantidad: cantidad,
       total: total,
       img: meds.img,
-      date: new Date().toLocaleString(),
+      date: new Date().toLocaleDateString(),
        
       });
 

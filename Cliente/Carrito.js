@@ -1,6 +1,6 @@
 import { StatusBar } from 'expo-status-bar';
 import React, { useState, useEffect } from "react";
-import { SafeAreaView, StyleSheet, Text, View , Image, ScrollView, Button, Dimensions, TextInput, TouchableOpacity} from 'react-native';
+import { SafeAreaView, StyleSheet, Text, View , Image, ScrollView,Linking, Button, Dimensions, TextInput, TouchableOpacity} from 'react-native';
 import {LinearGradient} from 'expo-linear-gradient';
 import {deleteDoc} from 'firebase/firestore'
 import firebase from "../db/firebasemeds"
@@ -9,30 +9,22 @@ import { getAuth, onAuthStateChanged } from "firebase/auth";
 import { collection, query, where, getDocs  } from "firebase/firestore";
 import { sum } from 'lodash';
 import { async } from '@firebase/util';
+import Pedidos from '../Screens/Pedidos';
 
 
 const windowWidth = Dimensions.get('window').width;
 const windowHeight = Dimensions.get('window').height;
-
-
-
+ 
 
 export default function Carrito(props) {
 
  
 
-  };
+  
   const [meds, setMeds,] = useState([]);
-  const [count, setCount] = useState(0);
+  const [count, setCount] = useState(1);
   
 
-  /*const calculartototal = () => {
-    const newtotal = cantidad * meds.precio
-    settotal(newtotal)
-   }*/
-  
-
-   
   useEffect(() => {
     firebase.db.collection("Carrito").onSnapshot((querySnapshot) => {
       const meds = [];
@@ -48,7 +40,7 @@ export default function Carrito(props) {
           cantidad, 
           total,
           img,
-          
+          date,
         });
         
         totalCarrito += total
@@ -59,63 +51,30 @@ export default function Carrito(props) {
     });
   }, []);
   
-  
 
-  
-  
- 
-  /*const q = query(collection(firebase.db, "Carrito"), where("total", "==", true));
-  const arrayTotal = [q];
-  
-  const getTotal = async () => {
-    console.log("A")
-    console.log(q)
-    const querySnapshot = await getDocs(q);
-    console.log(querySnapshot)
-    querySnapshot.forEach((doc) => {
-   doc.data() is never undefined for query doc snapshots
-  
-  return(5)
-  
-    });
-  }
-
-
-  console.log(getTotal())
-  const arrayTotal = [q];
-  const getTotal = () => {
-    let sum = 0
-    for (let i = 0; i < arrayTotal.length; i++) {
-      sum += arrayTotal[i]
-    }
-    return sum
-  }*/
-
-  const addToPedidos = async () => {
-    
-    let listProducts = []
+  function finalizar(){
+    let producto =[];
+   
     meds.forEach(med => {
-      listProducts.push(med)
+      producto.push(
+                    "--------------------------------------------"+
+                    '\n'+" Producto: "+med.nombre+
+                    '\n'+" Presentacion: "+ med.presentacion+
+                    '\n'+"- Cantidad: "+ med.cantidad+
+                    '\n'+"- Precio: $ "+ med.precio+
+                    '\n'+"- SubTotal: $ "+med.total+'\n'                   )
+
+      const productosConFormatoAmigable = producto.join('\n');
+      Linking.openURL('https://api.whatsapp.com/send?phone=50372298350&text=Me%20interesan%20los%20siguientes%20productos'+
+      '\n'+ '\n'+"- Empresa: "+user.displayName + ' '+
+      '\n'+ '\n'+"- Fecha: "+med.date + ' '
+       + productosConFormatoAmigable+'\n'+"*****************************"+
+      '\n'+"- Total a pagar: $ "+count.toFixed(2) )
+
     })
-  
-      try {
-        await db.db.collection("pedidos").add({
-          farmacia: user.displayName,
-          fechapedido: new Date().toLocaleString(),
-          productos:listProducts,
-          total: count
-        });
-        
-       
-      } catch (error) {
-        console.log(error)
-      }
+    console.log(JSON.stringify(producto));
     
-  };
-  
-  
-  
-        
+  }
      
   
 
@@ -190,14 +149,17 @@ export default function Carrito(props) {
       
       
     </View>
+    <TouchableOpacity onPress={()=> finalizar()}>
+          <Image style={styles.imagen1} source={require("../Images/wha.png")}/>          
+        </TouchableOpacity>
     </ScrollView>
        
        
     </View>
+
   );
     
-
-
+    };
 const styles = StyleSheet.create({
   container: {
     flex: 1,
