@@ -32,6 +32,9 @@ useEffect(() => {
   return (
     <View style={styles.container}>
       <SafeAreaView>
+      <View style={styles.topbar}>
+      <Text style={styles.txttopbar}>Productos</Text>
+    </View>
     <View style={styles.View2}>
      <TextInput style={styles.inputbuscar} placeholder='Buscar'/>
        <TouchableOpacity style={styles.btnbuscar}>
@@ -89,15 +92,28 @@ export default Home;
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#fff',
     alignItems: 'center',
     backgroundColor: '#DCE2F2',
+    paddingTop: Platform.OS === 'android' ? 25 : 0
+  },
+  topbar:{
+    width: windowWidth/1,
+    height: windowHeight/14,
+    backgroundColor: '#082359',
+    justifyContent:'center'
+  },
+  txttopbar:{
+    fontSize: 23,
+    alignSelf:'center',
+    fontWeight:'bold',
+    color: '#FFFFFF',
     
   },
   View2:{
     width: windowWidth/1,
     height: windowHeight/10,
     flexDirection: 'row',  
+    top:'3%'
   },
   imagen:{
     width: windowWidth/7,

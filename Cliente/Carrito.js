@@ -51,6 +51,15 @@ export default function Carrito(props) {
     });
   }, []);
   
+  const deleteItem = async () => {
+    setLoading(true)
+    const dbRef = firebase.db
+      .collection("Carrito")
+      .doc(props.route.params.med);
+    await dbRef.delete();
+    setLoading(false)
+   
+  };
 
   function finalizar(){
     let producto =[];
@@ -58,19 +67,22 @@ export default function Carrito(props) {
     meds.forEach(med => {
       producto.push(
                     "--------------------------------------------"+
-                    '\n'+" Producto: "+med.nombre+
-                    '\n'+" Presentacion: "+ med.presentacion+
+                    '\n'+"- Producto: "+med.nombre+
+                    '\n'+"- Presentacion: "+ med.presentacion+
                     '\n'+"- Cantidad: "+ med.cantidad+
-                    '\n'+"- Precio: $ "+ med.precio+
+                    '\n'+"- Precio Unitario: $ "+ med.precio+
                     '\n'+"- SubTotal: $ "+med.total+'\n'                   )
 
       const productosConFormatoAmigable = producto.join('\n');
-      Linking.openURL('https://api.whatsapp.com/send?phone=50372298350&text=Me%20interesan%20los%20siguientes%20productos'+
+      Linking.openURL('https://api.whatsapp.com/send?phone=50372298350&text=Me interesan los siguientes productos'+
       '\n'+ '\n'+"- Empresa: "+user.displayName + ' '+
       '\n'+ '\n'+"- Fecha: "+med.date + ' '
        + productosConFormatoAmigable+'\n'+"*****************************"+
-      '\n'+"- Total a pagar: $ "+count.toFixed(2) )
-
+      '\n'+"- Total a pagar: $ "+count.toFixed(2),
+      deleteItem()
+      
+      )
+    
     })
     console.log(JSON.stringify(producto));
     
@@ -82,6 +94,7 @@ export default function Carrito(props) {
   const user = auth.currentUser;
   
 
+ 
 
   return (
     
@@ -143,6 +156,7 @@ export default function Carrito(props) {
           
         );
       })}
+      
         <TouchableOpacity onPress={() => addToPedidos()}><Text>enviar pedido</Text></TouchableOpacity>
         <View style={styles.topbar1}>
       <Text style={styles.txttopbar}>Total:$         {count}</Text>

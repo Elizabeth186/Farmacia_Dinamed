@@ -4,6 +4,7 @@ import Home from './Screens/Home';
 import Historial from './Screens/Historial';
 import DetallesProducto from './Screens/DetallesProducto';
 import Accesos from './Screens/Accesos';
+import Agregar from './Screens/Agregar';
 
 
 

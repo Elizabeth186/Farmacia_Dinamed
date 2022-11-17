@@ -7,7 +7,8 @@ import {
   TouchableOpacity,
   Text,
   Image,
-  Dimensions
+  Dimensions,
+  Clipboard
 } from "react-native";
 import * as ImagePicker from 'expo-image-picker';
 import {firebase} from "../db/imagendb";
@@ -19,6 +20,7 @@ const windowWidth = Dimensions.get('window').width;
 const windowHeight = Dimensions.get('window').height;
 
 const Agregar = (props) => {
+  
   //agregando los items
   const initalState = {
     nombre: "",
@@ -26,8 +28,10 @@ const Agregar = (props) => {
     presentacion:"",
     descripcion: "",
     precio: "",
-    img: ""
+    img: "",
   };
+
+  
 
   //hooks para el manejo de imagen 
   const [image, setImage] = useState(null);
@@ -41,11 +45,13 @@ const Agregar = (props) => {
       allowsEditing:true,
       aspect: [4,3],
       quality:1,
+      
     });
     const source = {uri: result.uri};  
     console.log(source);
-    setImage(source);
+     setImage(source);
   };
+  
 
   //funcion para subir imagen a storage
   const uploadImage = async () =>{
@@ -54,6 +60,7 @@ const Agregar = (props) => {
     const blob = await response.blob();
     const filename = image.uri.substring(image.uri.lastIndexOf('/')+1);
     var ref = firebase.storage().ref().child(filename).put(blob);
+    
     try{
       await ref;
      setuploading(ref)
@@ -87,7 +94,7 @@ const Agregar = (props) => {
     }else if(!validandoprice(state.precio)){
       alert("Precio debe contener al menos 1 entero(Maximo 4) y dos decimales")
     }else if(state.img == ""){
-      alert("El producto no contiene el url de la imagen")
+     alert("El producto no contiene el url de la imagen")
     }else{
       try {
         //Llamando a la coleccion Productos
@@ -102,9 +109,15 @@ const Agregar = (props) => {
         props.navigation.navigate("Home");
       } catch (error) {
         console.log(error)
+        
       }
     }
   };
+
+  const copyToClipboard = () => {
+    Clipboard.setString(image && image.uri)
+    alert('Enlace copiado!!')
+  }
   return (
     <ScrollView style={styles.container}>
     <Text style={styles.txt}>Nombre del producto</Text>
@@ -156,18 +169,26 @@ const Agregar = (props) => {
           value={state.img}
         ></TextInput>
       </View>
-      <TouchableOpacity  style={styles.btn} onPress={pickimage}>
-        <Text style={styles.txtbtn} >Seleccione una imagen</Text>
-      </TouchableOpacity>
+     
       <Text style={styles.txtbtn2} >Subir imagen a la nube</Text>
       <TouchableOpacity style={styles.btn2} onPress={uploadImage}>
         <Image
              style={styles.tinyLogo}
              source={require('../assets/nube.png')}/>
       </TouchableOpacity>
+
+      <Text style={styles.txtbtn} >Seleccione una imagen</Text>
       <View style={styles.btnview} >
-        {image && <Image source={{uri: image.uri}} style={{with: 200, height: 200}}/>}
+        <TouchableOpacity  style={styles.btnview} onPress={pickimage}>
+        <View>
+        {image && <Image source={{uri: image.uri}} style={{with: windowWidth/3, height: windowHeight/4}}/>}
+        </View>
+        </TouchableOpacity>
       </View>
+
+      <TouchableOpacity style={styles.clipt} onPress={() => copyToClipboard()}>
+          <Text style={styles.cliptext}>{image && image.uri}</Text>
+        </TouchableOpacity>
       <View style={styles.button}>
       <TouchableOpacity style={styles.btnguardar} onPress={() => saveNewItem()}>
      
@@ -193,6 +214,23 @@ const styles = StyleSheet.create({
     justifyContent: "center",
   
 
+  },
+  clipt:{
+   width: windowWidth/1.1,
+   height: windowHeight/25,
+   backgroundColor: '#DCE2F2',
+   alignSelf:'center',
+   borderRadius: 25,
+   borderColor: 'white',
+   borderWidth: 2,
+   elevation: 12,
+   justifyContent:'center'
+  },
+  cliptext:{
+color: 'gray',
+fontSize: 10,
+textAlign:'center',
+fontWeight: 'bold'
   },
   inputs: {
     color:'red',
@@ -239,7 +277,7 @@ const styles = StyleSheet.create({
     color:'#616F8C'
   },
   btnview:{
-    marginTop: '5%',
+    marginTop: '2%',
     height: windowHeight/3.8,
     width:windowWidth/1.5,
    borderColor: '#616F8C',
@@ -263,18 +301,22 @@ const styles = StyleSheet.create({
   },
   
   txtbtn:{
-    color:'white',
+    color:'#616F8C',
+    fontSize: 15,
+    textAlign:'center',
+    fontWeight:'bold'
 
   },
   txtbtn2:{
     color:'#616F8C',
     fontSize: 10,
-    textAlign:'center'
+    textAlign:'center',
+    marginTop:'5%'
 
   },
   btn2:{
     marginTop: '2%',
-    marginBottom: '2%',
+    marginBottom: '8%',
     height: windowHeight/13,
     width: windowWidth/6,
     borderColor: 'blue',

@@ -55,7 +55,7 @@ const handleSignIn = ()=>{
       console.log('Sesion Iniciada!'+email)
       const user = userCredential.user;
       console.log(user);
-      navigation.navigate('Home')
+      navigation.replace('Home');
       })
       .catch(error =>{
         console.log(error);
@@ -69,7 +69,7 @@ const handleSignIn = ()=>{
     console.log('Sesion Iniciada!'+email)
     const user = userCredential.user;
     console.log(user);
-    navigation.navigate('usuario')
+    navigation.replace('Inicio')
     })
     .catch(error =>{
       console.log(error);
@@ -140,7 +140,7 @@ export default function Accesos() {
     <NavigationContainer>
     <Stack.Navigator  initialRouteName='Iniciar' >
       <Stack.Screen  options={{headerStyle: {backgroundColor: '#0D0D0D'}, headerShown: false}} name='Iniciar' component={Iniciar}/>
-      <Stack.Screen options={{headerShown: false}} name='Home' component={TabNav}/>
+      <Stack.Screen  options={{headerShown: false}} name='Home' component={TabNav}/>
       <Stack.Screen options={{headerTitleAlign: 'center',headerStyle: {backgroundColor: '#082359'},
                     headerTintColor: '#fff',headerTitleStyle: {fontWeight: 'bold'},title: 'Agregar un nuevo producto'}}
                     name="Agregar" component={Agregar}/>
@@ -150,7 +150,7 @@ export default function Accesos() {
       <Stack.Screen options={{headerTitleAlign: 'center',headerStyle: {backgroundColor: '#082359'},
                     headerTintColor: '#fff',headerTitleStyle: {fontWeight: 'bold'}}}
                     name="Perfil" component={Perfil}/>
-      <Stack.Screen options={{headerShown: false}} name="Inicio" component={TabNavc}/>
+      <Stack.Screen   options={{headerShown: false}} name="Inicio" component={TabNavc}/>
       <Stack.Screen options={{headerTitleAlign: 'center',headerStyle: {backgroundColor: '#082359'},
                     headerTintColor: '#fff',headerTitleStyle: {fontWeight: 'bold'},title: 'Detalles del producto'}}
                     name='Detalle' component={DetallesProductoCliente}/>
