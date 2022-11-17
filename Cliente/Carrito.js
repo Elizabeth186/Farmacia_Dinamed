@@ -58,14 +58,14 @@ export default function Carrito(props) {
     meds.forEach(med => {
       producto.push(
                     "--------------------------------------------"+
-                    '\n'+" Producto: "+med.nombre+
-                    '\n'+" Presentacion: "+ med.presentacion+
+                    '\n'+"- Producto: "+med.nombre+
+                    '\n'+"- Presentacion: "+ med.presentacion+
                     '\n'+"- Cantidad: "+ med.cantidad+
-                    '\n'+"- Precio: $ "+ med.precio+
+                    '\n'+"- Precio Unitario: $ "+ med.precio+
                     '\n'+"- SubTotal: $ "+med.total+'\n'                   )
 
       const productosConFormatoAmigable = producto.join('\n');
-      Linking.openURL('https://api.whatsapp.com/send?phone=50372298350&text=Me%20interesan%20los%20siguientes%20productos'+
+      Linking.openURL('https://api.whatsapp.com/send?phone=50372298350&text=Me interesan los siguientes productos'+
       '\n'+ '\n'+"- Empresa: "+user.displayName + ' '+
       '\n'+ '\n'+"- Fecha: "+med.date + ' '
        + productosConFormatoAmigable+'\n'+"*****************************"+
