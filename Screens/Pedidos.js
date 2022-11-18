@@ -68,36 +68,36 @@ export default function Pedidos (props) {
            
          <View style={styles.contenedores}key={medis.id}
             bottomDivider>
-         <Image
-         style={styles.imagenproducto}
-         source={{uri: medis.img}} />
-         <View style={styles.view1}>
-         <Text style={styles.titulo}>{medis.farmacia}</Text>
-         <Text style={styles.txt}>{medis.marca}</Text>
-         <Text style={styles.txt}>{medis.presentacion}</Text>
-         <Text style={styles.txt}>{medis.precio}</Text>
-         <Text style={styles.txt}>{medis.cantidad}</Text>
-         <Text style={styles.txt}>{medis.total}</Text>
          
+         
+         <View style={styles.viewfecha}>
+         <Text style={styles.txtfecha}>{medis.fechapedido.toString()}</Text>
          </View >
+         <View style={styles.viewfarmacia}>
+         <Text style={styles.titulo}>{medis.farmacia}</Text>
+         </View>
+         <View style={styles.viewtotal}>
+
+         </View>
+         <Text style={styles.txt}>{medis.total}</Text>
+
+         
+         <TouchableOpacity
+          key={medis.id}
+          bottomDivider
+          onPress={() => {
+            props.navigation.navigate("detallesPedido", {
+              listId: medis.id,
+            });
+           }}
+          >
          <LinearGradient colors={['#368DD9','#082359']} start ={{ x : 1, y : 0 }} style={styles.LinearGradient} >
          <View style={styles.viewprecio}>
-        
-         <Text style={styles.precio}>{medis.precio}</Text>
-         
+         <Text style={styles.precio}>Ver</Text>
          </View>
          </LinearGradient>
-         <View style={styles.btndelete}><TouchableOpacity
-       
-       key={medis.id}
-       bottomDivider
-       onPress={() => {
-         props.navigation.navigate("DetalleCarrito", {
-           listId: medis.id,
-         });
-       }}
-       ><Text>Ver</Text></TouchableOpacity></View>
-          </View>
+         </TouchableOpacity>
+        </View>
            
           
           
@@ -120,11 +120,6 @@ const styles = StyleSheet.create({
     paddingTop: "5%"
     
   },
-  View2:{
-    width: windowWidth/1,
-    height: windowHeight/10,
-    flexDirection: 'row',  
-  },
   topbar:{
     width: windowWidth/1,
     height: windowHeight/14,
@@ -145,90 +140,70 @@ const styles = StyleSheet.create({
     marginLeft:'5%',
     top:'-3%',
     
-  }
-  ,
-  imagenproducto:{
-    width: windowWidth/4,
-    borderTopLeftRadius: 10,
-    borderBottomLeftRadius: 10
-  }
-  ,
-  imagenbuscar:{
-    width: windowWidth/10,
-    height: windowHeight/19,
-    alignSelf:'center',
-    top: '8%',
-    marginLeft:'3%',
-    borderRadius:10,
-    
-    
   },
   contenedores:{
-    alignSelf:'center',
-    flexDirection:'row',
-    marginTop: '2%',
+    marginTop: '5%',
+    marginBottom: '5%',
     elevation:5,
-    backgroundColor:'white',
+    backgroundColor:'red',
     width: windowWidth/1.09,
-    height: windowHeight/5.4,
+    height: windowHeight/4,
     borderRadius: 10
+    
   },
   titulo:{
-    textAlign:'center',
-    fontSize:19,
-  top:'15%'
+    textAlign:'left',
+    fontSize:20,
+    margin:'5%',
+    fontWeight: 'bold'
     
   },
   precio:{
     textAlign:'center',
     fontSize:19,
-    marginTop:'35%',
+    marginTop:'30%',
     color: 'white',
     fontWeight:'bold',
-    height: windowHeight/8
+    height: windowHeight/25
 
   },
-  txt:{
+  txtfecha:{
     textAlign:'center',
-    top:'15%'
+    top:'15%',
+    
   },
-  view1:{
-    width: windowWidth/2.8,
+  viewfecha:{
+    width: windowWidth/4,
+    height: windowHeight/20,
     borderRadius: 10,
+    backgroundColor: '#ff2359',
+    
+  },
+  viewfarmacia:{
+    width: windowWidth/4,
+    height: windowHeight/20,
+    borderRadius: 10,
+    backgroundColor: '#fff59',
+    marginLeft:'10%'
+  },
+  viewtotal:{
+    width: windowWidth/4,
+    height: windowHeight/15,
+    borderRadius: 10,
+    backgroundColor: '#fff59',
+    flexDirection:'column',
+    marginLeft:'60%'
   },
   viewprecio:{
     borderRadius: 10,
     padding: 1,
-    width: windowWidth/4.7,
+    width: windowWidth/7,
   },
   LinearGradient:{
     borderBottomRightRadius: 10,
-    borderTopRightRadius: 10
-  },
-  imagend:{
-    width: windowWidth/10,
-    height: windowHeight/10,
-    borderBottomRightRadius: 10,
     borderTopRightRadius: 10,
-    
+    alignItems:'center',
+    height: windowHeight/12,
+
   }
-,
-btnflotan:{
-  position: 'absolute',
-  width: windowHeight/12,
-  height: windowHeight/12,
-  backgroundColor:'#082359',
-  borderRadius: 40,
-  bottom: 40,
-  right: 15,
-  elevation: 30,
-  borderColor: '#DCE2F2',
-  borderWidth: 3
-},
-tinyLogo:{
-  width: windowWidth/12,
-  height: windowHeight/23,
-  alignSelf:'center',
-  top:'20%'
-}
 })
