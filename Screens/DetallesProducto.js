@@ -299,7 +299,7 @@ const styles = StyleSheet.create({
   btn:{
     flexDirection: 'row',
     alignSelf: 'center',
-    marginTop: '15%',
+    marginTop: '30%',
     height:windowHeight/7
   },
   imagend:{

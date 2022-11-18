@@ -86,24 +86,25 @@ const DetallesProductoCliente  = (props) =>{
   }
 };
 
-/*const storeData = async (meds) => {
+const storeData = async () => {
   try {
-    const jsonValue = JSON.stringify(meds)
-    await AsyncStorage.setItem('id', jsonValue)
+    const oldData = await AsyncStorage.getItem('meds')
+    const oldList = oldData != null ? JSON.parse(oldData) : [];
+
+    oldList.push(meds)
+
+    const jsonValue = JSON.stringify(oldList)
+    await AsyncStorage.setItem('meds', jsonValue)
+    alert("Producto agregado al carrito")
   } catch (e) {
+    console.log("Fallo el STORE DATA")
+    console.log(e)
     // saving error
   }
 }
 
-const getData = async () => {
-  try {
-    const jsonValue = await AsyncStorage.getItem('id')
-    return jsonValue != null ? JSON.parse(jsonValue) : null;
-  } catch(e) {
-    // error reading value
-  }
-}
-*/
+
+
 
   
 //calcular total producto
@@ -166,7 +167,10 @@ const getData = async () => {
            
             </View>
             <View>
-              <TouchableOpacity onPress={() => addToCart()}>
+              <TouchableOpacity onPress={() => storeData()}>
+              <Image style={styles.imagencar}  source={require("../assets/cart.png")} />
+              </TouchableOpacity>
+              <TouchableOpacity onPress={() => getData()}>
               <Image style={styles.imagencar}  source={require("../assets/cart.png")} />
               </TouchableOpacity>
             </View>

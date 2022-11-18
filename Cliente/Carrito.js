@@ -10,6 +10,7 @@ import { collection, query, where, getDocs  } from "firebase/firestore";
 import { sum } from 'lodash';
 import { async } from '@firebase/util';
 import Pedidos from '../Screens/Pedidos';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 
 const windowWidth = Dimensions.get('window').width;
@@ -24,31 +25,42 @@ export default function Carrito(props) {
   const [meds, setMeds,] = useState([]);
   const [count, setCount] = useState(1);
   
+  const getData = async () => {
+    try {
+      const jsonValue = await AsyncStorage.getItem('meds')
+      const newMeds = jsonValue != null ? JSON.parse(jsonValue) : [];
+      setMeds(newMeds);
+    } catch(e) {
+      console.log("Fallo")
+    }
+    
+  }
 
   useEffect(() => {
-    firebase.db.collection("Carrito").onSnapshot((querySnapshot) => {
-      const meds = [];
-      var totalCarrito = 0
-      querySnapshot.docs.forEach((doc) => {
-        const { nombre, marca, presentacion, precio, cantidad, total, img, date } = doc.data();
-        meds.push({
-          id: doc.id,
-          nombre,
-          marca,
-          presentacion,
-          precio,
-          cantidad, 
-          total,
-          img,
-          date,
-        });
+    getData()
+      //   firebase.db.collection("Carrito").onSnapshot((querySnapshot) => {
+  //     const meds = [];
+  //     var totalCarrito = 0
+  //     querySnapshot.docs.forEach((doc) => {
+  //       const { nombre, marca, presentacion, precio, cantidad, total, img, date } = doc.data();
+  //       meds.push({
+  //         id: doc.id,
+  //         nombre,
+  //         marca,
+  //         presentacion,
+  //         precio,
+  //         cantidad, 
+  //         total,
+  //         img,
+  //         date,
+  //       });
         
-        totalCarrito += total
-      });
-      setMeds(meds);
-      setCount(totalCarrito)
-      console.log(totalCarrito)
-    });
+  //       totalCarrito += total
+  //     });
+  //     setMeds(meds);
+  //     setCount(totalCarrito)
+  //     console.log(totalCarrito)
+  //   });
   }, []);
   
   const deleteItem = async () => {
