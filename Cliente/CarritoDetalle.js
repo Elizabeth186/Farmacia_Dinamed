@@ -2,6 +2,7 @@ import React, { useState, useEffect, Component } from 'react';
 import {StyleSheet,Text,View,TouchableOpacity,Dimensions, ActivityIndicator, Image,Alert,ScrollView, TextInput, FlatList,Button,} from 'react-native';
 import firebase from "../db/firebasemeds";
 import db from "../db/firebasemeds"
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const windowWidth = Dimensions.get('window').width;
 const windowHeight = Dimensions.get('window').height;
@@ -20,18 +21,18 @@ const CarritoDetalle  = (props) =>{
 
   };
 
-  const [meds, setMeds] = useState(initialState);
+  const [med, setMed] = useState(initialState);
   const [loading, setLoading] = useState(true);
 
-  const getItemById = async (id) => {
+  // const getItemById = async (id) => {
     
     
-    const dbRef = firebase.db.collection("Carrito").doc(id);
-    const doc = await dbRef.get();
-    const meds = doc.data();
-    setMeds({ ...meds, id: doc.id });
-    setLoading(false);
-  };
+  //   const dbRef = firebase.db.collection("Carrito").doc(id);
+  //   const doc = await dbRef.get();
+  //   const meds = doc.data();
+  //   setMeds({ ...meds, id: doc.id });
+  //   setLoading(false);
+  // };
 
   const [ total, setTotal] = useState(0);
   const [ cantidad, setCantidad] = useState(1);
@@ -45,13 +46,44 @@ const CarritoDetalle  = (props) =>{
   };
 
     const calcularTotal = () =>{
-        let newtotal = cantidad * meds.precio;
+        let newtotal = cantidad * med.precio;
         setTotal(newtotal); 
     };
 
-    useEffect(() => {
-    getItemById(props.route.params.listId);
+    const getDatabyId = async (id) => {
+      try {
+        const jsonValue = await AsyncStorage.getItem('meds')
+        const newMeds = jsonValue != null ? JSON.parse(jsonValue) : [];
+        newMeds.forEach(element => {
+          console.log("ENTRO")
+          console.log(id)
+          if(element.id == id) {
+            console.log("si encontro")
+            setMed(element)
+          }
+        });
+        setLoading(false);
+      } catch(e) {
+        console.log(FALLOLATRAIDA)
+      }
+      
+    }
 
+    // const getMyStringsValue = async () => {
+    //   let values
+    //   try {
+    //     values =  await AsyncStorage.multiGet(['nombre', 'marca'])
+    //   } catch(e) {
+    //     console.log("FalloAAAAAAAAAA")
+    //   }
+    
+    //   console.log('Done.')
+    //   console.log(values)
+    // }
+
+    useEffect(() => {
+    // getItemById(props.route.params.listId);
+      getDatabyId(props.route.params.listId)
     calcularTotal();
     }, [cantidad]);
 
@@ -68,34 +100,34 @@ const CarritoDetalle  = (props) =>{
   
 
   
-  const updateItem = async () => {
+  // const updateItem = async () => {
 
-    if (cantidad === "") {
-      alert("Por favor ingrese cantidad de productos deseada");
-    }
-      else if(cantidad <=0){
-      alert("La cantidad de productos no puede ser menor a 1");
+  //   if (cantidad === "") {
+  //     alert("Por favor ingrese cantidad de productos deseada");
+  //   }
+  //     else if(cantidad <=0){
+  //     alert("La cantidad de productos no puede ser menor a 1");
 
-    }else{
+  //   }else{
   
-      try {
-        const listrRef = firebase.db.collection("Carrito").doc(meds.id);
-    await listrRef.set({
-        nombre: meds.nombre,
-        marca: meds.marca,
-        presentacion: meds.presentacion,
-        precio: meds.precio,
-        cantidad: cantidad,
-        total: total,
-        img: meds.img
-    });
+  //     try {
+  //       const listrRef = firebase.db.collection("Carrito").doc(meds.id);
+  //   await listrRef.set({
+  //       nombre: meds.nombre,
+  //       marca: meds.marca,
+  //       presentacion: meds.presentacion,
+  //       precio: meds.precio,
+  //       cantidad: cantidad,
+  //       total: total,
+  //       img: meds.img
+  //   });
         
-        props.navigation.navigate("Carrito");
-      } catch (error) {
-        console.log(error)
-      }
-    }
-  };
+  //       props.navigation.navigate("Carrito");
+  //     } catch (error) {
+  //       console.log(error)
+  //     }
+  //   }
+  // };
 
 
   if (loading) {
@@ -112,23 +144,23 @@ const CarritoDetalle  = (props) =>{
         <ScrollView>
           <View style={{alignItems:'center', marginHorizontal:30}}>
           
-          <Image style={styles.imagen}source={{uri:meds.img}} />
+          <Image style={styles.imagen}source={{uri:med.img}} />
             </View>
            
 
           
   
             <View style={styles.items}>
-              <Text style={styles.txttitulo}>{meds.nombre}</Text>
+              <Text style={styles.txttitulo}>{med.cantidad}</Text>
             <View>
-              <Text style={styles.txt}>{meds.marca}</Text>
+              <Text style={styles.txt}>{med.marca}</Text>
             </View>
 
             <View>
-              <Text>{meds.presentacion}</Text>
+              <Text>{med.presentacion}</Text>
             </View>
         <View>
-          <Text style={styles.txtprecio}>${meds.precio}</Text>
+          <Text style={styles.txtprecio}>${med.precio}</Text>
         </View>
                     
                 <Text style={styles.txt1}>*Inserte cantidad de productos deseada:</Text>

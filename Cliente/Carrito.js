@@ -36,6 +36,8 @@ export default function Carrito(props) {
     
   }
 
+  
+
   useEffect(() => {
     getData()
       //   firebase.db.collection("Carrito").onSnapshot((querySnapshot) => {
@@ -91,7 +93,7 @@ export default function Carrito(props) {
       '\n'+ '\n'+"- Fecha: "+med.date + ' '
        + productosConFormatoAmigable+'\n'+"*****************************"+
       '\n'+"- Total a pagar: $ "+count.toFixed(2),
-      deleteItem()
+      
       
       )
     
@@ -169,7 +171,8 @@ export default function Carrito(props) {
         );
       })}
       
-        <TouchableOpacity onPress={() => addToPedidos()}><Text>enviar pedido</Text></TouchableOpacity>
+        <TouchableOpacity onPress={() => getData()}><Text>Actualizar</Text></TouchableOpacity>
+        <TouchableOpacity onPress={() => getData()}><Text>Actualizar</Text></TouchableOpacity>
         <View style={styles.topbar1}>
       <Text style={styles.txttopbar}>Total:$         {count}</Text>
       

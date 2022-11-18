@@ -100,6 +100,15 @@ const storeData = async () => {
     console.log("Fallo el STORE DATA")
     console.log(e)
     // saving error
+  } 
+}
+
+const clearAppData = async function() {
+  try {
+      const keys = await AsyncStorage.getAllKeys();
+      await AsyncStorage.multiRemove(keys);
+  } catch (error) {
+      console.error('Error clearing app data.');
   }
 }
 
@@ -170,7 +179,7 @@ const storeData = async () => {
               <TouchableOpacity onPress={() => storeData()}>
               <Image style={styles.imagencar}  source={require("../assets/cart.png")} />
               </TouchableOpacity>
-              <TouchableOpacity onPress={() => getData()}>
+              <TouchableOpacity onPress={() => clearAppData()}>
               <Image style={styles.imagencar}  source={require("../assets/cart.png")} />
               </TouchableOpacity>
             </View>

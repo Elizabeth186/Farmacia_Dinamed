@@ -13,17 +13,6 @@ const windowHeight = Dimensions.get('window').height;
 export default function Pedidos (props) {
   
 
-  const initialState = {
-    id: "",
-    nombre: "",
-    marca: "",
-    presentacion:"",
-    precio: "",
-    cantidad: "",
-    total: "",
-    img: ""
-
-  };
   const [meds, setMeds] = useState([]);
   
   
