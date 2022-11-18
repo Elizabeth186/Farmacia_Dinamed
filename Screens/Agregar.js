@@ -63,11 +63,10 @@ const [url, seturl] = useState('');
 
     ref.on("jaja", function(){
       ref.snapshot.ref.getDownloadURL().then(function (urlimage){
-
+       seturl(urlimage)
         console.log(urlimage)
       })
     })
-
 
     try{
       await ref;
@@ -76,9 +75,6 @@ const [url, seturl] = useState('');
       console.log(e);
     }
     setuploading(false);
-    alert(
-      'imagen subida'
-    );
    
     setImage(source);
   };
@@ -122,6 +118,10 @@ const [url, seturl] = useState('');
       }
     }
   };
+   const copyToClipboardurl = () => {
+     Clipboard.setString(url)
+     alert('Enlace copiado!!')
+   }
 
   return (
     <ScrollView style={styles.container}>
@@ -181,10 +181,9 @@ const [url, seturl] = useState('');
              style={styles.tinyLogo}
              source={require('../assets/nube.png')}/>
       </TouchableOpacity>
-      {/* <TouchableOpacity style={styles.clipt} onPress={() => copyToClipboardurl()}>
-          <Text style={styles.cliptext}>jajja</Text>
-        </TouchableOpacity> */}
-
+       <TouchableOpacity style={styles.clipt} onPress={() => copyToClipboardurl()}>
+          <Text style={styles.cliptext}>{url}</Text>
+        </TouchableOpacity> 
       <Text style={styles.txtbtn} >Seleccione una imagen</Text>
       <View style={styles.btnview} >
         <TouchableOpacity  style={styles.btnview} onPress={pickimage}>
