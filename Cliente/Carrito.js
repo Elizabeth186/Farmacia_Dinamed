@@ -22,16 +22,23 @@ export default function Carrito(props) {
  
 
   
-  const [meds, setMeds,] = useState([]);
+  const [groups, setGroups,] = useState([]);
   const [count, setCount] = useState(1);
   
   const getData = async () => {
     try {
       const jsonValue = await AsyncStorage.getItem('meds')
       const newMeds = jsonValue != null ? JSON.parse(jsonValue) : [];
-      setMeds(newMeds);
+      var totalCarrito = 0
+      groups.forEach(group => {
+        
+        totalCarrito += group.total
+      }) 
+
+      setCount(totalCarrito);
+      setGroups(newMeds);
     } catch(e) {
-      console.log("Fallo")
+      console.log(e)
     }
     
   }
@@ -40,57 +47,37 @@ export default function Carrito(props) {
 
   useEffect(() => {
     getData()
-      //   firebase.db.collection("Carrito").onSnapshot((querySnapshot) => {
-  //     const meds = [];
-  //     var totalCarrito = 0
-  //     querySnapshot.docs.forEach((doc) => {
-  //       const { nombre, marca, presentacion, precio, cantidad, total, img, date } = doc.data();
-  //       meds.push({
-  //         id: doc.id,
-  //         nombre,
-  //         marca,
-  //         presentacion,
-  //         precio,
-  //         cantidad, 
-  //         total,
-  //         img,
-  //         date,
-  //       });
-        
-  //       totalCarrito += total
-  //     });
-  //     setMeds(meds);
-  //     setCount(totalCarrito)
-  //     console.log(totalCarrito)
-  //   });
+    
+
   }, []);
   
-  const deleteItem = async () => {
-    setLoading(true)
-    const dbRef = firebase.db
-      .collection("Carrito")
-      .doc(props.route.params.med);
-    await dbRef.delete();
-    setLoading(false)
-   
-  };
+  const clearAppData = async function() {
+    try {
+        const keys = await AsyncStorage.getAllKeys();
+        await AsyncStorage.multiRemove(keys);
+    } catch (error) {
+        console.error('Error clearing app data.');
+    }
+  }
 
   function finalizar(){
     let producto =[];
+    
    
-    meds.forEach(med => {
+    groups.forEach(group => {
+      const date = group.date
       producto.push(
                     "--------------------------------------------"+
-                    '\n'+"- Producto: "+med.nombre+
-                    '\n'+"- Presentacion: "+ med.presentacion+
-                    '\n'+"- Cantidad: "+ med.cantidad+
-                    '\n'+"- Precio Unitario: $ "+ med.precio+
-                    '\n'+"- SubTotal: $ "+med.total+'\n'                   )
+                    '\n'+"- Producto: "+group.med.nombre+
+                    '\n'+"- Presentacion: "+ group.med.presentacion+
+                    '\n'+"- Cantidad: "+ group.cantidad+
+                    '\n'+"- Precio Unitario: $ "+ group.med.precio+
+                    '\n'+"- SubTotal: $ "+group.total+'\n'                   )
 
       const productosConFormatoAmigable = producto.join('\n');
       Linking.openURL('https://api.whatsapp.com/send?phone=50372298350&text=Me interesan los siguientes productos'+
       '\n'+ '\n'+"- Empresa: "+user.displayName + ' '+
-      '\n'+ '\n'+"- Fecha: "+med.date + ' '
+      '\n'+ '\n'+"- Fecha: "+ date + ' '
        + productosConFormatoAmigable+'\n'+"*****************************"+
       '\n'+"- Total a pagar: $ "+count.toFixed(2),
       
@@ -116,71 +103,63 @@ export default function Carrito(props) {
      
     <View style={styles.topbar}>
       <Text style={styles.txttopbar}>Carrito</Text>
-      
-      <Text style={styles.titulo}>{user.displayName}</Text>
+    </View>
+    <View style={styles.topbar1}>
+      <View style={styles.topbar2}>
+        <TouchableOpacity onPress={() => getData()}><Text style={styles.txttopbar2}>Actualizar</Text></TouchableOpacity>
+        
+        </View>
+        <View style={styles.topbar3}>
+        <TouchableOpacity onPress={() => clearAppData()}><Text style={styles.txttopbar3}>Borrar carro</Text></TouchableOpacity>
+        </View>
     </View>
       
 <ScrollView>
       
       {
-      meds.map((medis) => {
+      groups.map((group) => {
         return (
         
           
            
-         <View style={styles.contenedores}key={medis.id}
+         <View style={styles.contenedores}key={group.med.id}
             bottomDivider>
          <Image
          style={styles.imagenproducto}
-         source={{uri: medis.img}} />
+         source={{uri: group.med.img}} />
          <View style={styles.view1}>
-         <Text style={styles.titulo}>{medis.nombre}</Text>
-         <Text style={styles.txt}>{medis.marca}</Text>
-         <Text style={styles.txt}>{medis.presentacion}</Text>
-         <Text style={styles.txt}>{medis.precio}</Text>
-         <Text style={styles.txt}>{medis.cantidad}</Text>
-         <Text style={styles.txt}>{medis.total}</Text>
-         <Text style={styles.txt}>{medis.date}</Text>
+         <Text style={styles.titulo}>{group.med.nombre}</Text>
+         <Text style={styles.txt}>{group.med.marca}</Text>
+         <Text style={styles.txt}>{group.med.presentacion}</Text>
+         <Text style={styles.txt}>{group.med.precio}</Text>
+         <Text style={styles.txt}>{group.cantidad}</Text>
+         <Text style={styles.txt}>{group.total}</Text>
+         <Text style={styles.txt}>{group.date}</Text>
          <View style={styles.viewprecio}>
           
-         <Text style={styles.precio}>{medis.precio}</Text>
+         <Text style={styles.precio}>{group.med.precio}</Text>
        
          </View>
          
          </View >
-         <LinearGradient colors={['#368DD9','#082359']} start ={{ x : 1, y : 0 }} style={styles.LinearGradient} >
-         
-         <View style={styles.verprecio}><TouchableOpacity
-       
-          key={medis.id}
-          bottomDivider
-          onPress={() => {
-          props.navigation.navigate("DetalleCarrito", {
-           listId: medis.id,
-         });
-          }}
-          ><Text style={styles.precio}>Ver</Text></TouchableOpacity>
-          </View>
-         
-         </LinearGradient>
          
           </View>
-           
-          
-          
         );
       })}
-      
-        <TouchableOpacity onPress={() => getData()}><Text>Actualizar</Text></TouchableOpacity>
-        <TouchableOpacity onPress={() => getData()}><Text>Actualizar</Text></TouchableOpacity>
-        <View style={styles.topbar1}>
-      <Text style={styles.txttopbar}>Total:$         {count}</Text>
-      
-      
-    </View>
-    <TouchableOpacity onPress={()=> finalizar()}>
-          <Image style={styles.imagen1} source={require("../Images/wha.png")}/>          
-        </TouchableOpacity>
+        <View style={styles.topbar4}>
+          <Text style={styles.txttopbar}>Total:  ${count}</Text>
+        </View>
+        <View style={styles.topbar5}>
+          
+          <TouchableOpacity onPress={()=> finalizar()}>
+          
+            <Image style={styles.imagen1} source={require("../Images/wha.png")}/>  
+            <Text style={styles.txttopbar5}>Enviar pedido</Text>
+
+          </TouchableOpacity>
+        </View>
+    
+        
     </ScrollView>
        
        
@@ -219,14 +198,73 @@ const styles = StyleSheet.create({
   },topbar1:{
     width: windowWidth/1,
     height: windowHeight/12,
-    backgroundColor: '#082359',
+    backgroundColor: '#66CDAA',
+    flexDirection:'column',
     
+  },topbar2:{
+    width: windowWidth/3,
+    height: windowHeight/12,
+    marginLeft:'8%',
+    backgroundColor: '#5F9EA0',
+    alignSelf:'flex-start',
+    borderRadius:10,
+    paddingTop:'4%',
+    paddingHorizontal: '2%'
+  },
+  topbar3:{
+    width: windowWidth/4,
+    height: windowHeight/12,
+    marginLeft:'60%',
+    alignItems:'center',
+    backgroundColor: '#A52A2A',
+    borderRadius:10,
+    paddingTop:'5%',
+    position:'absolute',
+  },
+  topbar4:{
+    width: windowWidth/2,
+    height: windowHeight/12,
+    marginTop:'3%',
+    backgroundColor: '#5F9EA0',
+    alignSelf:'center',
+    borderRadius:10,
+    paddingTop:'4%',
+    paddingHorizontal: '2%'
+  },
+  topbar5:{
+    width: windowWidth/1,
+    height: windowHeight/10,
+    backgroundColor: '#5F9EA0',
+    borderRadius:10,
+    marginTop:'4%',
+    paddingTop:'3%',
+    alignContent: 'center',
+    paddingHorizontal: '2%',
+    flexDirection:'column',
   },
   txttopbar:{
     fontSize: 24,
     alignSelf:'center',
     fontWeight:'bold',
     color: '#FFFFFF'
+  },txttopbar2:{
+    fontSize: 18,
+    alignSelf:'center',
+    fontWeight:'bold',
+    color: '#FFFFFF'
+  },
+  txttopbar3:{
+    fontSize: 18,
+    alignSelf:'center',
+    fontWeight:'bold',
+    color: '#FFFFFF'
+  },
+  txttopbar5:{
+    fontSize: 22,
+    alignSelf:'center',
+    fontWeight:'bold',
+    color: '#FFFFFF',
+    marginTop:'3.6%'
   },
   imagen:{
     width: windowWidth/7,
@@ -261,7 +299,7 @@ const styles = StyleSheet.create({
     elevation:5,
     backgroundColor:'white',
     width: windowWidth/1.09,
-    height: windowHeight/2.5,
+    height: windowHeight/3,
     borderRadius: 10
   },
   titulo:{
@@ -299,7 +337,7 @@ const styles = StyleSheet.create({
   },
   verprecio:{
     width: windowWidth/10,
-    height: windowHeight/10,
+    height: windowHeight/20,
     borderBottomRightRadius: 10,
     borderTopRightRadius: 10,
     
@@ -322,5 +360,13 @@ tinyLogo:{
   height: windowHeight/23,
   alignSelf:'center',
   top:'20%'
+},
+imagen1:{
+  width: windowWidth/8,
+  height: windowHeight/13,
+  padding: '3%',
+  marginRight:'5%',
+  marginLeft:'2%',
+  position: 'absolute',
 }
 })
