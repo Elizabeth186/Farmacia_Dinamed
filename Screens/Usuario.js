@@ -52,7 +52,7 @@ export default function Usuario({navigation}) {
      </TouchableOpacity>
      <TouchableOpacity style={styles.txtbtnagregar1} onPress={() => navigation.navigate("Inicio")}>
      
-     <Text style={styles.txtbtnagregar1}>Siguiente</Text>
+     <Text style={styles.txtbtnagregar1}>Regresar</Text>
      </TouchableOpacity>
             </View>
   );

@@ -8,7 +8,7 @@ const windowWidth = Dimensions.get('window').width;
 const windowHeight = Dimensions.get('window').height;
 
 
-export default function Perfil({navigation}) {
+export default function PerfilAdmin({navigation}) {
 
   const [text, onChangeText] = React.useState("Ponga su mensaje aca");
 
@@ -28,17 +28,7 @@ export default function Perfil({navigation}) {
     <View>
       <SafeAreaView>
       <Image style={styles.imagen} source={require("../Images/Logo.png")}/>
-      <TouchableOpacity onPress={() => navigation.navigate("usuario")}
-      title="Poseo dudas con rspecto a mi pedido">
-          <Image style={styles.imagen1} source={require("../Images/userpr.png")}/>  
-          <Text style={styles.textstyle}>Cambiar/Insertar nombre de farmacia</Text>        
-        </TouchableOpacity>
         
-        <TouchableOpacity onPress={()=> Linking.openURL(url)}
-      title="Poseo dudas con rspecto a mi pedido">
-          <Image style={styles.imagen1} source={require("../Images/wha.png")}/>          
-        </TouchableOpacity>
-        <Text style={styles.textstyle}>Contactanos</Text>
         <TouchableOpacity onPress={SignOut}>
           <Image style={styles.imagen2} source={require("../Images/logout.png")}/>
         </TouchableOpacity>

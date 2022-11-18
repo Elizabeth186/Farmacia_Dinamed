@@ -90,8 +90,16 @@ const storeData = async () => {
   try {
     const oldData = await AsyncStorage.getItem('meds')
     const oldList = oldData != null ? JSON.parse(oldData) : [];
-
-    oldList.push(meds)
+    console.log(cantidad)
+    console.log(total)
+    console.log("SI PASSA POR ACA")
+    const group = {
+      cantidad: cantidad,
+      total: total,
+      date: new Date().toLocaleDateString(),
+      med: meds
+    }
+    oldList.push(group)
 
     const jsonValue = JSON.stringify(oldList)
     await AsyncStorage.setItem('meds', jsonValue)
@@ -103,14 +111,7 @@ const storeData = async () => {
   } 
 }
 
-const clearAppData = async function() {
-  try {
-      const keys = await AsyncStorage.getAllKeys();
-      await AsyncStorage.multiRemove(keys);
-  } catch (error) {
-      console.error('Error clearing app data.');
-  }
-}
+
 
 
 
@@ -177,9 +178,6 @@ const clearAppData = async function() {
             </View>
             <View>
               <TouchableOpacity onPress={() => storeData()}>
-              <Image style={styles.imagencar}  source={require("../assets/cart.png")} />
-              </TouchableOpacity>
-              <TouchableOpacity onPress={() => clearAppData()}>
               <Image style={styles.imagencar}  source={require("../assets/cart.png")} />
               </TouchableOpacity>
             </View>
