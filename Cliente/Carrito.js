@@ -96,7 +96,6 @@ export default function Carrito(props) {
       
       
       )
-    
     })
     console.log(JSON.stringify(producto));
     
