@@ -28,10 +28,10 @@ export default function Perfil({navigation}) {
     <View>
       <SafeAreaView>
       <Image style={styles.imagen} source={require("../Images/Logo.png")}/>
-      <TouchableOpacity onPress={() => navigation.navigate("usuario")}
-      title="Poseo dudas con rspecto a mi pedido">
-          <Image style={styles.imagen1} source={require("../Images/userpr.png")}/>  
-          <Text style={styles.textstyle}>Cambiar/Insertar nombre de farmacia</Text>        
+        <TouchableOpacity onPress={() => navigation.navigate("usuario")}
+        title="Poseo dudas con rspecto a mi pedido">
+            <Image style={styles.imagen11} source={require("../Images/userpr.png")}/>  
+            <Text style={styles.textstyle1}>Cambiar/Insertar nombre de farmacia</Text>        
         </TouchableOpacity>
         
         <TouchableOpacity onPress={()=> Linking.openURL(url)}
@@ -66,15 +66,22 @@ const styles = StyleSheet.create({
   },
   imagen:{
     width: windowWidth/3,
-    height: windowHeight/7.8,
+    height: windowHeight/6.8,
     alignSelf:'center',
     top: 80
+  },
+  imagen11:{
+    width: windowWidth/6,
+    height: windowHeight/12,
+    alignSelf:'center',
+    marginTop: "30%",
+    marginBottom:'0%'
   },
   imagen1:{
     width: windowWidth/6,
     height: windowHeight/12,
     alignSelf:'center',
-    marginTop: "35%"
+    marginBottom:'%'
   },
   imagen2:{
     width: windowWidth/6,
@@ -99,6 +106,13 @@ const styles = StyleSheet.create({
     textAlign: 'left',
     fontSize: 14,
     marginTop: '5%',
+    alignSelf:'center',
+  },
+  textstyle1:{
+    textAlign: 'left',
+    fontSize: 14,
+    marginTop: '5%',
+    marginBottom: '7%',
     alignSelf:'center',
   },
   textbtn:{

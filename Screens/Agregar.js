@@ -122,15 +122,7 @@ const [url, seturl] = useState('');
       }
     }
   };
-  // const copyToClipboardurl = () => {
-  //   Clipboard.setString(ref && urlimage)
-  //   alert('Enlace copiado!!')
-  // }
 
-  // const copyToClipboard = () => {
-  //   Clipboard.setString(image && image.uri)
-  //   alert('Enlace copiado!!')
-  // }
   return (
     <ScrollView style={styles.container}>
     <Text style={styles.txt}>Nombre del producto</Text>

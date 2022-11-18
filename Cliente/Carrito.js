@@ -55,6 +55,7 @@ export default function Carrito(props) {
     try {
         const keys = await AsyncStorage.getAllKeys();
         await AsyncStorage.multiRemove(keys);
+        alert('Presione el botón actualizar')
     } catch (error) {
         console.error('Error clearing app data.');
     }
@@ -131,10 +132,10 @@ export default function Carrito(props) {
          <Text style={styles.titulo}>{group.med.nombre}</Text>
          <Text style={styles.txt}>{group.med.marca}</Text>
          <Text style={styles.txt}>{group.med.presentacion}</Text>
-         <Text style={styles.txt}>{group.med.precio}</Text>
-         <Text style={styles.txt}>{group.cantidad}</Text>
-         <Text style={styles.txt}>{group.total}</Text>
-         <Text style={styles.txt}>{group.date}</Text>
+         <Text style={styles.txt}>${group.med.precio}</Text>
+         <Text style={styles.txt}>Cantidad:  {group.cantidad}</Text>
+         <Text style={styles.txt}>Sub total:${group.total}</Text>
+         <Text style={styles.txt}>Fecha: {group.date}</Text>
          <View style={styles.viewprecio}>
           
          <Text style={styles.precio}>{group.med.precio}</Text>
@@ -320,6 +321,7 @@ const styles = StyleSheet.create({
   txt:{
     textAlign:'center',
     top:'15%',
+    paddingVertical:'2%',
     position:"relative",
   },
   view1:{

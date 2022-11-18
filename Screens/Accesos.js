@@ -20,6 +20,7 @@ import TabNavc from './NavCliente';
 import CarritoDetalle from '../Cliente/CarritoDetalle';
 import Usuario from "./Usuario";
 import DetallesPedido from "./DetallesPedido";
+import PerfilAdmin from "./PerfilAdmin";
 
 const windowWidth = Dimensions.get('window').width;
 const windowHeight = Dimensions.get('window').height;
@@ -160,6 +161,9 @@ export default function Accesos() {
                     <Stack.Screen options={{headerTitleAlign: 'center',headerStyle: {backgroundColor: '#082359'},
                     headerTintColor: '#fff',headerTitleStyle: {fontWeight: 'bold'},title: 'Detalles del producto'}}
                     name='usuario' component={Usuario}/>
+                    <Stack.Screen options={{headerTitleAlign: 'center',headerStyle: {backgroundColor: '#082359'},
+                    headerTintColor: '#fff',headerTitleStyle: {fontWeight: 'bold'},title: 'Detalles del producto'}}
+                    name='PerfilAdmin' component={PerfilAdmin}/>
                      <Stack.Screen options={{headerTitleAlign: 'center',headerStyle: {backgroundColor: '#082359'},
                     headerTintColor: '#fff',headerTitleStyle: {fontWeight: 'bold'},title: 'Detalles del producto'}}
                     name='detallesPedido' component={DetallesPedido}/>

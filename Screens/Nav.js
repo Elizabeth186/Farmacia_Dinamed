@@ -6,6 +6,7 @@ import Perfil from './Perfil';
 import AntDesign from 'react-native-vector-icons/AntDesign'
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons'
 import Historial from './Historial';
+import PerfilAdmin from './PerfilAdmin';
 
 function TabBarIcon({name, color}){
   return(
@@ -28,10 +29,10 @@ const  TabNav = (props) => {
       <Tab.Screen name="Home" component={Home} options={{ tabBarIcon: ({color}) =>(
                     <TabBarIcon name='home' color={color}/>
                 ),  headerShown: false}}/>
-      <Tab.Screen name="Pedidos" component={Pedidos} options={{ tabBarIcon: ({color}) =>(
+      {/* <Tab.Screen name="Pedidos" component={Pedidos} options={{ tabBarIcon: ({color}) =>(
                     <TabBarIcon1 name='history-toggle-off' color={color}/>
-                ),  headerShown: false}}/>
-      <Tab.Screen name="Perfil" component={Perfil} options={{ tabBarIcon: ({color}) =>(
+                ),  headerShown: false}}/> */}
+      <Tab.Screen name="PerfilAdmin" component={PerfilAdmin} options={{ tabBarIcon: ({color}) =>(
                     <TabBarIcon1 name='person' color={color}/>
                 ),  headerShown: false}}/>
     </Tab.Navigator>
