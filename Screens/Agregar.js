@@ -52,15 +52,23 @@ const Agregar = (props) => {
      setImage(source);
   };
   
-
+const [url, seturl] = useState('');
   //funcion para subir imagen a storage
   const uploadImage = async () =>{
     setuploading(true);
     const response = await fetch(image.uri)
     const blob = await response.blob();
-    const filename = image.uri.substring(image.uri.lastIndexOf('/')+1);
+     const filename = image.uri.substring(image.uri.lastIndexOf('/')+1);
     var ref = firebase.storage().ref().child(filename).put(blob);
-    
+
+    ref.on("jaja", function(){
+      ref.snapshot.ref.getDownloadURL().then(function (urlimage){
+
+        console.log(urlimage)
+      })
+    })
+
+
     try{
       await ref;
      setuploading(ref)
@@ -71,6 +79,7 @@ const Agregar = (props) => {
     alert(
       'imagen subida'
     );
+   
     setImage(source);
   };
 
@@ -113,11 +122,15 @@ const Agregar = (props) => {
       }
     }
   };
+  // const copyToClipboardurl = () => {
+  //   Clipboard.setString(ref && urlimage)
+  //   alert('Enlace copiado!!')
+  // }
 
-  const copyToClipboard = () => {
-    Clipboard.setString(image && image.uri)
-    alert('Enlace copiado!!')
-  }
+  // const copyToClipboard = () => {
+  //   Clipboard.setString(image && image.uri)
+  //   alert('Enlace copiado!!')
+  // }
   return (
     <ScrollView style={styles.container}>
     <Text style={styles.txt}>Nombre del producto</Text>
@@ -176,6 +189,9 @@ const Agregar = (props) => {
              style={styles.tinyLogo}
              source={require('../assets/nube.png')}/>
       </TouchableOpacity>
+      {/* <TouchableOpacity style={styles.clipt} onPress={() => copyToClipboardurl()}>
+          <Text style={styles.cliptext}>jajja</Text>
+        </TouchableOpacity> */}
 
       <Text style={styles.txtbtn} >Seleccione una imagen</Text>
       <View style={styles.btnview} >
@@ -186,9 +202,9 @@ const Agregar = (props) => {
         </TouchableOpacity>
       </View>
 
-      <TouchableOpacity style={styles.clipt} onPress={() => copyToClipboard()}>
+      {/* <TouchableOpacity style={styles.clipt} onPress={() => copyToClipboard()}>
           <Text style={styles.cliptext}>{image && image.uri}</Text>
-        </TouchableOpacity>
+        </TouchableOpacity> */}
       <View style={styles.button}>
       <TouchableOpacity style={styles.btnguardar} onPress={() => saveNewItem()}>
      
