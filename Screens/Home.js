@@ -35,17 +35,7 @@ useEffect(() => {
       <View style={styles.topbar}>
       <Text style={styles.txttopbar}>Productos</Text>
     </View>
-    <View style={styles.View2}>
-     <TextInput style={styles.inputbuscar} placeholder='Buscar'/>
-       <TouchableOpacity style={styles.btnbuscar}>
-       <Image
-        style={styles.imagenbuscar}
-        source={require("../Images/buscar.png")} />
-       </TouchableOpacity>
-      <Image
-        style={styles.imagen}
-        source={require("../Images/Logo.png")} />
-    </View>
+   
     <ScrollView>
     {
     meds.map((medis) => {

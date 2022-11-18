@@ -38,18 +38,9 @@ useEffect(() => {
     <View style={styles.container}>
       
       <SafeAreaView>
-    <View style={styles.View2}>
-      
-     <TextInput style={styles.inputbuscar} placeholder='Buscar'/>
-       <TouchableOpacity style={styles.btnbuscar}>
-       <Image
-        style={styles.imagenbuscar}
-        source={require("../Images/buscar.png")} />
-       </TouchableOpacity>
-      <Image
-        style={styles.imagen}
-        source={require("../Images/Logo.png")} />
-    </View>     
+      <View style={styles.topbar}>
+      <Text style={styles.txttopbar}>Dinamed</Text>
+    </View>
     
     <ScrollView>
     {
@@ -98,6 +89,19 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     backgroundColor: '#DCE2F2',
     paddingTop: Platform.OS === 'android' ? 25 : 0
+    
+  },
+  topbar:{
+    width: windowWidth/1,
+    height: windowHeight/14,
+    backgroundColor: '#082359',
+    justifyContent:'center'
+  },
+  txttopbar:{
+    fontSize: 23,
+    alignSelf:'center',
+    fontWeight:'bold',
+    color: '#FFFFFF',
     
   },
   View2:{

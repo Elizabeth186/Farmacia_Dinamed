@@ -25,19 +25,38 @@ const DetallesProductoCliente  = (props) =>{
   const [meds, setMeds] = useState(initialState);
   const [loading, setLoading] = useState(true);
   const [ total, settotal] = useState(0);
-  const [ cantidad, setCantidad] = useState(0);
+  const [ cantidad, setcantidad] = useState(1);
 
-  const handleTextChange = (value, prop) => {
-    setMeds({ ...meds, [prop]: value });
-  };
+
 
   const handleChange =(e) => {
     if(e<1){
-      setCantidad(e)
+      setcantidad(e)
   }else{
-    setCantidad(e);
+    setcantidad(e);
   }
   };
+
+    //sumando producto
+    const sumar =  () => {
+      let nuevacantidad = parseInt(cantidad +1)
+      setcantidad(nuevacantidad)
+     }
+   
+   //restando producto
+     const restar =  () => {
+       if(cantidad > 1){
+       let nuevacantidad = parseInt(cantidad -1)
+       setcantidad(nuevacantidad)
+       }
+      }
+   
+   //calcular total producto
+      const calculartotal = () => {
+       const newtotal = cantidad * meds.precio
+       settotal(newtotal)
+   
+      }
 
 //Traemos la coleccion
   const getItemById = async (id) => {    
@@ -52,41 +71,15 @@ const DetallesProductoCliente  = (props) =>{
 
     useEffect(() => {
     getItemById(props.route.params.listId);
-    calculartotal()
-     
-  }, [cantidad]);
+    calculartotal()}, [cantidad]);
 
-  const addToCart = async (id) => {
-    
-  if (cantidad === "") {
-    alert("Por favor ingrese cantidad de productos deseada");
-
-  }else if(cantidad <= 0 ){
-    alert("Ingrese una cantidad valida")
-  }else{
-
-    try {
-      await db.db.collection("Carrito").add({
-
-      nombre: meds.nombre,
-      marca: meds.marca,
-      presentacion: meds.presentacion,
-      precio: meds.precio,
-      cantidad: cantidad,
-      total: total,
-      img: meds.img,
-      date: new Date().toLocaleDateString(),
-       
-      });
-
-     alert("Producto agregado al carrito")
-    } catch (error) {
-      console.log(error)
-    }
-  }
-};
-
+  
 const storeData = async () => {
+  if(cantidad == ""){
+    alert('cantidad no puede estar vacia')
+  }else if(cantidad <=0){
+      alert('la cantidad debe ser mayor a cero')
+  }else{
   try {
     const oldData = await AsyncStorage.getItem('meds')
     const oldList = oldData != null ? JSON.parse(oldData) : [];
@@ -110,35 +103,18 @@ const storeData = async () => {
     // saving error
   } 
 }
-
-
-
-
-
-
+}
   
-//calcular total producto
-   const calculartotal = () => {
-    const newtotal = cantidad * meds.precio
-    settotal(newtotal)
-   }
-  
-
-
- //sumando producto
- const sumar =  () => {
-  let nuevacantidad = parseInt(cantidad +1)
-  setcantidad(nuevacantidad)
- }
-//restando producto
- const restar =  () => {
-   if(cantidad > 1){
-   let nuevacantidad = parseInt(cantidad -1)
-   setcantidad(nuevacantidad)
-   }
+   const clearAppData = async function() {
+    try {
+        const keys = await AsyncStorage.getAllKeys();
+        await AsyncStorage.multiRemove(keys);
+    } catch (error) {
+        console.error('Error clearing app data.');
+    }
   }
   
-  
+    
   if (loading) {
     return (
       <View style={styles.loader}>
@@ -169,22 +145,30 @@ const storeData = async () => {
         <View>
           <Text style={styles.txtprecio}>${meds.precio}</Text>
         </View>
-          <Text>{total}</Text>
           <View style={styles.contpedido}>
             <View style={styles.contcant}>
+           <View style={styles.res}>
+           <TouchableOpacity style={styles.btnadd} onPress={restar}><Image style={styles.add1}  source={require("../assets/menos.png")} /></TouchableOpacity>
+           </View>
+            <View style={styles.cant}>
+            <TextInput style={styles.cantidadtext} value = {cantidad.toString()} placeholder="0" keyboardType="numeric" onChangeText={handleChange} ></TextInput>
+            </View>
+          <View style={styles.suma}>
+          <TouchableOpacity style={styles.btnadd} onPress={sumar} ><Image style={styles.add2}  source={require("../assets/mas.png")} /></TouchableOpacity>
+          </View>
            
-            <TextInput style={styles.inputsprecio} value={cantidad.toString()} placeholder="0" keyboardType='numeric' onChangeText={handleChange}/>
            
             </View>
-            <View>
+            <View style={styles.cart}>
               <TouchableOpacity onPress={() => storeData()}>
               <Image style={styles.imagencar}  source={require("../assets/cart.png")} />
               </TouchableOpacity>
             </View>
           </View>
-        </View>
-        <View><Text>Digite la cantidad</Text>
-        <TextInput value = {cantidad.toString()} placeholder="0" keyboardType="numeric" ></TextInput>
+          <View>
+          <Text style={styles.subtotaltxt}>SubTotal:</Text>
+          <Text style={styles.subtotal}>{total.toFixed(2)}</Text>
+          </View>
         </View>
         <Text  style={styles.texto}>Indicaciones y Contraindicaciones</Text>
         <View>
@@ -200,8 +184,40 @@ export default DetallesProductoCliente;
 const styles = StyleSheet.create({
   container:{
     flex:1,
-
+backgroundColor:'#DCE2F2'
    
+  },
+  subtotal:{
+   fontSize: 20,
+   fontWeight:"bold",
+   color:'green',
+   marginBottom:'5%',
+   width: windowWidth/1.1,
+    textAlign:'center'
+  },subtotaltxt:{
+    marginTop:'5%',
+    fontSize: 20,
+    fontWeight:"bold",
+    width: windowWidth/1.1,
+    textAlign:'center'
+   },
+  res:{
+    width:windowWidth/8,
+    height:windowHeight/12,
+  },
+  suma:{
+
+    width:windowWidth/8,
+    height:windowHeight/12,
+  },
+  cant:{
+    width:windowWidth/8,
+    height:windowHeight/12,
+  },
+  cart:{
+    width:windowWidth/8,
+    height:windowHeight/12,
+    marginLeft:'40%'
   },
   imagen:{
     width:windowWidth/2,
@@ -209,6 +225,11 @@ const styles = StyleSheet.create({
     marginTop: '5%',
     marginBottom: '5%',
     alignSelf:'center',
+  },
+  cantidadtext:{
+   alignSelf:'center',
+   textAlign:'center',
+   fontSize: 25
   },
   name:{
     fontSize:28,
@@ -233,7 +254,6 @@ const styles = StyleSheet.create({
    color:'white',
    textAlign:'center',
    height: windowHeight/20,
-   marginTop: 20
   },
   items:{
     fontSize: 20,
@@ -263,51 +283,26 @@ txtprecio:{
 contpedido:{
 
   flexDirection: 'row',
+  top:'5%'
 },
 contcant:{
-  padding: 10,
-  height: windowHeight/24,
+ flexDirection:'row',
 
   
 },
-add:{
+add1:{
   width: windowWidth/12,
-  marginRight: '25%',
   height: windowHeight/24,
-  marginTop: '50%'
+},
+add2:{
+  width: windowWidth/12,
+  height: windowHeight/24,
+  marginLeft:"15%"
 },
 imagencar:{
   width: windowWidth/10,
   height: windowHeight/20,
-  marginTop: '110%'
-},
-qanty: {
-    fontSize:"25",
-    borderWidth:1,
-    borderColor:'#368DD9',
-    margin: 5,
-    marginTop: 25,
-    paddingLeft: 10,
-    borderRadius:10,
-    height: windowHeight/18,
-    alignItems:'center',
-    width: windowWidth/4,
-
-   },
-   farmacia: {
-    fontSize:"25",
-    borderWidth:1,
-    borderColor:'#368DD9',
-    margin: 5,
-    marginTop: 25,
-    paddingLeft: 10,
-    borderRadius:10,
-    height: windowHeight/18,
-    alignSelf:'center',
-    alignItems:'center',
-    width: windowWidth/1.1,
-
-   },
+}
 
   
 });    

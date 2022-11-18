@@ -42,9 +42,6 @@ export default function Carrito(props) {
     }
     
   }
-
-  
-
   useEffect(() => {
     getData()
     
@@ -83,6 +80,7 @@ export default function Carrito(props) {
       
       
       )
+    
     })
     console.log(JSON.stringify(producto));
     
@@ -101,15 +99,26 @@ export default function Carrito(props) {
     <View style={styles.container}>
      
     <View style={styles.topbar}>
-      <Text style={styles.txttopbar}>Carrito</Text>
+      <Text style={styles.txttopbar5}>Carrito</Text>
     </View>
     <View style={styles.topbar1}>
-      <View style={styles.topbar2}>
-        <TouchableOpacity onPress={() => getData()}><Text style={styles.txttopbar2}>Actualizar</Text></TouchableOpacity>
-        
+      <View style={styles.topbar2} >
+        <TouchableOpacity onPress={() => getData()}
+        ><Image
+        style={styles.tinyLogo}
+        source={require('../assets/actualizar.png')}
+      /></TouchableOpacity>
         </View>
-        <View style={styles.topbar3}>
-        <TouchableOpacity onPress={() => clearAppData()}><Text style={styles.txttopbar3}>Borrar carro</Text></TouchableOpacity>
+        <View style={styles.topbar4} >
+          <Text style={styles.txttopbar}>Total:  ${count}</Text>
+        </View>
+        <View style={styles.topbar3} >
+        <TouchableOpacity onPress={() => clearAppData()}>
+        <Image
+        style={styles.tinyLogo}
+        source={require('../assets/borrar.png')}
+      />
+        </TouchableOpacity>
         </View>
     </View>
       
@@ -123,44 +132,39 @@ export default function Carrito(props) {
            
          <View style={styles.contenedores}key={group.med.id}
             bottomDivider>
-         <Image
+         <View style={styles.view1}>
+          <View style={styles.stylefecha}>
+          <Text style={styles.txtfecha}>{group.date}</Text>
+          </View>
+          <View style={styles.row}>
+          <View>
+          <Image
          style={styles.imagenproducto}
          source={{uri: group.med.img}} />
-         <View style={styles.view1}>
+         </View>
+         <View>
          <Text style={styles.titulo}>{group.med.nombre}</Text>
-         <Text style={styles.txt}>{group.med.marca}</Text>
-         <Text style={styles.txt}>{group.med.presentacion}</Text>
-         <Text style={styles.txt}>{group.med.precio}</Text>
-         <Text style={styles.txt}>{group.cantidad}</Text>
-         <Text style={styles.txt}>{group.total}</Text>
-         <Text style={styles.txt}>{group.date}</Text>
+         <Text style={styles.txt}>Presentacion: {group.med.presentacion}</Text>
+         <Text style={styles.txt}>Precio: ${group.med.precio}</Text>
+         <Text style={styles.txt}>Cantidad: {group.cantidad}</Text>
+         <Text style={styles.txt}>SubTotal: {group.total}</Text>
+         </View>
          <View style={styles.viewprecio}>
-          
          <Text style={styles.precio}>{group.med.precio}</Text>
-       
          </View>
          
          </View >
-         
+         </View>
           </View>
         );
       })}
-        <View style={styles.topbar4}>
-          <Text style={styles.txttopbar}>Total:  ${count}</Text>
-        </View>
-        <View style={styles.topbar5}>
-          
-          <TouchableOpacity onPress={()=> finalizar()}>
-          
-            <Image style={styles.imagen1} source={require("../Images/wha.png")}/>  
-            <Text style={styles.txttopbar5}>Enviar pedido</Text>
-
-          </TouchableOpacity>
-        </View>
-    
         
+
     </ScrollView>
-       
+    <TouchableOpacity style={styles.btnflotan} onPress={()=>finalizar()}><Image
+             style={styles.tinyLogo}
+             source={require('../assets/enviar.png')}
+           /></TouchableOpacity>
        
     </View>
 
@@ -176,17 +180,17 @@ const styles = StyleSheet.create({
     backgroundColor: '#DCE2F2',
     paddingTop: Platform.OS === 'android' ? 25 : 0
   },
-  imagend:{
-    width: windowWidth/8,
-    height: windowHeight/16,
+  row:{
+  flexDirection: 'row'
   },
-  btndelete:{
-    marginRight: '12%'
-  },
-  View2:{
-    width: windowWidth/1,
-    height: windowHeight/10,
-    flexDirection: 'row',  
+  txtfecha:{
+  backgroundColor:'#616F8C',
+  borderTopRadius:12,
+   textAlign:'center',
+   width:windowWidth/1,
+   fontSize: 16,
+   fontWeight:'bold',
+   color:'white'
   },
   topbar:{
     width: windowWidth/1,
@@ -197,42 +201,36 @@ const styles = StyleSheet.create({
   },topbar1:{
     width: windowWidth/1,
     height: windowHeight/12,
-    backgroundColor: '#66CDAA',
-    flexDirection:'column',
+    backgroundColor: '#DCE2F2',
+    flexDirection:'row',
+
     
   },topbar2:{
-    width: windowWidth/3,
+    width: windowWidth/4,
     height: windowHeight/12,
-    marginLeft:'8%',
-    backgroundColor: '#5F9EA0',
+    backgroundColor: '#DCE2F2',
     alignSelf:'flex-start',
     borderRadius:10,
-    paddingTop:'4%',
-    paddingHorizontal: '2%'
+    justifyContent:'center'
   },
   topbar3:{
     width: windowWidth/4,
     height: windowHeight/12,
-    marginLeft:'60%',
     alignItems:'center',
-    backgroundColor: '#A52A2A',
-    borderRadius:10,
-    paddingTop:'5%',
-    position:'absolute',
+    justifyContent:'center'
   },
   topbar4:{
     width: windowWidth/2,
-    height: windowHeight/12,
-    marginTop:'3%',
-    backgroundColor: '#5F9EA0',
+    height: windowHeight/12.1,
+    elevation:10,
+    backgroundColor: '#DCE2F2',
     alignSelf:'center',
     borderRadius:10,
-    paddingTop:'4%',
-    paddingHorizontal: '2%'
+    justifyContent:'center'
   },
   topbar5:{
     width: windowWidth/1,
-    height: windowHeight/10,
+    height: windowHeight/12,
     backgroundColor: '#5F9EA0',
     borderRadius:10,
     marginTop:'4%',
@@ -245,12 +243,12 @@ const styles = StyleSheet.create({
     fontSize: 24,
     alignSelf:'center',
     fontWeight:'bold',
-    color: '#FFFFFF'
+    color: '#082359'
   },txttopbar2:{
     fontSize: 18,
     alignSelf:'center',
     fontWeight:'bold',
-    color: '#FFFFFF'
+    color: '#FFFFFF',
   },
   txttopbar3:{
     fontSize: 18,
@@ -262,49 +260,28 @@ const styles = StyleSheet.create({
     fontSize: 22,
     alignSelf:'center',
     fontWeight:'bold',
-    color: '#FFFFFF',
-    marginTop:'3.6%'
+    color: 'white',
   },
-  imagen:{
-    width: windowWidth/7,
-    height: windowHeight/17,
-    alignSelf:'center',
-    marginLeft:'5%',
-    top:'-3%',
-    
-  }
-  ,
   imagenproducto:{
     width: windowWidth/2.3,
-    height: windowHeight/5,
-    borderTopLeftRadius: 10,
+    height: windowHeight/6,
     borderBottomLeftRadius: 10
-  }
-  ,
-  imagenbuscar:{
-    width: windowWidth/10,
-    height: windowHeight/30,
-    alignSelf:'center',
-    top: '8%',
-    marginLeft:'3%',
-    borderRadius:10,
-    
-    
   },
   contenedores:{
-    alignSelf:'center',
     flexDirection:'row',
     marginTop: '2%',
-    elevation:5,
+    elevation:10,
     backgroundColor:'white',
     width: windowWidth/1.09,
-    height: windowHeight/3,
+    height: windowHeight/5.1,
     borderRadius: 10
   },
   titulo:{
     textAlign:'center',
     fontSize:19,
-  top:'15%'
+  top:'1%',
+  color:'#082359',
+  fontWeight:'bold'
     
   },
   precio:{
@@ -317,9 +294,9 @@ const styles = StyleSheet.create({
 
   },
   txt:{
-    textAlign:'center',
-    top:'15%',
-    position:"relative",
+    marginLeft:'5%',
+    marginTop:'0.5%',
+    width:windowWidth/2,
   },
   view1:{
     width: windowWidth/2.8,
@@ -350,15 +327,16 @@ btnflotan:{
   borderRadius: 40,
   bottom: 40,
   right: 15,
-  elevation: 30,
-  borderColor: '#DCE2F2',
-  borderWidth: 3
+  elevation: 10,
+  borderColor: 'white',
+  borderWidth: 1,
+  justifyContent:'center'
 },
 tinyLogo:{
   width: windowWidth/12,
   height: windowHeight/23,
   alignSelf:'center',
-  top:'20%'
+
 },
 imagen1:{
   width: windowWidth/8,
