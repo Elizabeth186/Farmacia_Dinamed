@@ -112,7 +112,7 @@ const handleSignIn = ()=>{
         <Text  style={styles.textstyle}>Correo</Text>
         <TextInput  onChangeText={(text) => setemail(text)} style={styles.inputs} placeholder='Ejemplo@gmail.com'></TextInput>
         <Text  style={styles.textstyle}>Contraseña</Text>
-        <TextInput   onChangeText={(text) => setpassword(text)} style={styles.inputs} placeholder='*********'></TextInput>
+        <TextInput  secureTextEntry={true}  onChangeText={(text) => setpassword(text)} style={styles.inputs} placeholder='*********'></TextInput>
        
        <Text style={styles.texterrorc}>{error}
        </Text>

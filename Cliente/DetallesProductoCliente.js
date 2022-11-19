@@ -24,8 +24,8 @@ const DetallesProductoCliente  = (props) =>{
 
   const [meds, setMeds] = useState(initialState);
   const [loading, setLoading] = useState(true);
-  const [ total, settotal] = useState(0);
-  const [ cantidad, setcantidad] = useState(1);
+  const [ total, settotal] = useState(meds.precio);
+  const [ cantidad, setcantidad] = useState(0);
 
 
 
@@ -49,6 +49,7 @@ const DetallesProductoCliente  = (props) =>{
        let nuevacantidad = parseInt(cantidad -1)
        setcantidad(nuevacantidad)
        }
+
       }
    
    //calcular total producto
@@ -104,6 +105,8 @@ const storeData = async () => {
   } 
 }
 }
+
+
   
    const clearAppData = async function() {
     try {

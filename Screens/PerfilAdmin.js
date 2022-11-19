@@ -70,7 +70,7 @@ const styles = StyleSheet.create({
     width: windowWidth/6,
     height: windowHeight/12,
     alignSelf:'center',
-    marginTop: "10%"
+    marginTop: "50%"
   },
   inputs:{
     alignSelf:'center',
