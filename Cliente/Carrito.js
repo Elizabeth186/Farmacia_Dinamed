@@ -9,7 +9,6 @@ import { getAuth, onAuthStateChanged } from "firebase/auth";
 import { collection, query, where, getDocs  } from "firebase/firestore";
 import { sum } from 'lodash';
 import { async } from '@firebase/util';
-import Pedidos from '../Screens/Pedidos';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
 

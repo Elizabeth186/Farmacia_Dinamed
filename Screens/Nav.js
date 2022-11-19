@@ -1,10 +1,8 @@
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
-import Pedidos from './Pedidos';
 import Home from '../Screens/Home';
 import { StyleSheet} from 'react-native';
 import AntDesign from 'react-native-vector-icons/AntDesign'
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons'
-import Historial from './Historial';
 import PerfilAdmin from './PerfilAdmin';
 
 function TabBarIcon({name, color}){
@@ -28,9 +26,6 @@ const  TabNav = (props) => {
       <Tab.Screen name="Home" component={Home} options={{ tabBarIcon: ({color}) =>(
                     <TabBarIcon name='home' color={color}/>
                 ),  headerShown: false}}/>
-      {/* <Tab.Screen name="Pedidos" component={Pedidos} options={{ tabBarIcon: ({color}) =>(
-                    <TabBarIcon1 name='history-toggle-off' color={color}/>
-                ),  headerShown: false}}/> */}
       <Tab.Screen name="PerfilAdmin" component={PerfilAdmin} options={{ tabBarIcon: ({color}) =>(
                     <TabBarIcon1 name='person' color={color}/>
                 ),  headerShown: false}}/>
