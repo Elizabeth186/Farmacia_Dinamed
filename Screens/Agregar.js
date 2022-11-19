@@ -123,10 +123,6 @@ const [url, seturl] = useState('');
      alert('Enlace copiado!!')
    }
 
-  // const copyToClipboard = () => {
-  //   Clipboard.setString(image && image.uri)
-  //   alert('Enlace copiado!!')
-  // }
   return (
     <ScrollView style={styles.container}>
     <Text style={styles.txt}>Nombre del producto</Text>

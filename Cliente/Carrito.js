@@ -272,8 +272,8 @@ const styles = StyleSheet.create({
     marginTop: '2%',
     elevation:10,
     backgroundColor:'white',
-    width: windowWidth/1.09,
-    height: windowHeight/5.1,
+    width: windowWidth/1.03,
+    height: windowHeight/4.5,
     borderRadius: 10
   },
   titulo:{
@@ -347,3 +347,4 @@ imagen1:{
   position: 'absolute',
 }
 })
+

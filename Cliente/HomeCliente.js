@@ -41,6 +41,7 @@ useEffect(() => {
       <View style={styles.topbar}>
       <Text style={styles.txttopbar}>Dinamed</Text>
     </View>
+
     
     <ScrollView>
     {
@@ -66,7 +67,7 @@ useEffect(() => {
        </View >
        <LinearGradient colors={['#368DD9','#082359']} start ={{ x : 1, y : 0 }} style={styles.LinearGradient} >
        <View style={styles.viewprecio}>
-       <Text style={styles.precio}>{medis.precio}</Text>
+       <Text style={styles.precio}>${medis.precio}</Text>
        </View>
        </LinearGradient>
         </View>
@@ -107,7 +108,7 @@ const styles = StyleSheet.create({
   View2:{
     width: windowWidth/1,
     height: windowHeight/10,
-    flexDirection: 'row',
+    
     
   },
   imagen:{
@@ -115,7 +116,7 @@ const styles = StyleSheet.create({
     height: windowHeight/17,
     alignSelf:'center',
     marginLeft:'5%',
-    top:'-3%',
+    top:'10%',
     
   }
   ,
