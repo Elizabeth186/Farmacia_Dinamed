@@ -147,7 +147,7 @@ export default function Carrito(props) {
          <Text style={styles.txt}>Presentacion: {group.med.presentacion}</Text>
          <Text style={styles.txt}>Precio: ${group.med.precio}</Text>
          <Text style={styles.txt}>Cantidad: {group.cantidad}</Text>
-         <Text style={styles.txt}>SubTotal: {group.total}</Text>
+         <Text style={styles.txt}>SubTotal: ${group.total}</Text>
          </View>
          <View style={styles.viewprecio}>
          <Text style={styles.precio}>{group.med.precio}</Text>
