@@ -2,7 +2,6 @@ import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import Pedidos from './Pedidos';
 import Home from '../Screens/Home';
 import { StyleSheet} from 'react-native';
-import Perfil from './Perfil';
 import AntDesign from 'react-native-vector-icons/AntDesign'
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons'
 import Historial from './Historial';

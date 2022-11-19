@@ -175,12 +175,13 @@ const [url, seturl] = useState('');
         ></TextInput>
       </View>
      
-      <Text style={styles.txtbtn2} >Subir imagen a la nube</Text>
+      <Text style={styles.txtbtn2} >Subir imagen a la nube para generar URL</Text>
       <TouchableOpacity style={styles.btn2} onPress={uploadImage}>
         <Image
              style={styles.tinyLogo}
              source={require('../assets/nube.png')}/>
       </TouchableOpacity>
+      <Text style={styles.txtbtn2} >Copiar URL de la imagen</Text>
        <TouchableOpacity style={styles.clipt} onPress={() => copyToClipboardurl()}>
           <Text style={styles.cliptext}>{url}</Text>
         </TouchableOpacity> 

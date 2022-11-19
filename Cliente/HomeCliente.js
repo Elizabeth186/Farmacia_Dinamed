@@ -31,7 +31,7 @@ useEffect(() => {
 }, []);
 
 
-
+if(meds.length>0){
 
   return (
 
@@ -39,7 +39,7 @@ useEffect(() => {
       
       <SafeAreaView>
       <View style={styles.topbar}>
-      <Text style={styles.txttopbar}>Dinamed</Text>
+      <Text style={styles.txttopbar}>Dinamed Productos</Text>
     </View>
 
     
@@ -78,7 +78,17 @@ useEffect(() => {
      </SafeAreaView>
       </View>
   );
-  
+}else{
+  return(
+    <SafeAreaView>
+      <View style={styles.container2}>
+        <Image  source={require('../assets/mantenimiento.png')} />
+        <Text style={styles.bottom_text}>En mantenimiento</Text>
+        <Button title='Refresh' onPress={()=>{DevSettings.reload();}}/>
+      </View>
+    </SafeAreaView>
+  );
+}
 }
 
 export default HomeCliente;
@@ -91,6 +101,17 @@ const styles = StyleSheet.create({
     backgroundColor: '#DCE2F2',
     paddingTop: Platform.OS === 'android' ? 25 : 0
     
+  },
+  bottom_text:{
+   margin:'7%',
+   fontSize: 20,
+   color:'#082359'
+  },
+  container2:{
+    alignItems: 'center',
+    justifyContent: 'center',
+    height: windowHeight/1,
+    paddingTop: Platform.OS === 'android' ? 25 : 0
   },
   topbar:{
     width: windowWidth/1,

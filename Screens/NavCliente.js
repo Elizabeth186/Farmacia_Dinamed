@@ -6,6 +6,8 @@ import Perfil from './Perfil';
 import AntDesign from 'react-native-vector-icons/AntDesign'
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons'
 import HomeCliente from '../Cliente/HomeCliente';
+import DetallesProductoCliente from '../Cliente/DetallesProductoCliente';
+import Usuario from './Usuario';
 
 function TabBarIcon({name, color}){
   return(

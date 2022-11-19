@@ -110,7 +110,7 @@ export default function Carrito(props) {
       /></TouchableOpacity>
         </View>
         <View style={styles.topbar4} >
-          <Text style={styles.txttopbar}>Total:  ${count}</Text>
+          <Text style={styles.txttopbar}>Total:  ${count.toFixed(2)}</Text>
         </View>
         <View style={styles.topbar3} >
         <TouchableOpacity onPress={() => clearAppData()}>

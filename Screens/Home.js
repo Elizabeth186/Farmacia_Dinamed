@@ -29,6 +29,8 @@ useEffect(() => {
   });
 }, []);
 
+if(meds.length>0){
+
   return (
     <View style={styles.container}>
       <SafeAreaView>
@@ -76,6 +78,17 @@ useEffect(() => {
      </SafeAreaView>
       </View>
   );
+}else{
+  return(
+    <SafeAreaView>
+      <View style={styles.container2}>
+        <Image  source={require('../assets/mantenimiento.png')} />
+        <Text style={styles.bottom_text}>En mantenimiento</Text>
+        <Button title='Refresh' onPress={()=>{DevSettings.reload();}}/>
+      </View>
+    </SafeAreaView>
+  );
+}
 }
 
 export default Home;
@@ -84,6 +97,17 @@ const styles = StyleSheet.create({
     flex: 1,
     alignItems: 'center',
     backgroundColor: '#DCE2F2',
+    paddingTop: Platform.OS === 'android' ? 25 : 0
+  },
+  bottom_text:{
+   margin:'7%',
+   fontSize: 20,
+   color:'#082359'
+  },
+  container2:{
+    alignItems: 'center',
+    justifyContent: 'center',
+    height: windowHeight/1,
     paddingTop: Platform.OS === 'android' ? 25 : 0
   },
   topbar:{

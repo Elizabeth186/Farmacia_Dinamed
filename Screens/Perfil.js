@@ -81,7 +81,7 @@ const styles = StyleSheet.create({
     width: windowWidth/6,
     height: windowHeight/12,
     alignSelf:'center',
-    marginBottom:'%'
+    marginBottom:'2%'
   },
   imagen2:{
     width: windowWidth/6,
