@@ -16,7 +16,7 @@ Exploran productos, agregan elementos al carrito y realizan pedidos con facilida
 
 #### Gestión de Productos:
 
--Los administradores pueden agregar, editar, eliminar y actualizar productos desde la interfaz de administración.
+- Los administradores pueden agregar, editar, eliminar y actualizar productos desde la interfaz de administración.
 Proceso de Compra:
 
 - Los clientes pueden revisar su carrito, confirmar los elementos y enviar pedidos directamente a través de WhatsApp para una experiencia de compra fluida y conveniente.
